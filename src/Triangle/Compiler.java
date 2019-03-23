@@ -31,7 +31,7 @@ import Triangle.TreeDrawer.Drawer;
 public class Compiler {
 
     /** The filename for the object program, normally obj.tam. */
-    static String objectName = "obj.tam";
+    private static String objectName = "obj.tam";
 
     private static Scanner scanner;
     private static Parser parser;
@@ -58,7 +58,7 @@ public class Compiler {
      * @return	true iff the source program is free of compile-time errors,
      *          otherwise false.
      */
-    static boolean compileProgram (String sourceName, String objectName,
+    private static boolean compileProgram (String sourceName, String objectName,
                                    boolean showingAST, boolean showingTable) {
 
         System.out.println("********** " +
@@ -123,5 +123,7 @@ public class Compiler {
 
         String sourceName = args[0];
         compiledOK = compileProgram(sourceName, objectName, false, false);
+        System.out.println(compiledOK);
     }
+
 }
