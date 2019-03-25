@@ -186,7 +186,6 @@ public final class Scanner {
         takeIt();
         readCharacters++;
       }
-
       if (readCharacters == 2)
         return Token.CHANGELINE;
       else
@@ -236,6 +235,8 @@ public final class Scanner {
 
     pos.finish = sourceFile.getCurrentLine();
     tok = new Token(kind, currentSpelling.toString(), pos);
+    if (tok.kind == Token.PASS)
+      return scan();
     if (debug)
       System.out.println(tok);
     return tok;
