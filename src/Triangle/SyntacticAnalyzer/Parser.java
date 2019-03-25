@@ -316,9 +316,10 @@ public class Parser {
         acceptIt();
         Expression eAST = parseExpression();
         accept(Token.THEN);
-        Command c1AST = parseSingleCommand();
+        Command c1AST = parseCommand();
         accept(Token.ELSE);
-        Command c2AST = parseSingleCommand();
+        Command c2AST = parseCommand();
+	      accept(Token.END);
         finish(commandPos);
         commandAST = new IfCommand(eAST, c1AST, c2AST, commandPos);
       }
