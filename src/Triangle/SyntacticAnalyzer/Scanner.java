@@ -41,6 +41,8 @@ public final class Scanner {
 	    c == '?');
   }
 
+  private boolean isChangeOfLine(char c) {return c == '\n' || c == '\r';}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -82,6 +84,7 @@ public final class Scanner {
       break;
     }
   }
+
 
   private int scanToken() {
 
@@ -176,6 +179,19 @@ public final class Scanner {
       takeIt();
       return Token.RCURLY;
 
+    case '\r':
+      takeIt();
+      short readCharacters = 0;
+      while (isChangeOfLine(currentChar)){
+        takeIt();
+        readCharacters++;
+      }
+
+      if (readCharacters == 2)
+        return Token.CHANGELINE;
+      else
+        return Token.BLANKLINE;
+
     case SourceFile.EOT:
       return Token.EOT;
 
@@ -190,20 +206,33 @@ public final class Scanner {
     SourcePosition pos;
     int kind;
 
+    String separatorsStrip = "";
+    int readCharacters = 0;
     currentlyScanningToken = false;
     while (currentChar == '!'
            || currentChar == ' '
            || currentChar == '\n'
            || currentChar == '\r'
-           || currentChar == '\t')
+           || currentChar == '\t'){
+      separatorsStrip += currentChar;
+      readCharacters++;
+      if (readCharacters >= 6)
+        if (separatorsStrip.substring(readCharacters-6, readCharacters).equals("\r\r\n\r\r\n") ){
+          pos = new SourcePosition() {{finish = sourceFile.getCurrentLine(); start = finish-1;}};
+          return new Token(Token.BLANKLINE, "\r\r\n\r\r\n", pos);
+        }
+
       scanSeparator();
+    }
+
 
     currentlyScanningToken = true;
+
     currentSpelling = new StringBuffer("");
     pos = new SourcePosition();
     pos.start = sourceFile.getCurrentLine();
-
     kind = scanToken();
+
 
     pos.finish = sourceFile.getCurrentLine();
     tok = new Token(kind, currentSpelling.toString(), pos);

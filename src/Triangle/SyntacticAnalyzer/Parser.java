@@ -339,11 +339,16 @@ public class Parser {
     case Token.ELSE:
     case Token.IN:
     case Token.EOT:
+    //case Token.BLANKLINE:
 
       finish(commandPos);
       commandAST = new EmptyCommand(commandPos);
       break;
 
+    case Token.BLANKLINE:
+      syntacticError("Blank lines are no longer supported to start a command",
+              currentToken.spelling);
+      break;
     default:
       syntacticError("\"%\" cannot start a command",
         currentToken.spelling);

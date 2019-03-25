@@ -102,8 +102,10 @@ final class Token extends Object {
     RCURLY		= 32,
 
     // special tokens...
-    EOT			= 33,
-    ERROR		= 34;
+    BLANKLINE = 33,
+    CHANGELINE = 34,
+    EOT			= 35,
+    ERROR		= 36;
 
   private static String[] tokenTable = new String[] {
     "<int>",
@@ -139,6 +141,8 @@ final class Token extends Object {
     "]",
     "{",
     "}",
+    "\r\r\n\r\r\n",
+    "\r\r\n",
     "",
     "<error>"
   };
