@@ -218,6 +218,7 @@ public final class Scanner {
       if (readCharacters >= 6)
         if (separatorsStrip.substring(readCharacters-6, readCharacters).equals("\r\r\n\r\r\n") ){
           pos = new SourcePosition() {{finish = sourceFile.getCurrentLine(); start = finish-1;}};
+          System.out.println("Señor Garcia");
           return new Token(Token.BLANKLINE, "\r\r\n\r\r\n", pos);
         }
 
@@ -232,6 +233,8 @@ public final class Scanner {
     pos.start = sourceFile.getCurrentLine();
     kind = scanToken();
 
+    if (kind == Token.CHANGELINE)
+      return scan();
 
     pos.finish = sourceFile.getCurrentLine();
     tok = new Token(kind, currentSpelling.toString(), pos);
@@ -239,6 +242,7 @@ public final class Scanner {
       return scan();
     if (debug)
       System.out.println(tok);
+    System.out.println(tok.kind);
     return tok;
   }
 

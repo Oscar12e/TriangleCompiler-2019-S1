@@ -304,7 +304,8 @@ public class Parser {
         acceptIt();
         Declaration dAST = parseDeclaration();
         accept(Token.IN);
-        Command cAST = parseSingleCommand();
+        Command cAST = parseCommand();
+        accept(Token.END);
         finish(commandPos);
         commandAST = new LetCommand(dAST, cAST, commandPos);
       }
@@ -347,7 +348,7 @@ public class Parser {
 
     case Token.BLANKLINE:
       syntacticError("Blank lines are no longer supported to start a command",
-              currentToken.spelling);
+              "");
       break;
     default:
       syntacticError("\"%\" cannot start a command",
@@ -397,6 +398,12 @@ public class Parser {
         expressionAST = new IfExpression(e1AST, e2AST, e3AST, expressionPos);
       }
       break;
+
+    case Token.BLANKLINE:{
+      acceptIt();
+      return parseExpression();
+    }
+
 
     default:
       expressionAST = parseSecondaryExpression();
@@ -677,6 +684,11 @@ public class Parser {
         declarationAST = new TypeDeclaration(iAST, tAST, declarationPos);
       }
       break;
+
+    case Token.BLANKLINE:{
+        acceptIt();
+        return parseSingleDeclaration();
+      }
 
     default:
       syntacticError("\"%\" cannot start a declaration",
