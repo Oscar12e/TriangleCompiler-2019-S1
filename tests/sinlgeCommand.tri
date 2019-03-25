@@ -1,0 +1,10 @@
+begin
+singleOne:= 6;
+singleTwo:= 4;
+let 
+var i : Integer;
+var j : Integer
+in
+i := 8;
+end
+end
