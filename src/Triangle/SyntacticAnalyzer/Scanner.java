@@ -199,10 +199,8 @@ public final class Scanner {
            || currentChar == '\n'
            || currentChar == '\r'
            || currentChar == '\t'){
-
       scanSeparator();
     }
-
 
     currentlyScanningToken = true;
 

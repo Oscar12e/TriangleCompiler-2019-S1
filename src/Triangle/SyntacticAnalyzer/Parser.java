@@ -293,13 +293,6 @@ public class Parser {
       }
       break;
 
-    	/*
-    case Token.BEGIN:
-      acceptIt();
-      commandAST = parseCommand();
-      accept(Token.END);
-      break;*/
-
     case Token.LET:
       {
         acceptIt();
@@ -339,10 +332,94 @@ public class Parser {
       }
       break;
 
+    case Token.LOOP:
+      {
+        acceptIt();
+
+        switch (currentToken.kind) {
+          case Token.WHILE:
+          case Token.UNTIL: {
+            boolean isWhileCommand = Token.WHILE == currentToken.kind;
+            acceptIt();
+            Expression eAST = parseExpression();
+            accept(Token.DO);
+            Command cAST = parseCommand();
+            accept(Token.END);
+            finish(commandPos);
+            commandAST = (isWhileCommand ? new WhileCommand(eAST, cAST, commandPos) : new WhileCommand(eAST, cAST, commandPos));
+          }
+          break;
+
+          case Token.DO: {
+            acceptIt();
+            Command cAST = parseCommand();
+            boolean isWhileCommand;
+            if (currentToken.kind == Token.WHILE)
+              isWhileCommand = true;
+            else if (currentToken.kind == Token.UNTIL)
+              isWhileCommand = false;
+            else {
+              syntacticError("Found \"%\" where loop statement was expect.",
+                      currentToken.spelling);
+              break;
+            }
+            acceptIt();
+            Expression eAST = parseExpression();
+            accept(Token.END);
+            finish(commandPos);
+            commandAST = (isWhileCommand ? new WhileCommand(eAST, cAST, commandPos) : new WhileCommand(eAST, cAST, commandPos));
+          }
+          break;
+
+          case Token.FOR:{
+            acceptIt();
+            Identifier iAST = parseIdentifier();
+            accept(Token.FROM);
+            Expression eAST1 = parseExpression();
+            accept(Token.TO);
+            Expression eAST2 = parseExpression();
+
+            switch (currentToken.kind) {
+              case Token.DO:{
+                acceptIt();
+                Command cAST = parseCommand();
+                accept(Token.END);
+
+              }
+              break;
+
+              case Token.WHILE:
+              case Token.UNTIL:
+              {
+                acceptIt();
+              }
+              break;
+
+              default: {
+                syntacticError("Found \"%\" where loop or do statement was expect.",
+                        currentToken.spelling);
+              }
+              break;
+            }
+
+          }
+
+
+            break;
+
+          default:
+            break;
+        }
+
+        }
+        break;
+
     case Token.PASS:
-      acceptIt();
-      finish(commandPos);
-      commandAST = new EmptyCommand(commandPos);
+      {
+        acceptIt();
+        finish(commandPos);
+        commandAST = new EmptyCommand(commandPos);
+      }
       break;
 
     case Token.SEMICOLON:
