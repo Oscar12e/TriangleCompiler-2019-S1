@@ -104,7 +104,7 @@ public class Parser {
       previousTokenPosition = currentToken.position;
       currentToken = lexicalAnalyser.scan();
     } else {
-      syntacticError("\"%\" expected here", Token.spell(tokenExpected));
+      syntacticError("\"%\" expected here but found " + currentToken.spelling + " instead." , Token.spell(tokenExpected));
     }
   }
 
@@ -306,6 +306,8 @@ public class Parser {
         Declaration dAST = parseDeclaration();
         accept(Token.IN);
         Command cAST = parseCommand();
+
+        //Command cAST = parseSingleCommand();
         accept(Token.END);
         finish(commandPos);
         commandAST = new LetCommand(dAST, cAST, commandPos);
@@ -337,21 +339,22 @@ public class Parser {
       }
       break;
 
+    case Token.PASS:
+      acceptIt();
+      finish(commandPos);
+      commandAST = new EmptyCommand(commandPos);
+      break;
+
     case Token.SEMICOLON:
     case Token.END:
     case Token.ELSE:
     case Token.IN:
     case Token.EOT:
-    //case Token.BLANKLINE:
-
-      finish(commandPos);
-      commandAST = new EmptyCommand(commandPos);
+      syntacticError("\"%\" is no longer supported for blank command, use the reserved word \"pass\".",
+              currentToken.spelling);
       break;
 
-    case Token.BLANKLINE:
-      syntacticError("Blank lines are no longer supported to start a command",
-              "");
-      break;
+
     default:
       syntacticError("\"%\" cannot start a command",
         currentToken.spelling);
@@ -400,12 +403,6 @@ public class Parser {
         expressionAST = new IfExpression(e1AST, e2AST, e3AST, expressionPos);
       }
       break;
-
-    case Token.BLANKLINE:{
-      acceptIt();
-      return parseExpression();
-    }
-
 
     default:
       expressionAST = parseSecondaryExpression();
@@ -686,11 +683,6 @@ public class Parser {
         declarationAST = new TypeDeclaration(iAST, tAST, declarationPos);
       }
       break;
-
-    case Token.BLANKLINE:{
-        acceptIt();
-        return parseSingleDeclaration();
-      }
 
     default:
       syntacticError("\"%\" cannot start a declaration",

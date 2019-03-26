@@ -179,18 +179,6 @@ public final class Scanner {
       takeIt();
       return Token.RCURLY;
 
-    case '\r':
-      takeIt();
-      short readCharacters = 0;
-      while (isChangeOfLine(currentChar)){
-        takeIt();
-        readCharacters++;
-      }
-      if (readCharacters == 2)
-        return Token.CHANGELINE;
-      else
-        return Token.BLANKLINE;
-
     case SourceFile.EOT:
       return Token.EOT;
 
@@ -205,22 +193,12 @@ public final class Scanner {
     SourcePosition pos;
     int kind;
 
-    String separatorsStrip = "";
-    int readCharacters = 0;
     currentlyScanningToken = false;
     while (currentChar == '!'
            || currentChar == ' '
            || currentChar == '\n'
            || currentChar == '\r'
            || currentChar == '\t'){
-      separatorsStrip += currentChar;
-      readCharacters++;
-      if (readCharacters >= 6)
-        if (separatorsStrip.substring(readCharacters-6, readCharacters).equals("\r\r\n\r\r\n") ){
-          pos = new SourcePosition() {{finish = sourceFile.getCurrentLine(); start = finish-1;}};
-          System.out.println("Señor Garcia");
-          return new Token(Token.BLANKLINE, "\r\r\n\r\r\n", pos);
-        }
 
       scanSeparator();
     }
@@ -233,16 +211,12 @@ public final class Scanner {
     pos.start = sourceFile.getCurrentLine();
     kind = scanToken();
 
-    if (kind == Token.CHANGELINE)
-      return scan();
-
     pos.finish = sourceFile.getCurrentLine();
     tok = new Token(kind, currentSpelling.toString(), pos);
-    if (tok.kind == Token.PASS)
-      return scan();
+
     if (debug)
       System.out.println(tok);
-    System.out.println(tok.kind);
+    System.out.println(tok.spelling);
     return tok;
   }
 

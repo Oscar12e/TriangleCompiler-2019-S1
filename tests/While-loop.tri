@@ -3,11 +3,7 @@ let
   var j: Integer
 in
   i:=5;
-  j:=10;
-  let
-    var k: Integer
-  in
-    k:= 12;
-  end
+  j:=7;
+  pass
 end
   
