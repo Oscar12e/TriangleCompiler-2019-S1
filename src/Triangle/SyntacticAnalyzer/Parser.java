@@ -14,73 +14,8 @@
 
 package Triangle.SyntacticAnalyzer;
 
+import Triangle.AbstractSyntaxTrees.*;
 import Triangle.ErrorReporter;
-import Triangle.AbstractSyntaxTrees.ActualParameter;
-import Triangle.AbstractSyntaxTrees.ActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.ArrayAggregate;
-import Triangle.AbstractSyntaxTrees.ArrayExpression;
-import Triangle.AbstractSyntaxTrees.ArrayTypeDenoter;
-import Triangle.AbstractSyntaxTrees.AssignCommand;
-import Triangle.AbstractSyntaxTrees.BinaryExpression;
-import Triangle.AbstractSyntaxTrees.CallCommand;
-import Triangle.AbstractSyntaxTrees.CallExpression;
-import Triangle.AbstractSyntaxTrees.CharacterExpression;
-import Triangle.AbstractSyntaxTrees.CharacterLiteral;
-import Triangle.AbstractSyntaxTrees.Command;
-import Triangle.AbstractSyntaxTrees.ConstActualParameter;
-import Triangle.AbstractSyntaxTrees.ConstDeclaration;
-import Triangle.AbstractSyntaxTrees.ConstFormalParameter;
-import Triangle.AbstractSyntaxTrees.Declaration;
-import Triangle.AbstractSyntaxTrees.DotVname;
-import Triangle.AbstractSyntaxTrees.EmptyActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.EmptyCommand;
-import Triangle.AbstractSyntaxTrees.EmptyFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.Expression;
-import Triangle.AbstractSyntaxTrees.FieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.FormalParameter;
-import Triangle.AbstractSyntaxTrees.FormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.FuncActualParameter;
-import Triangle.AbstractSyntaxTrees.FuncDeclaration;
-import Triangle.AbstractSyntaxTrees.FuncFormalParameter;
-import Triangle.AbstractSyntaxTrees.Identifier;
-import Triangle.AbstractSyntaxTrees.IfCommand;
-import Triangle.AbstractSyntaxTrees.IfExpression;
-import Triangle.AbstractSyntaxTrees.IntegerExpression;
-import Triangle.AbstractSyntaxTrees.IntegerLiteral;
-import Triangle.AbstractSyntaxTrees.LetCommand;
-import Triangle.AbstractSyntaxTrees.LetExpression;
-import Triangle.AbstractSyntaxTrees.MultipleActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.MultipleArrayAggregate;
-import Triangle.AbstractSyntaxTrees.MultipleFieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.MultipleFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.MultipleRecordAggregate;
-import Triangle.AbstractSyntaxTrees.Operator;
-import Triangle.AbstractSyntaxTrees.ProcActualParameter;
-import Triangle.AbstractSyntaxTrees.ProcDeclaration;
-import Triangle.AbstractSyntaxTrees.ProcFormalParameter;
-import Triangle.AbstractSyntaxTrees.Program;
-import Triangle.AbstractSyntaxTrees.RecordAggregate;
-import Triangle.AbstractSyntaxTrees.RecordExpression;
-import Triangle.AbstractSyntaxTrees.RecordTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SequentialCommand;
-import Triangle.AbstractSyntaxTrees.SequentialDeclaration;
-import Triangle.AbstractSyntaxTrees.SimpleTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SimpleVname;
-import Triangle.AbstractSyntaxTrees.SingleActualParameterSequence;
-import Triangle.AbstractSyntaxTrees.SingleArrayAggregate;
-import Triangle.AbstractSyntaxTrees.SingleFieldTypeDenoter;
-import Triangle.AbstractSyntaxTrees.SingleFormalParameterSequence;
-import Triangle.AbstractSyntaxTrees.SingleRecordAggregate;
-import Triangle.AbstractSyntaxTrees.SubscriptVname;
-import Triangle.AbstractSyntaxTrees.TypeDeclaration;
-import Triangle.AbstractSyntaxTrees.TypeDenoter;
-import Triangle.AbstractSyntaxTrees.UnaryExpression;
-import Triangle.AbstractSyntaxTrees.VarActualParameter;
-import Triangle.AbstractSyntaxTrees.VarDeclaration;
-import Triangle.AbstractSyntaxTrees.VarFormalParameter;
-import Triangle.AbstractSyntaxTrees.Vname;
-import Triangle.AbstractSyntaxTrees.VnameExpression;
-import Triangle.AbstractSyntaxTrees.WhileCommand;
 
 public class Parser {
 
@@ -321,55 +256,44 @@ public class Parser {
       }
       break;
 
-    case Token.WHILE:
-      {
-        acceptIt();
-        Expression eAST = parseExpression();
-        accept(Token.DO);
-        Command cAST = parseSingleCommand();
-        finish(commandPos);
-        commandAST = new WhileCommand(eAST, cAST, commandPos);
-      }
-      break;
+    case Token.LOOP: {
+      acceptIt();
 
-    case Token.LOOP:
-      {
-        acceptIt();
+      switch (currentToken.kind) {
 
-        switch (currentToken.kind) {
-          case Token.WHILE:
-          case Token.UNTIL: {
-            boolean isWhileCommand = Token.WHILE == currentToken.kind;
-            acceptIt();
-            Expression eAST = parseExpression();
-            accept(Token.DO);
-            Command cAST = parseCommand();
-            accept(Token.END);
-            finish(commandPos);
-            commandAST = (isWhileCommand ? new WhileCommand(eAST, cAST, commandPos) : new WhileCommand(eAST, cAST, commandPos));
+        case Token.WHILE:
+        case Token.UNTIL: {
+          boolean isWhileCommand = Token.WHILE == currentToken.kind;
+          acceptIt();
+          Expression eAST = parseExpression();
+          accept(Token.DO);
+          Command cAST = parseCommand();
+          accept(Token.END);
+          finish(commandPos);
+          commandAST = (isWhileCommand ? new WhileCommand(eAST, cAST, commandPos) : new UntilCommand(eAST, cAST, commandPos));
+        }
+        break;
+
+        case Token.DO: {
+          acceptIt();
+          Command cAST = parseCommand();
+          boolean isWhileCommand;
+          if (currentToken.kind == Token.WHILE)
+            isWhileCommand = true;
+          else if (currentToken.kind == Token.UNTIL)
+            isWhileCommand = false;
+          else {
+            syntacticError("Found \"%\" where loop statement was expect.",
+                    currentToken.spelling);
+            break;
           }
-          break;
-
-          case Token.DO: {
-            acceptIt();
-            Command cAST = parseCommand();
-            boolean isWhileCommand;
-            if (currentToken.kind == Token.WHILE)
-              isWhileCommand = true;
-            else if (currentToken.kind == Token.UNTIL)
-              isWhileCommand = false;
-            else {
-              syntacticError("Found \"%\" where loop statement was expect.",
-                      currentToken.spelling);
-              break;
-            }
-            acceptIt();
-            Expression eAST = parseExpression();
-            accept(Token.END);
-            finish(commandPos);
-            commandAST = (isWhileCommand ? new WhileCommand(eAST, cAST, commandPos) : new WhileCommand(eAST, cAST, commandPos));
-          }
-          break;
+          acceptIt();
+          Expression eAST = parseExpression();
+          accept(Token.END);
+          finish(commandPos);
+          commandAST = (isWhileCommand ? new WhileCommand(eAST, cAST, commandPos) : new WhileCommand(eAST, cAST, commandPos));
+        }
+        break;
 
           case Token.FOR:{
             acceptIt();
