@@ -257,12 +257,15 @@ public class Parser {
       break;
 
     case Token.LOOP: {
+      System.out.println(currentToken.toString());
       acceptIt();
-
+      System.out.println("Here we are .LOOP");
+      System.out.println(currentToken.toString());
       switch (currentToken.kind) {
 
         case Token.WHILE:
         case Token.UNTIL: {
+          System.out.println("Here we are While Until");
           boolean isWhileCommand = Token.WHILE == currentToken.kind;
           acceptIt();
           Expression eAST = parseExpression();
@@ -275,27 +278,25 @@ public class Parser {
         break;
 
         case Token.DO: {
+          System.out.println("Here we are DOOO");
           acceptIt();
           Command cAST = parseCommand();
           boolean isWhileCommand;
           if (currentToken.kind == Token.WHILE)
             isWhileCommand = true;
-          else if (currentToken.kind == Token.UNTIL)
+          else
             isWhileCommand = false;
-          else {
-            syntacticError("Found \"%\" where loop statement was expect.",
-                    currentToken.spelling);
-            break;
-          }
+
           acceptIt();
           Expression eAST = parseExpression();
           accept(Token.END);
           finish(commandPos);
-          commandAST = (isWhileCommand ? new WhileCommand(eAST, cAST, commandPos) : new WhileCommand(eAST, cAST, commandPos));
+          commandAST = (isWhileCommand ? new DoWhileCommand(eAST, cAST, commandPos) : new DoUntilCommand(eAST, cAST, commandPos));
         }
         break;
 
-          case Token.FOR:{
+        case Token.FOR: {
+            System.out.println("Here we are");
             acceptIt();
             Identifier iAST = parseIdentifier();
             accept(Token.FROM);
@@ -308,14 +309,22 @@ public class Parser {
                 acceptIt();
                 Command cAST = parseCommand();
                 accept(Token.END);
-
+                finish(commandPos);
+                commandAST = new ForCommand(iAST, eAST1, eAST2, cAST, commandPos);
               }
               break;
 
               case Token.WHILE:
               case Token.UNTIL:
               {
+                boolean isWhileCommand = Token.WHILE == currentToken.kind;
                 acceptIt();
+                Expression eAST3 = parseExpression();
+                accept(Token.DO);
+                Command cAST = parseCommand();
+                accept(Token.END);
+                finish(commandPos);
+                commandAST = (isWhileCommand ? new ForWhileCommand(iAST, eAST1, eAST2, eAST3, cAST, commandPos) : new ForUntilCommand(iAST, eAST1, eAST2, new UntilCommand(eAST3, cAST, commandPos), commandPos));
               }
               break;
 
@@ -325,13 +334,12 @@ public class Parser {
               }
               break;
             }
-
           }
-
-
-            break;
+          break;
 
           default:
+            System.out.println("Here we are fOR FUVKS Ske");
+            System.out.println(currentToken.toString());
             break;
         }
 

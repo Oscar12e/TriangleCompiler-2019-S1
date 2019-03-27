@@ -56,7 +56,7 @@ public class TreeVisitor implements Visitor {
 
     @Override
     public Object visitDoWhileCommand(DoWhileCommand ast, Object o) {
-        return null;
+        return(createBinary("Do-While Command", ast.C, ast.E));
     }
 
     @Override
@@ -66,22 +66,22 @@ public class TreeVisitor implements Visitor {
 
     @Override
     public Object visitDoUntilCommand(DoUntilCommand ast, Object o) {
-        return null;
+        return(createBinary("Do-Until Command", ast.C, ast.E));
     }
 
     @Override
     public Object visitForCommand(ForCommand ast, Object o) {
-        return null;
+        return(createQuaternary("For Command", ast.I, ast.E1, ast.E2, ast.C));
     }
 
     @Override
     public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
-        return null;
+        return(createQuaternary("For-While Command", ast.I, ast.E1, ast.E2, ast.W));
     }
 
     @Override
     public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
-        return null;
+        return(createQuaternary("For-Until Command", ast.I, ast.E1, ast.E2, ast.U));
     }
     // </editor-fold>
     

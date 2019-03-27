@@ -60,7 +60,7 @@ public class LayoutVisitor implements Visitor {
 
   @Override
   public Object visitDoWhileCommand(DoWhileCommand ast, Object o) {
-    return null;
+    return layoutBinary("DoWhileCom.", ast.C, ast.E);
   }
 
   @Override
@@ -70,16 +70,17 @@ public class LayoutVisitor implements Visitor {
 
   @Override
   public Object visitDoUntilCommand(DoUntilCommand ast, Object o) {
-    return layoutBinary("UntilCom.", ast.E, ast.C);
+    return layoutBinary("DOUntilCom.", ast.C, ast.E);
   }
 
   @Override
   public Object visitForCommand(ForCommand ast, Object o) {
-    return null;
+    return layoutQuaternary("DOUntilCom.", ast.I, ast.E1, ast.E2, ast.C);
   }
 
   @Override
   public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
+
     return null;
   }
 

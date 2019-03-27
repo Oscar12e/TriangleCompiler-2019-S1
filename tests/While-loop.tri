@@ -4,7 +4,8 @@ let
 in
   i:=5;
   j:=7;
-  loop until i do 
+  loop for i from j to j
+   until i do 
     pass
   end
 end

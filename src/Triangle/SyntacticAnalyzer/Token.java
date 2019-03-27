@@ -38,6 +38,10 @@ final class Token extends Object {
         } else {
           currentKind ++;
         }
+        if (spelling.equals("for")){
+          System.out.println("Look at me " + tokenTable[currentKind].toString() + " " + spelling);
+          System.out.println(comparison);
+        }
       }
     } else
       this.kind = kind;
@@ -68,21 +72,22 @@ final class Token extends Object {
 
     // reserved words - must be in alphabetical order...
     ARRAY		= 4,
-    CHOOSE = 5,
+    CHOOSE  = 5,
     CONST		= 6,
     DO			= 7,
     ELSE		= 8,
     END			= 9,
-    FUNC		= 10,
-    FOR = 11,
-    FROM = 12,
+            FOR     = 10,
+            FROM    = 11,
+            FUNC		= 12,
+
     IF			= 13,
     IN			= 14,
     LET			= 15,
-    LOOP = 16,
+    LOOP    = 16,
     OF			= 17,
-    PAR = 18,
-    PASS = 19,
+    PAR     = 18,
+    PASS    = 19,
     PRIVATE = 20,
     PROC		= 21,
     RECORD		= 22,
@@ -129,9 +134,10 @@ final class Token extends Object {
     "do",
     "else",
     "end",
-    "func",
     "for",
-    "from",
+          "from",
+          "func",
+
     "if",
     "in",
     "let",
