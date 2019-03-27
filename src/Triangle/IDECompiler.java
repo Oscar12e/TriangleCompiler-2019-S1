@@ -69,9 +69,9 @@ public class IDECompiler {
         }
 
         if (success)
-            System.out.println("Compilation was successful bro.");
+            System.out.println("Compilation was successful. A winner is you.");
         else
-            System.out.println("Compilation was unsuccessful dude.");
+            System.out.println("Compilation was unsuccessful dude. All your bases are belong to us.");
         
         return(success);
     }
