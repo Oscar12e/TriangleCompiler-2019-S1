@@ -133,10 +133,7 @@ public final class Checker implements Visitor {
     if (! iType.equals(e1Type.equals(e2Type)))
       reporter.reportError("Identifiers and expressions should be the same type", "", ast.E1.position);
 
-    TypeDenoter e3Type = (TypeDenoter) ast.E3.visit(this, null);
-    if (! e3Type.equals(StdEnvironment.booleanType))
-      reporter.reportError("Boolean expression expected here", "", ast.E3.position);
-    ast.C.visit(this, null);
+    ast.W.visit(this, null);
     return null;
   }
 

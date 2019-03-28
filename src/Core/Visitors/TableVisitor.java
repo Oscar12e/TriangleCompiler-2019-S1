@@ -114,8 +114,7 @@ public class TableVisitor implements Visitor {
 	  ast.I.visit(this, null);
 	  ast.E1.visit(this, null);
 	  ast.E2.visit(this, null);
-	  ast.E3.visit(this, null);
-	  ast.C.visit(this, null);
+	  ast.W.visit(this, null);
     return null;
   }
 

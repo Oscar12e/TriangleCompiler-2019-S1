@@ -5,8 +5,7 @@ in
   i:=5;
   j:=7;
   loop for i from j to j
-   until i do 
-    pass
+   do pass
   end
 end
   

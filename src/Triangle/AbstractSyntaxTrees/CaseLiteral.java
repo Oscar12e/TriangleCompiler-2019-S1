@@ -1,0 +1,17 @@
+package Triangle.AbstractSyntaxTrees;
+
+import Triangle.SyntacticAnalyzer.SourcePosition;
+
+public class CaseLiteral extends Cases {
+
+	public CaseLiteral (Terminal lAst, SourcePosition thePosition) {
+		super (thePosition);
+		L = lAst;
+	}
+
+	public Object visit(Visitor v, Object o) {
+		return v.visitCaseLiteral(this, o);
+	}
+
+	public Terminal L;
+}

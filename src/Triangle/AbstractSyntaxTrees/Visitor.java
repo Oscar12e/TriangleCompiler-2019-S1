@@ -24,8 +24,7 @@ public interface Visitor {
   public abstract Object visitLetCommand(LetCommand ast, Object o);
   public abstract Object visitSequentialCommand(SequentialCommand ast, Object o);
   public abstract Object visitWhileCommand(WhileCommand ast, Object o);
-
-  //
+  //Added for project
   public abstract Object visitDoWhileCommand(DoWhileCommand ast, Object o);
   public abstract Object visitUntilCommand(UntilCommand ast, Object o);
   public abstract Object visitDoUntilCommand(DoUntilCommand ast, Object o);
@@ -33,6 +32,13 @@ public interface Visitor {
   public abstract Object visitForWhileCommand(ForWhileCommand ast, Object o);
   public abstract Object visitForUntilCommand(ForUntilCommand ast, Object o);
 
+  //Cases
+  public abstract Object visitForUntilCommand(ForUntilCommand ast, Object o);
+  public abstract Object visitForUntilCommand(ForUntilCommand ast, Object o);
+  public abstract Object visitForUntilCommand(CaseLiterals ast, Object o);
+  public abstract Object visitCaseLiterals(CaseLiterals ast, Object o);
+  public abstract Object visitCaseRange(CaseRange ast, Object o);
+  public abstract Object visitCaseLiteral(CaseLiteral ast, Object o);
 
   // Expressions
   public abstract Object visitArrayExpression(ArrayExpression ast, Object o);
