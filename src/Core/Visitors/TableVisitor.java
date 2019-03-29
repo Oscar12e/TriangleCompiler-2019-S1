@@ -114,8 +114,7 @@ public class TableVisitor implements Visitor {
 	  ast.I.visit(this, null);
 	  ast.E1.visit(this, null);
 	  ast.E2.visit(this, null);
-	  ast.E3.visit(this, null);
-	  ast.C.visit(this, null);
+	  ast.W.visit(this, null);
     return null;
   }
 
@@ -125,6 +124,65 @@ public class TableVisitor implements Visitor {
 	  ast.E1.visit(this, null);
 	  ast.E2.visit(this, null);
 	  ast.U.visit(this, null);
+    return null;
+  }
+
+  @Override
+  public Object visitChooseCommand(ChooseCommand ast, Object o) {
+    ast.E.visit(this, null);
+    ast.C.visit(this, null);
+    return null;
+  }
+
+  @Override
+  public Object visitCase(Case ast, Object o) {
+    ast.L.visit(this, null);
+    ast.C.visit(this, null);
+    return null;
+  }
+
+  @Override
+  public Object visitElseCase(ElseCase ast, Object o) {
+    ast.C.visit(this, null);
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialCases(SequentialCases ast, Object o) {
+    ast.C1.visit(this, null);
+    ast.C2.visit(this, null);
+    return null;
+  }
+
+  @Override
+  public Object visitSimpleCaseLiterals(SimpleCaseLiterals ast, Object o) {
+    ast.R.visit(this, null);
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
+    ast.L1.visit(this, null);
+    ast.L2.visit(this, null);
+    return null;
+  }
+
+  @Override
+  public Object visitSimpleCaseRange(SimpleCaseRange ast, Object o) {
+    ast.L.visit(this, null);
+    return null;
+  }
+
+  @Override
+  public Object visitCompleteCaseRange(CompleteCaseRange ast, Object o) {
+    ast.L1.visit(this, null);
+    ast.L2.visit(this, null);
+    return null;
+  }
+
+  @Override
+  public Object visitCaseLiteral(CaseLiteral ast, Object o) {
+    ast.L.visit(this, null);
     return null;
   }
   // </editor-fold>

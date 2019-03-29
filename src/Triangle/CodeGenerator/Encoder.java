@@ -123,6 +123,51 @@ public final class Encoder implements Visitor {
     return null;
   }
 
+  @Override
+  public Object visitChooseCommand(ChooseCommand ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitCase(Case ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitElseCase(ElseCase ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialCases(SequentialCases ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSimpleCaseLiterals(SimpleCaseLiterals ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSimpleCaseRange(SimpleCaseRange ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitCompleteCaseRange(CompleteCaseRange ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitCaseLiteral(CaseLiteral ast, Object o) {
+    return null;
+  }
+
 
   // Expressions
   public Object visitArrayExpression(ArrayExpression ast, Object o) {

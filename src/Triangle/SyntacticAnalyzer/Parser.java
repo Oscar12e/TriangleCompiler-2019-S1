@@ -208,96 +208,109 @@ public class Parser {
 
     switch (currentToken.kind) {
 
-    case Token.IDENTIFIER:
-      {
-        Identifier iAST = parseIdentifier();
-        if (currentToken.kind == Token.LPAREN) {
-          acceptIt();
-          ActualParameterSequence apsAST = parseActualParameterSequence();
-          accept(Token.RPAREN);
-          finish(commandPos);
-          commandAST = new CallCommand(iAST, apsAST, commandPos);
+      case Token.IDENTIFIER:
+        {
+          Identifier iAST = parseIdentifier();
+          if (currentToken.kind == Token.LPAREN) {
+            acceptIt();
+            ActualParameterSequence apsAST = parseActualParameterSequence();
+            accept(Token.RPAREN);
+            finish(commandPos);
+            commandAST = new CallCommand(iAST, apsAST, commandPos);
 
-        } else {
+          } else {
 
-          Vname vAST = parseRestOfVname(iAST);
-          accept(Token.BECOMES);
-          Expression eAST = parseExpression();
-          finish(commandPos);
-          commandAST = new AssignCommand(vAST, eAST, commandPos);
+            Vname vAST = parseRestOfVname(iAST);
+            accept(Token.BECOMES);
+            Expression eAST = parseExpression();
+            finish(commandPos);
+            commandAST = new AssignCommand(vAST, eAST, commandPos);
+          }
         }
-      }
-      break;
+        break;
 
-    case Token.LET:
-      {
-        acceptIt();
-        Declaration dAST = parseDeclaration();
-        accept(Token.IN);
-        Command cAST = parseCommand();
+      case Token.LET:
+        {
+          acceptIt();
+          Declaration dAST = parseDeclaration();
+          accept(Token.IN);
+          Command cAST = parseCommand();
+          accept(Token.END);
+          finish(commandPos);
+          commandAST = new LetCommand(dAST, cAST, commandPos);
+        }
+        break;
 
-        //Command cAST = parseSingleCommand();
-        accept(Token.END);
-        finish(commandPos);
-        commandAST = new LetCommand(dAST, cAST, commandPos);
-      }
-      break;
+      case Token.IF:
+        {
+          acceptIt();
+          Expression eAST = parseExpression();
+          accept(Token.THEN);
+          Command c1AST = parseCommand();
+          accept(Token.ELSE);
+          Command c2AST = parseCommand();
+          accept(Token.END);
+          finish(commandPos);
+          commandAST = new IfCommand(eAST, c1AST, c2AST, commandPos);
+        }
+        break;
 
-    case Token.IF:
-      {
+      case Token.PASS:
+        {
+          acceptIt();
+          finish(commandPos);
+          commandAST = new EmptyCommand(commandPos);
+        }
+        break;
+
+      case Token.CHOOSE: {
         acceptIt();
         Expression eAST = parseExpression();
-        accept(Token.THEN);
-        Command c1AST = parseCommand();
-        accept(Token.ELSE);
-        Command c2AST = parseCommand();
-	      accept(Token.END);
+        accept(Token.FROM);
+        Cases cAST = parseCases();
         finish(commandPos);
-        commandAST = new IfCommand(eAST, c1AST, c2AST, commandPos);
+        commandAST = new ChooseCommand(eAST, cAST, commandPos);
       }
-      break;
-
-    case Token.LOOP: {
-      System.out.println(currentToken.toString());
-      acceptIt();
-      System.out.println("Here we are .LOOP");
-      System.out.println(currentToken.toString());
-      switch (currentToken.kind) {
-
-        case Token.WHILE:
-        case Token.UNTIL: {
-          System.out.println("Here we are While Until");
-          boolean isWhileCommand = Token.WHILE == currentToken.kind;
-          acceptIt();
-          Expression eAST = parseExpression();
-          accept(Token.DO);
-          Command cAST = parseCommand();
-          accept(Token.END);
-          finish(commandPos);
-          commandAST = (isWhileCommand ? new WhileCommand(eAST, cAST, commandPos) : new UntilCommand(eAST, cAST, commandPos));
-        }
         break;
 
-        case Token.DO: {
-          System.out.println("Here we are DOOO");
-          acceptIt();
-          Command cAST = parseCommand();
-          boolean isWhileCommand;
-          if (currentToken.kind == Token.WHILE)
-            isWhileCommand = true;
-          else
-            isWhileCommand = false;
+      case Token.LOOP: {
+        acceptIt();
+        switch (currentToken.kind) {
 
-          acceptIt();
-          Expression eAST = parseExpression();
-          accept(Token.END);
-          finish(commandPos);
-          commandAST = (isWhileCommand ? new DoWhileCommand(eAST, cAST, commandPos) : new DoUntilCommand(eAST, cAST, commandPos));
-        }
-        break;
+          case Token.WHILE:
+          case Token.UNTIL:
+          {
+            boolean isWhileCommand = Token.WHILE == currentToken.kind;
+            acceptIt();
+            Expression eAST = parseExpression();
+            accept(Token.DO);
+            Command cAST = parseCommand();
+            accept(Token.END);
+            finish(commandPos);
+            commandAST = (isWhileCommand ? new WhileCommand(eAST, cAST, commandPos) : new UntilCommand(eAST, cAST, commandPos));
+          }
+          break;
 
-        case Token.FOR: {
-            System.out.println("Here we are");
+          case Token.DO: {
+            acceptIt();
+            Command cAST = parseCommand();
+
+            if (! (currentToken.kind == Token.WHILE || currentToken.kind == Token.UNTIL)){
+              syntacticError("Found \"%\" where 'while' or 'Until' statement was expect.",
+                      currentToken.spelling);
+              break;
+            }
+
+            boolean isWhileCommand = Token.WHILE == currentToken.kind;
+            acceptIt();
+            Expression eAST = parseExpression();
+            accept(Token.END);
+            finish(commandPos);
+            commandAST = (isWhileCommand ? new DoWhileCommand(eAST, cAST, commandPos) : new DoUntilCommand(eAST, cAST, commandPos));
+          }
+          break;
+
+          case Token.FOR: {
             acceptIt();
             Identifier iAST = parseIdentifier();
             accept(Token.FROM);
@@ -325,12 +338,14 @@ public class Parser {
                 Command cAST = parseCommand();
                 accept(Token.END);
                 finish(commandPos);
-                commandAST = (isWhileCommand ? new ForWhileCommand(iAST, eAST1, eAST2, eAST3, cAST, commandPos) : new ForUntilCommand(iAST, eAST1, eAST2, new UntilCommand(eAST3, cAST, commandPos), commandPos));
+                commandAST = (isWhileCommand ?
+                        new ForWhileCommand(iAST, eAST1, eAST2, new WhileCommand(eAST3, cAST, commandPos), commandPos) :
+                        new ForUntilCommand(iAST, eAST1, eAST2, new UntilCommand(eAST3, cAST, commandPos), commandPos));
               }
               break;
 
               default: {
-                syntacticError("Found \"%\" where loop or do statement was expect.",
+                syntacticError("Found \"%\" where 'do' or 'while' or 'until' statement was expect.",
                         currentToken.spelling);
               }
               break;
@@ -339,42 +354,146 @@ public class Parser {
           break;
 
           default:
-            System.out.println("Here we are fOR FUVKS Ske");
-            System.out.println(currentToken.toString());
+            syntacticError("Found \"%\" where 'do' or 'while' or 'until' statement was expect.",
+                    currentToken.spelling);
             break;
         }
-
-        }
-        break;
-
-    case Token.PASS:
-      {
-        acceptIt();
-        finish(commandPos);
-        commandAST = new EmptyCommand(commandPos);
       }
       break;
 
-    case Token.SEMICOLON:
-    case Token.END:
-    case Token.ELSE:
-    case Token.IN:
-    case Token.EOT:
-      syntacticError("\"%\" is no longer supported for blank command, use the reserved word \"pass\".",
-              currentToken.spelling);
-      break;
+      case Token.SEMICOLON:
+      case Token.END:
+      case Token.ELSE:
+      case Token.IN:
+      case Token.EOT:
+        syntacticError("\"%\" is no longer supported for blank command, use the reserved word \"pass\".",
+                currentToken.spelling);
+        break;
 
 
-    default:
-      syntacticError("\"%\" cannot start a command",
-        currentToken.spelling);
-      break;
+      default:
+        syntacticError("\"%\" cannot start a command",
+          currentToken.spelling);
+        break;
 
-    }
+      }
 
     return commandAST;
   }
 
+///////////////////////////////////////////////////////////////////////////////
+//
+// CASES
+//
+///////////////////////////////////////////////////////////////////////////////
+  Cases parseCases() throws SyntaxError {
+    Cases sequentialCasesAct = null;
+    SourcePosition casesPos = new SourcePosition();
+
+    start (casesPos);
+    do {
+      System.out.println("Here we are a when");
+      accept(Token.WHEN);
+      Cases caseAST = parseCase();
+      finish(casesPos);
+
+      sequentialCasesAct = (sequentialCasesAct == null) ? caseAST : new SequentialCases(sequentialCasesAct, caseAST, casesPos);
+    } while (currentToken.kind == Token.WHEN);
+
+    if (currentToken.kind == Token.ELSE){
+      acceptIt();
+      Cases elseAst = parseElseCase();
+      finish(casesPos);
+      sequentialCasesAct = new SequentialCases(sequentialCasesAct, elseAst, casesPos);
+    }
+
+    return sequentialCasesAct;
+  }
+
+  Cases parseCase() throws SyntaxError {
+    Cases caseAST = null;
+    SourcePosition casePos = new SourcePosition();
+
+    start (casePos);
+    CaseLiterals literalsAST = parseCaseLiterals();
+    accept(Token.THEN);
+
+    Command cAST = parseCommand();
+    finish(casePos);
+
+    caseAST = new Case(literalsAST, cAST, casePos);
+
+    return caseAST;
+  }
+
+  Cases parseElseCase() throws SyntaxError {
+    Cases elseCaseAST = null;
+    SourcePosition casePos = new SourcePosition();
+
+    start (casePos);
+
+    Command cAST = parseCommand();
+    finish(casePos);
+    elseCaseAST = new ElseCase(cAST, casePos);
+    return elseCaseAST;
+  }
+
+  CaseLiterals parseCaseLiterals() throws SyntaxError {
+    CaseLiterals caseAST = null; // in case there's a syntactic error
+
+    SourcePosition casePos = new SourcePosition();
+    start(casePos);
+
+    CaseRange cAST = parseCaseRange();
+
+    finish(casePos);
+    caseAST = new SimpleCaseLiterals(cAST, casePos);
+    System.out.println("Here we kum*"+ currentToken.kind);
+    while (currentToken.kind == Token.PIPE){
+      System.out.println("Here we kum");
+      acceptIt();
+      cAST = parseCaseRange();
+      finish(casePos);
+      caseAST = new SequentialCaseLiterals(caseAST, new SimpleCaseLiterals(cAST, casePos), casePos);
+    }
+
+    return caseAST;
+  }
+
+  CaseRange parseCaseRange() throws SyntaxError {
+    CaseRange caseAST = null; // in case there's a syntactic error
+
+    SourcePosition casePos = new SourcePosition();
+    start(casePos);
+
+    CaseLiteral rAst1 = parseCaseLiteral();
+
+    if (currentToken.kind == Token.DOUBLEDOTS){ //Two range trees
+      acceptIt();
+      CaseLiteral rAst2 = parseCaseLiteral();
+      finish(casePos);
+      caseAST = new CompleteCaseRange(rAst1, rAst2, casePos);
+    } else {
+      finish(casePos);
+      caseAST = new SimpleCaseRange(rAst1, casePos);
+    }
+
+    return caseAST;
+  }
+
+  CaseLiteral parseCaseLiteral() throws SyntaxError {
+    CaseLiteral caseAST = null; // in case there's a syntactic error
+    SourcePosition casePos = new SourcePosition();
+    start(casePos);
+
+    if (!(currentToken.kind == Token.INTLITERAL || currentToken.kind == Token.CHARLITERAL))
+      syntacticError("Int Literal or Char Literal expected here.", "");;
+
+    Terminal lAst = (currentToken.kind == Token.INTLITERAL) ? parseIntegerLiteral() : parseCharacterLiteral();
+    finish(casePos);
+    caseAST = new CaseLiteral(lAst, casePos);
+    return caseAST;
+  }
 ///////////////////////////////////////////////////////////////////////////////
 //
 // EXPRESSIONS

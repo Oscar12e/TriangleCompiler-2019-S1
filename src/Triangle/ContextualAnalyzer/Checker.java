@@ -133,10 +133,7 @@ public final class Checker implements Visitor {
     if (! iType.equals(e1Type.equals(e2Type)))
       reporter.reportError("Identifiers and expressions should be the same type", "", ast.E1.position);
 
-    TypeDenoter e3Type = (TypeDenoter) ast.E3.visit(this, null);
-    if (! e3Type.equals(StdEnvironment.booleanType))
-      reporter.reportError("Boolean expression expected here", "", ast.E3.position);
-    ast.C.visit(this, null);
+    ast.W.visit(this, null);
     return null;
   }
 
@@ -149,6 +146,51 @@ public final class Checker implements Visitor {
       reporter.reportError("Identifiers and expressions should be the same type", "", ast.E1.position);
 
     ast.U.visit(this, null);
+    return null;
+  }
+
+  @Override
+  public Object visitChooseCommand(ChooseCommand ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitCase(Case ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitElseCase(ElseCase ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialCases(SequentialCases ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSimpleCaseLiterals(SimpleCaseLiterals ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSimpleCaseRange(SimpleCaseRange ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitCompleteCaseRange(CompleteCaseRange ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitCaseLiteral(CaseLiteral ast, Object o) {
     return null;
   }
 
