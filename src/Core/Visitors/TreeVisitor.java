@@ -83,6 +83,51 @@ public class TreeVisitor implements Visitor {
     public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
         return(createQuaternary("For-Until Command", ast.I, ast.E1, ast.E2, ast.U));
     }
+
+    @Override
+    public Object visitChooseCommand(ChooseCommand ast, Object o) {
+        return(createBinary("Choose", ast.E, ast.C));
+    }
+
+    @Override
+    public Object visitCase(Case ast, Object o) {
+        return(createBinary("Case", ast.L, ast.C));
+    }
+
+    @Override
+    public Object visitElseCase(ElseCase ast, Object o) {
+        return(createUnary("Else Case", ast.C));
+    }
+
+    @Override
+    public Object visitSequentialCases(SequentialCases ast, Object o) {
+        return(createBinary("Sequential Cases", ast.C1, ast.C2));
+    }
+
+    @Override
+    public Object visitSimpleCaseLiterals(SimpleCaseLiterals ast, Object o) {
+        return(createUnary("Case Literals", ast.R));
+    }
+
+    @Override
+    public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
+        return(createBinary("Sequential Case Literals", ast.L1, ast.L2));
+    }
+
+    @Override
+    public Object visitSimpleCaseRange(SimpleCaseRange ast, Object o) {
+        return(createUnary("Case Range", ast.L));
+    }
+
+    @Override
+    public Object visitCompleteCaseRange(CompleteCaseRange ast, Object o) {
+        return(createBinary("Case Range", ast.L1, ast.L2));
+    }
+
+    @Override
+    public Object visitCaseLiteral(CaseLiteral ast, Object o) {
+        return(createUnary("Case Range", ast.L));
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Expressions ">

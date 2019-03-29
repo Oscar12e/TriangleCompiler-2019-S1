@@ -31,14 +31,18 @@ public interface Visitor {
   public abstract Object visitForCommand(ForCommand ast, Object o);
   public abstract Object visitForWhileCommand(ForWhileCommand ast, Object o);
   public abstract Object visitForUntilCommand(ForUntilCommand ast, Object o);
+  public abstract Object visitChooseCommand(ChooseCommand ast, Object o);
 
   //Cases
-  public abstract Object visitForUntilCommand(ForUntilCommand ast, Object o);
-  public abstract Object visitForUntilCommand(ForUntilCommand ast, Object o);
-  public abstract Object visitForUntilCommand(CaseLiterals ast, Object o);
-  public abstract Object visitCaseLiterals(CaseLiterals ast, Object o);
-  public abstract Object visitCaseRange(CaseRange ast, Object o);
+  public abstract Object visitCase(Case ast, Object o);
+  public abstract Object visitElseCase(ElseCase ast, Object o);
+  public abstract Object visitSequentialCases(SequentialCases ast, Object o);
+  public abstract Object visitSimpleCaseLiterals(SimpleCaseLiterals ast, Object o);
+  public abstract Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o);
+  public abstract Object visitSimpleCaseRange(SimpleCaseRange ast, Object o);
+  public abstract Object visitCompleteCaseRange(CompleteCaseRange ast, Object o);
   public abstract Object visitCaseLiteral(CaseLiteral ast, Object o);
+
 
   // Expressions
   public abstract Object visitArrayExpression(ArrayExpression ast, Object o);

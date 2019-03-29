@@ -263,7 +263,12 @@ public class Parser {
         break;
 
       case Token.CHOOSE: {
-
+        acceptIt();
+        Expression eAST = parseExpression();
+        accept(Token.FROM);
+        Cases cAST = parseCases();
+        finish(commandPos);
+        commandAST = new ChooseCommand(eAST, cAST, commandPos);
       }
         break;
 
@@ -381,22 +386,27 @@ public class Parser {
 //
 ///////////////////////////////////////////////////////////////////////////////
   Cases parseCases() throws SyntaxError {
-    Cases sequencialCasesAst = null;
+    Cases sequentialCasesAct = null;
     SourcePosition casesPos = new SourcePosition();
 
     start (casesPos);
     do {
-      Cases caseAST = null;
-      SourcePosition casePos = new SourcePosition();
-
-      start (casePos);
-
+      System.out.println("Here we are a when");
       accept(Token.WHEN);
+      Cases caseAST = parseCase();
+      finish(casesPos);
 
-      sequencialCasesAst = (sequencialCasesAst==null) ? caseAST : new SequentialCases(sequencialCasesAst, caseAST, casesPos);
+      sequentialCasesAct = (sequentialCasesAct == null) ? caseAST : new SequentialCases(sequentialCasesAct, caseAST, casesPos);
     } while (currentToken.kind == Token.WHEN);
 
-    return sequencialCasesAst;
+    if (currentToken.kind == Token.ELSE){
+      acceptIt();
+      Cases elseAst = parseElseCase();
+      finish(casesPos);
+      sequentialCasesAct = new SequentialCases(sequentialCasesAct, elseAst, casesPos);
+    }
+
+    return sequentialCasesAct;
   }
 
   Cases parseCase() throws SyntaxError {
@@ -404,58 +414,81 @@ public class Parser {
     SourcePosition casePos = new SourcePosition();
 
     start (casePos);
+    CaseLiterals literalsAST = parseCaseLiterals();
+    accept(Token.THEN);
 
-    do { //Case-Literals
-      if (currentToken.kind == Token.INTLITERAL || currentToken.kind == Token.CHARLITERAL)
-        acceptIt();
-      else
-        return null;
+    Command cAST = parseCommand();
+    finish(casePos);
 
-    }
-
-    return null;
-  }
-
-  Cases parseCaseLiterals() throws SyntaxError {
-    Cases caseAST = null; // in case there's a syntactic error
-
-    SourcePosition casePos = new SourcePosition();
-    start(casePos);
-
-    do{
-
-    } while (currentToken.kind == Token.PIPE);
+    caseAST = new Case(literalsAST, cAST, casePos);
 
     return caseAST;
   }
 
-  Cases parseCaseRange() throws SyntaxError {
-    Cases caseAST = null; // in case there's a syntactic error
+  Cases parseElseCase() throws SyntaxError {
+    Cases elseCaseAST = null;
+    SourcePosition casePos = new SourcePosition();
+
+    start (casePos);
+
+    Command cAST = parseCommand();
+    finish(casePos);
+    elseCaseAST = new ElseCase(cAST, casePos);
+    return elseCaseAST;
+  }
+
+  CaseLiterals parseCaseLiterals() throws SyntaxError {
+    CaseLiterals caseAST = null; // in case there's a syntactic error
 
     SourcePosition casePos = new SourcePosition();
     start(casePos);
 
-    Cases lAst = null;
+    CaseRange cAST = parseCaseRange();
 
-    Cases rAst1 = parseCaseLiteral();
+    finish(casePos);
+    caseAST = new SimpleCaseLiterals(cAST, casePos);
+    System.out.println("Here we kum*"+ currentToken.kind);
+    while (currentToken.kind == Token.PIPE){
+      System.out.println("Here we kum");
+      acceptIt();
+      cAST = parseCaseRange();
+      finish(casePos);
+      caseAST = new SequentialCaseLiterals(caseAST, new SimpleCaseLiterals(cAST, casePos), casePos);
+    }
+
+    return caseAST;
+  }
+
+  CaseRange parseCaseRange() throws SyntaxError {
+    CaseRange caseAST = null; // in case there's a syntactic error
+
+    SourcePosition casePos = new SourcePosition();
+    start(casePos);
+
+    CaseLiteral rAst1 = parseCaseLiteral();
 
     if (currentToken.kind == Token.DOUBLEDOTS){ //Two range trees
-      Cases rAst2 = parseCaseLiteral();
+      acceptIt();
+      CaseLiteral rAst2 = parseCaseLiteral();
+      finish(casePos);
+      caseAST = new CompleteCaseRange(rAst1, rAst2, casePos);
+    } else {
+      finish(casePos);
+      caseAST = new SimpleCaseRange(rAst1, casePos);
     }
 
     return caseAST;
   }
 
-  Cases parseCaseLiteral() throws SyntaxError {
-    Cases caseAST = null; // in case there's a syntactic error
+  CaseLiteral parseCaseLiteral() throws SyntaxError {
+    CaseLiteral caseAST = null; // in case there's a syntactic error
     SourcePosition casePos = new SourcePosition();
     start(casePos);
 
     if (!(currentToken.kind == Token.INTLITERAL || currentToken.kind == Token.CHARLITERAL))
-      return null;
+      syntacticError("Int Literal or Char Literal expected here.", "");;
 
-    Terminal lAst = null;
-    lAst = (currentToken.kind == Token.INTLITERAL) ? parseIntegerLiteral() : parseCharacterLiteral();
+    Terminal lAst = (currentToken.kind == Token.INTLITERAL) ? parseIntegerLiteral() : parseCharacterLiteral();
     finish(casePos);
     caseAST = new CaseLiteral(lAst, casePos);
     return caseAST;
