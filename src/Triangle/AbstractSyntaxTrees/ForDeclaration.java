@@ -8,7 +8,7 @@ public class ForDeclaration extends Declaration {
         super(pos);
     }
 
-    @Override
+
     public Object visit(Visitor v, Object o) {
         return null;
     }

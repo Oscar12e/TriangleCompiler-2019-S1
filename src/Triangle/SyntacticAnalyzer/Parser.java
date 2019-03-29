@@ -448,9 +448,7 @@ public class Parser {
 
     finish(casePos);
     caseAST = new SimpleCaseLiterals(cAST, casePos);
-    System.out.println("Here we kum*"+ currentToken.kind);
     while (currentToken.kind == Token.PIPE){
-      System.out.println("Here we kum");
       acceptIt();
       cAST = parseCaseRange();
       finish(casePos);
