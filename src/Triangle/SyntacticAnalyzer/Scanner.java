@@ -143,6 +143,10 @@ public final class Scanner {
       takeIt();
       if (currentChar == '=') {
         takeIt();
+        if (currentChar == '=') {
+          takeIt();
+          return Token.INITIALIZE;
+        } else
         return Token.BECOMES;
       } else
         return Token.COLON;
