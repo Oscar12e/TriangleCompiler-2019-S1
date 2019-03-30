@@ -191,6 +191,10 @@ public final class Scanner {
       takeIt();
       return Token.RCURLY;
 
+    case '$':
+      takeIt();
+      return Token.PACKAGE;
+
     case SourceFile.EOT:
       return Token.EOT;
 
