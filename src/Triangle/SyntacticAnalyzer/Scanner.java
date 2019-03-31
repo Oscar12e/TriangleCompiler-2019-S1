@@ -193,7 +193,7 @@ public final class Scanner {
 
     case '$':
       takeIt();
-      return Token.PACKAGE;
+      return Token.DOLLAR;
 
     case SourceFile.EOT:
       return Token.EOT;

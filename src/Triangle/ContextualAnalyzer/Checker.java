@@ -25,6 +25,16 @@ public final class Checker implements Visitor {
 
   // Always returns null. Does not use the given object.
 
+  @Override
+  public Object visitSequentialPackages(SequentialPackages ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitPackageIdentifier(PackageIdentifier ast, Object o) {
+    return null;
+  }
+
   public Object visitAssignCommand(AssignCommand ast, Object o) {
     TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -393,6 +403,46 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  @Override
+  public Object visitPrivateDeclaration(PrivateDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitParDeclaration(ParDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialParDeclaration(SequentialParDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialProcFuncs(SequentialProcFuncs ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveFunc(RecursiveFunc ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveProc(RecursiveProc ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitInitializedDeclaration(InitializedDeclaration ast, Object o) {
+    return null;
+  }
+
   // Array Aggregates
 
   // Returns the TypeDenoter for the Array Aggregate. Does not use the
@@ -697,6 +747,11 @@ public final class Checker implements Visitor {
     if (binding != null)
       O.decl = binding;
     return binding;
+  }
+
+  @Override
+  public Object visitLongIdentifier(LongIdentifier ast, Object o) {
+    return null;
   }
 
   // Value-or-variable names

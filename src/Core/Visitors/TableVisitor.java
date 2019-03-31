@@ -30,6 +30,16 @@ public class TableVisitor implements Visitor {
     public TableVisitor() {        
     }
 
+  @Override
+  public Object visitSequentialPackages(SequentialPackages ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitPackageIdentifier(PackageIdentifier ast, Object o) {
+    return null;
+  }
+
   // <editor-fold defaultstate="collapsed" desc=" Commands ">
   // Commands
   public Object visitAssignCommand(AssignCommand ast, Object o) { 
@@ -353,7 +363,47 @@ public class TableVisitor implements Visitor {
       ast.T.visit(this, null);
       return(null);
   }
-  
+
+  @Override
+  public Object visitPrivateDeclaration(PrivateDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitParDeclaration(ParDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialParDeclaration(SequentialParDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialProcFuncs(SequentialProcFuncs ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveFunc(RecursiveFunc ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveProc(RecursiveProc ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitInitializedDeclaration(InitializedDeclaration ast, Object o) {
+    return null;
+  }
+
   // </editor-fold>
 
   // <editor-fold defaultstate="collapsed" desc=" Aggregates ">
@@ -597,6 +647,11 @@ public class TableVisitor implements Visitor {
       ast.decl.visit(this, null);
   
       return(null);
+  }
+
+  @Override
+  public Object visitLongIdentifier(LongIdentifier ast, Object o) {
+    return null;
   }
   // </editor-fold>
 

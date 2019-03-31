@@ -16,6 +16,12 @@ package Triangle.AbstractSyntaxTrees;
 
 public interface Visitor {
 
+  // Packages
+  public abstract Object visitSequentialPackages(SequentialPackages ast, Object o);
+  public abstract Object visitPackageIdentifier(PackageIdentifier ast, Object o);
+  //public abstract Object visitAssignCommand(AssignCommand ast, Object o);
+
+
   // Commands
   public abstract Object visitAssignCommand(AssignCommand ast, Object o);
   public abstract Object visitCallCommand(CallCommand ast, Object o);
@@ -66,6 +72,17 @@ public interface Visitor {
   public abstract Object visitTypeDeclaration(TypeDeclaration ast, Object o);
   public abstract Object visitUnaryOperatorDeclaration(UnaryOperatorDeclaration ast, Object o);
   public abstract Object visitVarDeclaration(VarDeclaration ast, Object o);
+  //Added for project
+  public abstract Object visitPrivateDeclaration(PrivateDeclaration ast, Object o);
+  public abstract Object visitParDeclaration(ParDeclaration ast, Object o);
+  public abstract Object visitSequentialParDeclaration(SequentialParDeclaration ast, Object o);
+  public abstract Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o);
+  public abstract Object visitSequentialProcFuncs(SequentialProcFuncs ast, Object o);
+  public abstract Object visitRecursiveFunc(RecursiveFunc ast, Object o);
+  public abstract Object visitRecursiveProc(RecursiveProc ast, Object o);
+  public abstract Object visitInitializedDeclaration(InitializedDeclaration ast, Object o);
+
+
 
   // Array Aggregates
   public abstract Object visitMultipleArrayAggregate(MultipleArrayAggregate ast, Object o);
@@ -113,6 +130,7 @@ public interface Visitor {
   public abstract Object visitIdentifier(Identifier ast, Object o);
   public abstract Object visitIntegerLiteral(IntegerLiteral ast, Object o);
   public abstract Object visitOperator(Operator ast, Object o);
+  public abstract Object visitLongIdentifier(LongIdentifier ast, Object o);
 
   // Value-or-variable names
   public abstract Object visitDotVname(DotVname ast, Object o);

@@ -29,6 +29,16 @@ public class LayoutVisitor implements Visitor {
     this.fontMetrics = fontMetrics;
   }
 
+  @Override
+  public Object visitSequentialPackages(SequentialPackages ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitPackageIdentifier(PackageIdentifier ast, Object o) {
+    return null;
+  }
+
   // Commands
   public Object visitAssignCommand(AssignCommand ast, Object obj) {
     return layoutBinary("AssignCom.", ast.V, ast.E);
@@ -214,6 +224,46 @@ public class LayoutVisitor implements Visitor {
     return layoutBinary("VarDecl.", ast.I, ast.T);
   }
 
+  @Override
+  public Object visitPrivateDeclaration(PrivateDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitParDeclaration(ParDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialParDeclaration(SequentialParDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialProcFuncs(SequentialProcFuncs ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveFunc(RecursiveFunc ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveProc(RecursiveProc ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitInitializedDeclaration(InitializedDeclaration ast, Object o) {
+    return null;
+  }
+
 
   // Array Aggregates
   public Object visitMultipleArrayAggregate(MultipleArrayAggregate ast, Object obj) {
@@ -355,6 +405,11 @@ public class LayoutVisitor implements Visitor {
 
   public Object visitOperator(Operator ast, Object obj) {
     return layoutNullary(ast.spelling);
+  }
+
+  @Override
+  public Object visitLongIdentifier(LongIdentifier ast, Object o) {
+    return null;
   }
 
 

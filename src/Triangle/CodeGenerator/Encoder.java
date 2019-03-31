@@ -28,6 +28,16 @@ import Triangle.StdEnvironment;
 public final class Encoder implements Visitor {
 
 
+  @Override
+  public Object visitSequentialPackages(SequentialPackages ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitPackageIdentifier(PackageIdentifier ast, Object o) {
+    return null;
+  }
+
   // Commands
   public Object visitAssignCommand(AssignCommand ast, Object o) {
     Frame frame = (Frame) o;
@@ -365,6 +375,46 @@ public final class Encoder implements Visitor {
     return new Integer(extraSize);
   }
 
+  @Override
+  public Object visitPrivateDeclaration(PrivateDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitParDeclaration(ParDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialParDeclaration(SequentialParDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialProcFuncs(SequentialProcFuncs ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveFunc(RecursiveFunc ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveProc(RecursiveProc ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitInitializedDeclaration(InitializedDeclaration ast, Object o) {
+    return null;
+  }
+
 
   // Array Aggregates
   public Object visitMultipleArrayAggregate(MultipleArrayAggregate ast,
@@ -672,6 +722,11 @@ public final class Encoder implements Visitor {
       emit(Machine.LOADLop, 0, 0, frame.size / 2);
       emit(Machine.CALLop, Machine.SBr, Machine.PBr, displacement);
     }
+    return null;
+  }
+
+  @Override
+  public Object visitLongIdentifier(LongIdentifier ast, Object o) {
     return null;
   }
 

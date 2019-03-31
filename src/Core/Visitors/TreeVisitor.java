@@ -23,8 +23,18 @@ public class TreeVisitor implements Visitor {
      */
     public TreeVisitor() {
     }
-    
-    // <editor-fold defaultstate="collapsed" desc=" Commands ">    
+
+    @Override
+    public Object visitSequentialPackages(SequentialPackages ast, Object o) {
+        return null;
+    }
+
+    @Override
+    public Object visitPackageIdentifier(PackageIdentifier ast, Object o) {
+        return null;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc=" Commands ">
     // Commands  
     public Object visitAssignCommand(AssignCommand ast, Object o) {
         return(createBinary("Assign Command", ast.V, ast.E));
@@ -211,6 +221,46 @@ public class TreeVisitor implements Visitor {
     public Object visitVarDeclaration(VarDeclaration ast, Object obj) {
         return(createBinary("Variable Declaration", ast.I, ast.T));
     }
+
+    @Override
+    public Object visitPrivateDeclaration(PrivateDeclaration ast, Object o) {
+        return null;
+    }
+
+    @Override
+    public Object visitParDeclaration(ParDeclaration ast, Object o) {
+        return null;
+    }
+
+    @Override
+    public Object visitSequentialParDeclaration(SequentialParDeclaration ast, Object o) {
+        return null;
+    }
+
+    @Override
+    public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o) {
+        return null;
+    }
+
+    @Override
+    public Object visitSequentialProcFuncs(SequentialProcFuncs ast, Object o) {
+        return null;
+    }
+
+    @Override
+    public Object visitRecursiveFunc(RecursiveFunc ast, Object o) {
+        return null;
+    }
+
+    @Override
+    public Object visitRecursiveProc(RecursiveProc ast, Object o) {
+        return null;
+    }
+
+    @Override
+    public Object visitInitializedDeclaration(InitializedDeclaration ast, Object o) {
+        return null;
+    }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Aggregates ">
@@ -352,6 +402,11 @@ public class TreeVisitor implements Visitor {
     
     public Object visitOperator(Operator ast, Object obj) {
         return(createNullary(ast.spelling));
+    }
+
+    @Override
+    public Object visitLongIdentifier(LongIdentifier ast, Object o) {
+        return null;
     }
     // </editor-fold>
     

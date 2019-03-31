@@ -15,6 +15,7 @@
 package Triangle.SyntacticAnalyzer;
 
 import Triangle.AbstractSyntaxTrees.*;
+import Triangle.AbstractSyntaxTrees.Package;
 import Triangle.ErrorReporter;
 
 public class Parser {
@@ -86,8 +87,12 @@ public class Parser {
 
     try {
       //Pafckages here
-      Command cAST = parseCommand();
-      programAST = new Program(cAST, previousTokenPosition);
+      if (currentToken.kind == Token.PACKAGE){
+        Package pAST = parsePackageDeclaration();
+      } else {
+        Command cAST = parseCommand();
+        programAST = new Program(cAST, previousTokenPosition);
+      }
       if (currentToken.kind != Token.EOT) {
         syntacticError("\"%\" not expected after end of program",
           currentToken.spelling);
@@ -96,6 +101,57 @@ public class Parser {
     catch (SyntaxError s) { return null; }
     return programAST;
   }
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// PACKAGES
+//
+///////////////////////////////////////////////////////////////////////////////
+
+
+  Package parsePackageDeclaration() throws SyntaxError {
+    Package packagesAST = null;
+
+    SourcePosition packagePos = new SourcePosition();
+    start(packagePos);
+
+    acceptIt();
+
+
+    return null;
+  }
+
+  Package parsePackageIdentifier() throws SyntaxError {
+    Package packagesAST = null;
+
+    SourcePosition packagePos = new SourcePosition();
+    start(packagePos);
+
+    Identifier iAST = parseIdentifier();
+
+    finish(packagePos);
+
+    packagesAST = new PackageIdentifier(iAST, packagePos);
+    return packagesAST;
+  }
+
+  Package parseLongIdentifier() throws SyntaxError {
+    Package packagesAST = null;
+
+    SourcePosition packagePos = new SourcePosition();
+    start(packagePos);
+
+    try{
+      Package pAST = parsePackageIdentifier();
+      accept(Token.DOLLAR);
+    } catch (SyntaxError E) {
+      Identifier iAST = parseIdentifier();
+    }
+
+
+    return null;
+  }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -392,7 +448,6 @@ public class Parser {
 
     start (casesPos);
     do {
-      System.out.println("Here we are a when");
       accept(Token.WHEN);
       Cases caseAST = parseCase();
       finish(casesPos);
@@ -492,6 +547,65 @@ public class Parser {
     caseAST = new CaseLiteral(lAst, casePos);
     return caseAST;
   }
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// PROC-FUNC
+//
+///////////////////////////////////////////////////////////////////////////////
+  ProcFuncs parseProcFuncs () throws SyntaxError {
+    ProcFuncs procFuncsAST = null; // in case there's a syntactic error
+
+    SourcePosition pfPos = new SourcePosition();
+    start(pfPos);
+
+    ProcFuncs pfAST1 = parseProcFunc();
+
+    finish(pfPos);
+    //pfAST1 = new SimpleProcFuncs(pfAST1, pfPos);
+    while (currentToken.kind == Token.PIPE) {
+      acceptIt();
+      ProcFuncs pfAST2 = parseProcFunc();
+      finish(pfPos);
+      pfAST1 = new SequentialProcFuncs(pfAST1, pfAST2, pfPos);
+    }
+    procFuncsAST = pfAST1;
+    return procFuncsAST;
+  }
+
+  ProcFuncs parseProcFunc () throws SyntaxError {
+    ProcFuncs procFuncsAST = null; // in case there's a syntactic error
+    if (currentToken.kind != Token.PROC && currentToken.kind != Token.FUNC)
+      syntacticError("proc or func expected here, but found instead &.", currentToken.spelling);
+
+    SourcePosition pfPos = new SourcePosition();
+    start(pfPos);
+
+    boolean isProc = currentToken.kind == Token.PROC;
+    acceptIt();
+    Identifier iAST = parseIdentifier();
+    accept(Token.LPAREN);
+    FormalParameterSequence fpsAST = parseFormalParameterSequence();
+    accept(Token.RPAREN);
+
+    if (isProc){
+      accept(Token.IS);
+      Command cAST = parseCommand();
+      accept(Token.END);
+      finish(pfPos);
+      procFuncsAST = new RecursiveProc(iAST, fpsAST, cAST, pfPos);
+    } else {
+      accept(Token.COLON);
+      TypeDenoter tAST = parseTypeDenoter();
+      accept(Token.IS);
+      Expression eAST = parseExpression();
+      finish(pfPos);
+      procFuncsAST = new RecursiveFunc(iAST, fpsAST, tAST, eAST, pfPos);
+    }
+
+    return procFuncsAST;
+  }
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 // EXPRESSIONS
@@ -748,7 +862,10 @@ public class Parser {
     switch (currentToken.kind) {
       case Token.RECURSIVE:{
         acceptIt();
-        //Proc-Funcs
+        ProcFuncs pfAST = parseProcFuncs();
+        accept(Token.END);
+        finish(declarationPos);
+        declarationAST = new RecursiveDeclaration(pfAST, declarationPos);
       }
         break;
       case Token.PRIVATE:{
@@ -758,7 +875,7 @@ public class Parser {
         Declaration dAst2 = parseDeclaration();
         accept(Token.END);
         finish(declarationPos);
-        //declarationAST =
+        declarationAST = new PrivateDeclaration(dAst1,dAst2,declarationPos);
       }
 
         break;
@@ -815,7 +932,7 @@ public class Parser {
           acceptIt();
           Expression eAST = parseExpression();
           finish(declarationPos);
-          //declarationAST
+          declarationAST = new InitializedDeclaration(iAST, eAST, declarationPos);
         }
 
       }
