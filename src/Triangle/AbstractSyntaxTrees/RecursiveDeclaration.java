@@ -10,6 +10,6 @@ public class RecursiveDeclaration extends Declaration {
 
 	public Object visit(Visitor v, Object o) { return v.visitRecursiveDeclaration(this, o); }
 
-	ProcFuncs P;
+	public ProcFuncs P;
 }
 

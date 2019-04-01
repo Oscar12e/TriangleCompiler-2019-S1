@@ -10,7 +10,6 @@ import Triangle.CodeGenerator.Field;
 import Triangle.CodeGenerator.KnownAddress;
 import Triangle.CodeGenerator.KnownRoutine;
 import Triangle.CodeGenerator.KnownValue;
-import Triangle.CodeGenerator.TypeRepresentation;
 import Triangle.CodeGenerator.UnknownAddress;
 import Triangle.CodeGenerator.UnknownRoutine;
 import Triangle.CodeGenerator.UnknownValue;
@@ -371,11 +370,6 @@ public class TableVisitor implements Visitor {
 
   @Override
   public Object visitParDeclaration(ParDeclaration ast, Object o) {
-    return null;
-  }
-
-  @Override
-  public Object visitSequentialParDeclaration(SequentialParDeclaration ast, Object o) {
     return null;
   }
 

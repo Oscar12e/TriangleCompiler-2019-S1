@@ -15,8 +15,8 @@ public class RecursiveFunc extends ProcFuncs {
 
 	public Object visit(Visitor v, Object o) { return v.visitRecursiveFunc(this, o); }
 
-	Identifier I;
-	FormalParameterSequence F;
-	TypeDenoter T;
-	Expression E;
+	public Identifier I;
+	public FormalParameterSequence F;
+	public TypeDenoter T;
+	public Expression E;
 }

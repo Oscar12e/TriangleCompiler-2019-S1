@@ -385,10 +385,6 @@ public final class Encoder implements Visitor {
     return null;
   }
 
-  @Override
-  public Object visitSequentialParDeclaration(SequentialParDeclaration ast, Object o) {
-    return null;
-  }
 
   @Override
   public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o) {

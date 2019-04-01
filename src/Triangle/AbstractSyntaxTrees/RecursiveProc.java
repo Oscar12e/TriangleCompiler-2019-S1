@@ -13,8 +13,8 @@ public class RecursiveProc extends ProcFuncs {
 
 	public Object visit(Visitor v, Object o) { return v.visitRecursiveProc(this, o); }
 
-	Identifier I;
-	FormalParameterSequence F;
-	Command C;
+	public Identifier I;
+	public FormalParameterSequence F;
+	public Command C;
 
 }

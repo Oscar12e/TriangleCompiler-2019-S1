@@ -224,42 +224,37 @@ public class TreeVisitor implements Visitor {
 
     @Override
     public Object visitPrivateDeclaration(PrivateDeclaration ast, Object o) {
-        return null;
+        return(createBinary("Private Declaration", ast.D1, ast.D2));
     }
 
     @Override
     public Object visitParDeclaration(ParDeclaration ast, Object o) {
-        return null;
-    }
-
-    @Override
-    public Object visitSequentialParDeclaration(SequentialParDeclaration ast, Object o) {
-        return null;
+        return(createBinary("Par Declaration", ast.D1, ast.D2));
     }
 
     @Override
     public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o) {
-        return null;
+        return(createUnary("Recursive Declaration", ast.P));
     }
 
     @Override
     public Object visitSequentialProcFuncs(SequentialProcFuncs ast, Object o) {
-        return null;
+        return(createBinary("Sequential ProcFuncs Declaration", ast.R1, ast.R2));
     }
 
     @Override
     public Object visitRecursiveFunc(RecursiveFunc ast, Object o) {
-        return null;
+        return(createQuaternary("Recursive Func", ast.I, ast.F, ast.T, ast.E));
     }
 
     @Override
     public Object visitRecursiveProc(RecursiveProc ast, Object o) {
-        return null;
+        return(createTernary("Recursive Proc", ast.I, ast.F, ast.C));
     }
 
     @Override
     public Object visitInitializedDeclaration(InitializedDeclaration ast, Object o) {
-        return null;
+        return(createBinary("Initialized Declaration", ast.I, ast.E));
     }
     // </editor-fold>
     

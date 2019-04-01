@@ -561,14 +561,12 @@ public class Parser {
 
     ProcFuncs pfAST1 = parseProcFunc();
 
-    finish(pfPos);
-    //pfAST1 = new SimpleProcFuncs(pfAST1, pfPos);
-    while (currentToken.kind == Token.PIPE) {
-      acceptIt();
+    do {
+      accept(Token.PIPE);
       ProcFuncs pfAST2 = parseProcFunc();
       finish(pfPos);
       pfAST1 = new SequentialProcFuncs(pfAST1, pfAST2, pfPos);
-    }
+    } while (currentToken.kind == Token.PIPE);
     procFuncsAST = pfAST1;
     return procFuncsAST;
   }
@@ -888,8 +886,9 @@ public class Parser {
           accept(Token.PIPE);
           Declaration dAst2 = parseSingleDeclaration();
           finish(declarationPos);
-          declarationAST = new SequentialDeclaration(declarationAST, dAst2, declarationPos);
+          declarationAST = new ParDeclaration(declarationAST, dAst2, declarationPos);
         } while (currentToken.kind == Token.PIPE );
+        accept(Token.END);
       }
         break;
       default:

@@ -11,6 +11,6 @@ public class InitializedDeclaration extends Declaration {
 
 	public Object visit(Visitor v, Object o) { return v.visitInitializedDeclaration(this, o); }
 
-	Identifier I;
-	Expression E;
+	public Identifier I;
+	public Expression E;
 }

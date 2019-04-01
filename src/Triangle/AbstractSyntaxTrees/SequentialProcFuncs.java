@@ -12,6 +12,6 @@ public class SequentialProcFuncs extends ProcFuncs {
 	public Object visit(Visitor v, Object o) {
 		return v.visitSequentialProcFuncs(this, o);
 	}
-	ProcFuncs R1;
-	ProcFuncs R2;
+	public ProcFuncs R1;
+	public ProcFuncs R2;
 }
