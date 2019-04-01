@@ -1,0 +1,19 @@
+let
+  par var i: Integer | var j:== i | var H: Integer end 
+in
+  
+  let
+    private var j: Integer in var k: Integer end
+  in
+    pass 
+  end;
+
+  let
+    recursive
+      proc recursiveProc1() ~ pass end
+      | proc recursiveProc2() ~ pass end
+    end
+  in
+    pass
+  end
+end
