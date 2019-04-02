@@ -88,7 +88,9 @@ public class Parser {
     try {
       //Pafckages here
       if (currentToken.kind == Token.PACKAGE){
-        Package pAST = parsePackageDeclaration();
+        do {
+          Package pAST = parsePackageDeclaration();
+        } while (currentToken.kind == Token.COLON);
       } else {
         Command cAST = parseCommand();
         programAST = new Program(cAST, previousTokenPosition);
@@ -115,10 +117,14 @@ public class Parser {
     SourcePosition packagePos = new SourcePosition();
     start(packagePos);
 
-    acceptIt();
+    acceptIt(); //Accept token
+    Package pAST = parsePackageIdentifier();
+    accept(Token.IS);
+    Declaration dAST = parseDeclaration();
 
+    finish(packagePos);
 
-    return null;
+    return packagesAST;
   }
 
   Package parsePackageIdentifier() throws SyntaxError {
@@ -140,6 +146,13 @@ public class Parser {
 
     SourcePosition packagePos = new SourcePosition();
     start(packagePos);
+
+    if (currentToken.kind == Token.IDENTIFIER) {
+      parseIdentifier();
+      accept(Token.DOLLAR);
+      parseIdentifier();
+    }
+
 
     try{
       Package pAST = parsePackageIdentifier();
