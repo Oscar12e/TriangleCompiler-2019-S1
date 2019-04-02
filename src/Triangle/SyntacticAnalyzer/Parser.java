@@ -91,6 +91,7 @@ public class Parser {
         do {
           Package pAST = parsePackageDeclaration();
         } while (currentToken.kind == Token.COLON);
+
       } else {
         Command cAST = parseCommand();
         programAST = new Program(cAST, previousTokenPosition);
@@ -141,24 +142,34 @@ public class Parser {
     return packagesAST;
   }
 
+  Package parsePackageIdentifier(Identifier iAST) {
+    Package packagesAST = null;
+
+    SourcePosition packagePos = iAST.position;
+
+    finish(packagePos);
+
+    packagesAST = new PackageIdentifier(iAST, packagePos);
+    return packagesAST;
+  }
+
   Package parseLongIdentifier() throws SyntaxError {
     Package packagesAST = null;
 
     SourcePosition packagePos = new SourcePosition();
     start(packagePos);
 
-    if (currentToken.kind == Token.IDENTIFIER) {
-      parseIdentifier();
-      accept(Token.DOLLAR);
-      parseIdentifier();
-    }
+    Identifier iAST = parseIdentifier();
 
-
-    try{
-      Package pAST = parsePackageIdentifier();
-      accept(Token.DOLLAR);
-    } catch (SyntaxError E) {
-      Identifier iAST = parseIdentifier();
+    if (currentToken.kind == Token.DOLLAR) {
+      acceptIt();
+      Package pAST = parsePackageIdentifier(iAST);
+      Identifier iAST2 = parseIdentifier();
+      finish(packagePos);
+      //Modifies
+    } else {
+      //Modifies
+      finish(packagePos);
     }
 
 
