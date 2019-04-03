@@ -86,16 +86,28 @@ public class Parser {
     currentToken = lexicalAnalyser.scan();
 
     try {
-      //Pafckages here
+      //Packages here
       if (currentToken.kind == Token.PACKAGE){
-        do {
-          Package pAST = parsePackageDeclaration();
-        } while (currentToken.kind == Token.COLON);
+        Package pAST = null;
+        SourcePosition packPos = new SourcePosition();
+        start(packPos);
+        pAST = parsePackageDeclaration();
 
-      } else {
+        while (currentToken.kind == Token.SEMICOLON){
+          acceptIt();
+          Package pAST2 = parsePackageDeclaration();
+          finish(packPos);
+          pAST = new SequentialPackageDeclaration(pAST, pAST2, packPos);
+        }
+
+        Command cAST = parseCommand();
+        programAST = new PackagedProgram(pAST, cAST, previousTokenPosition);
+      }
+      else {
         Command cAST = parseCommand();
         programAST = new Program(cAST, previousTokenPosition);
       }
+
       if (currentToken.kind != Token.EOT) {
         syntacticError("\"%\" not expected after end of program",
           currentToken.spelling);
@@ -122,9 +134,10 @@ public class Parser {
     Package pAST = parsePackageIdentifier();
     accept(Token.IS);
     Declaration dAST = parseDeclaration();
-
+    accept(Token.END);
     finish(packagePos);
 
+    packagesAST = new PackageDeclaration(pAST,dAST,packagePos);
     return packagesAST;
   }
 
@@ -153,8 +166,8 @@ public class Parser {
     return packagesAST;
   }
 
-  Package parseLongIdentifier() throws SyntaxError {
-    Package packagesAST = null;
+  Identifier parseLongIdentifier() throws SyntaxError {
+    Identifier lAST = null;
 
     SourcePosition packagePos = new SourcePosition();
     start(packagePos);
@@ -166,14 +179,15 @@ public class Parser {
       Package pAST = parsePackageIdentifier(iAST);
       Identifier iAST2 = parseIdentifier();
       finish(packagePos);
+      lAST = new LongIdentifier(pAST, iAST2, packagePos);
       //Modifies
     } else {
-      //Modifies
       finish(packagePos);
+      lAST = iAST;
     }
 
 
-    return null;
+    return lAST;
   }
 
 
@@ -1233,7 +1247,7 @@ public class Parser {
 
     case Token.IDENTIFIER:
       {
-        Identifier iAST = parseIdentifier();
+        Identifier iAST = parseLongIdentifier();
         finish(typePos);
         typeAST = new SimpleTypeDenoter(iAST, typePos);
       }

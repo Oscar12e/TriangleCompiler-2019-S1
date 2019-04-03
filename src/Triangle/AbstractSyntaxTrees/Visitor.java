@@ -17,10 +17,9 @@ package Triangle.AbstractSyntaxTrees;
 public interface Visitor {
 
   // Packages
-  public abstract Object visitSequentialPackages(SequentialPackages ast, Object o);
+  public abstract Object visitPackageDeclaration(PackageDeclaration ast, Object o);
+  public abstract Object visitSequentialPackageDeclaration(SequentialPackageDeclaration ast, Object o);
   public abstract Object visitPackageIdentifier(PackageIdentifier ast, Object o);
-  //public abstract Object visitAssignCommand(AssignCommand ast, Object o);
-
 
   // Commands
   public abstract Object visitAssignCommand(AssignCommand ast, Object o);
@@ -138,5 +137,6 @@ public interface Visitor {
 
   // Programs
   public abstract Object visitProgram(Program ast, Object o);
+  public abstract Object visitPackagedProgram(PackagedProgram ast, Object o);
 
 }

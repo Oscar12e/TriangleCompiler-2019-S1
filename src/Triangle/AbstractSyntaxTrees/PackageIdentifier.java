@@ -10,5 +10,5 @@ public class PackageIdentifier extends Package {
 
 	public Object visit(Visitor v, Object o) { return v.visitPackageIdentifier(this, o); }
 
-	Identifier I;
+	public Identifier I;
 }

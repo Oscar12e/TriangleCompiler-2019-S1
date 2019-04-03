@@ -30,7 +30,12 @@ public class TableVisitor implements Visitor {
     }
 
   @Override
-  public Object visitSequentialPackages(SequentialPackages ast, Object o) {
+  public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialPackageDeclaration(SequentialPackageDeclaration ast, Object o) {
     return null;
   }
 
@@ -674,13 +679,19 @@ public class TableVisitor implements Visitor {
 
   // <editor-fold defaultstate="collapsed" desc=" Table Creation Methods ">
   // Programs
-  public Object visitProgram(Program ast, Object o) { 
+  public Object visitProgram(Program ast, Object o) {
       ast.C.visit(this, null);
       
       return(null);
   }
-  
-    /**
+
+  public Object visitPackagedProgram(PackagedProgram ast, Object o) {
+    ast.P.visit(this, null);
+    ast.C.visit(this, null);
+    return null;
+  }
+
+  /**
      * Adds an identifier to the table.
      */
     private void addIdentifier(String name, String type, int size, int level, int displacement, int value) {
@@ -706,8 +717,8 @@ public class TableVisitor implements Visitor {
      */
     public DefaultTableModel getTable(Program ast) {
         model = new DefaultTableModel((new String[] {"Name", "Type", "Size", "Level", "Displacement", "Value"}), 0);
-        visitProgram(ast, null);
-        
+        //visitProgram(ast, null);
+        ast.visit(this, null);
         return(model);
     }
     

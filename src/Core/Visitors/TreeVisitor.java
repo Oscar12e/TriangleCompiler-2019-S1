@@ -7,6 +7,7 @@ package Core.Visitors;
 import Triangle.AbstractSyntaxTrees.*;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import java.lang.Package;
 
 /**
  * Implements the Triangle Visitor interface, which is used to
@@ -25,13 +26,18 @@ public class TreeVisitor implements Visitor {
     }
 
     @Override
-    public Object visitSequentialPackages(SequentialPackages ast, Object o) {
-        return null;
+    public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
+        return createBinary("Package Declaration", ast.P, ast.D);
+    }
+
+    @Override
+    public Object visitSequentialPackageDeclaration(SequentialPackageDeclaration ast, Object o) {
+        return  createBinary("Sequential Package Declaration", ast.P1, ast.P2);
     }
 
     @Override
     public Object visitPackageIdentifier(PackageIdentifier ast, Object o) {
-        return null;
+        return createUnary("Package Identifier", ast.I);
     }
 
     // <editor-fold defaultstate="collapsed" desc=" Commands ">
@@ -399,10 +405,7 @@ public class TreeVisitor implements Visitor {
         return(createNullary(ast.spelling));
     }
 
-    @Override
-    public Object visitLongIdentifier(LongIdentifier ast, Object o) {
-        return null;
-    }
+    public Object visitLongIdentifier(LongIdentifier ast, Object o) { return createBinary("Long Identifier", ast.P, ast.I); }
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc=" Values or Variable Names ">
@@ -418,10 +421,25 @@ public class TreeVisitor implements Visitor {
     public Object visitSubscriptVname(SubscriptVname ast, Object obj) {
         return(createBinary("Subscript Vname", ast.V, ast.E));
     }
+
+    // <editor-fold defaultstate="collapsed" desc=" Tree and Programs ">
+    // Programs
+
+    public Object visitProgramTree (Program ast, Object obj) {
+        if (ast instanceof PackagedProgram) {
+            PackagedProgram ast2 = (PackagedProgram) ast;
+            return visitPackagedProgram(ast2, null);
+        }
+        return (visitProgram(ast, null));
+    }
     
     public Object visitProgram(Program ast, Object obj) {
-        return(createUnary("Program", ast.C));
+        return (createUnary("Program", ast.C));
     }
+
+
+    public Object visitPackagedProgram(PackagedProgram ast, Object o) {
+        return (createBinary("Packaged program", ast.P, ast.C)); }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc=" Tree Creation Methods ">

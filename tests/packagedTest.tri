@@ -1,0 +1,12 @@
+package Yo ~ var I :== 5 end;
+package Yo3 ~ var G :== 9 end
+let
+  var i: Integer;
+  var j: Integer
+in
+  i:=5;
+  j:=7;
+  loop for i from j to j
+   do pass
+  end
+end

@@ -30,7 +30,12 @@ public class LayoutVisitor implements Visitor {
   }
 
   @Override
-  public Object visitSequentialPackages(SequentialPackages ast, Object o) {
+  public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialPackageDeclaration(SequentialPackageDeclaration ast, Object o) {
     return null;
   }
 
@@ -427,6 +432,9 @@ public class LayoutVisitor implements Visitor {
   public Object visitProgram(Program ast, Object obj) {
     return layoutUnary("Program", ast.C);
   }
+
+  @Override
+  public Object visitPackagedProgram(PackagedProgram ast, Object o) { return layoutBinary("Packaged Program", ast.P, ast.C); }
 
   private DrawingTree layoutCaption (String name) {
     int w = fontMetrics.stringWidth(name) + 4;

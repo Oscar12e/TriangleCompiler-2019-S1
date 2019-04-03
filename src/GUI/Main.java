@@ -22,15 +22,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import javax.swing.ImageIcon;
-import java.awt.Image;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import Triangle.IDECompiler;
 import Core.ExampleFileFilter;
@@ -617,7 +614,8 @@ public class Main extends javax.swing.JFrame {
             if (compiler.compileProgram(desktopPane.getSelectedFrame().getTitle())) {           
                 output.setDelegate(delegateTAMCode);
                 //disassembler.Disassemble(desktopPane.getSelectedFrame().getTitle().replace(".tri", ".tam"));
-                ((FileFrame)desktopPane.getSelectedFrame()).setTree((DefaultMutableTreeNode)treeVisitor.visitProgram(compiler.getAST(), null));
+
+                ((FileFrame)desktopPane.getSelectedFrame()).setTree((DefaultMutableTreeNode)treeVisitor.visitProgramTree(compiler.getAST(), null));
                 //((FileFrame)desktopPane.getSelectedFrame()).setTable(tableVisitor.getTable(compiler.getAST()));
                 
                 runMenuItem.setEnabled(false);

@@ -29,7 +29,12 @@ public final class Encoder implements Visitor {
 
 
   @Override
-  public Object visitSequentialPackages(SequentialPackages ast, Object o) {
+  public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialPackageDeclaration(SequentialPackageDeclaration ast, Object o) {
     return null;
   }
 
@@ -777,6 +782,11 @@ public final class Encoder implements Visitor {
   // Programs
   public Object visitProgram(Program ast, Object o) {
     return ast.C.visit(this, o);
+  }
+
+  @Override
+  public Object visitPackagedProgram(PackagedProgram ast, Object o) {
+    return null;
   }
 
   public Encoder (ErrorReporter reporter) {

@@ -26,12 +26,22 @@ public final class Checker implements Visitor {
   // Always returns null. Does not use the given object.
 
   @Override
-  public Object visitSequentialPackages(SequentialPackages ast, Object o) {
+  public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
+    ast.P.visit(this, null);
+    ast.D.visit(this, null);
+    return null;
+  }
+
+  @Override
+  public Object visitSequentialPackageDeclaration(SequentialPackageDeclaration ast, Object o) {
+    ast.P1.visit(this, null);
+    ast.P2.visit(this, null);
     return null;
   }
 
   @Override
   public Object visitPackageIdentifier(PackageIdentifier ast, Object o) {
+    ast.I.visit(this, null);
     return null;
   }
 
@@ -41,7 +51,7 @@ public final class Checker implements Visitor {
     if (!ast.V.variable)
       reporter.reportError ("LHS of assignment is not a variable", "", ast.V.position);
     if (! eType.equals(vType))
-      reporter.reportError ("assignment incompatibilty", "", ast.position);
+      reporter.reportError ("assignment incompatibility", "", ast.position);
     return null;
   }
 
@@ -828,9 +838,22 @@ public final class Checker implements Visitor {
     return ast.type;
   }
 
+  @Override
+  public Object visitProgram(Program ast, Object o) {
+    ast.C.visit(this, null);
+    return null;
+  }
+
   // Programs
 
-  public Object visitProgram(Program ast, Object o) {
+  public Object visitSimpleProgram(Program ast, Object o) {
+    //ast.C.visit(this, null);
+    return null;
+  }
+
+  @Override
+  public Object visitPackagedProgram(PackagedProgram ast, Object o) {
+    ast.P.visit(this, null);
     ast.C.visit(this, null);
     return null;
   }

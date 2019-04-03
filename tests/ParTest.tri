@@ -11,7 +11,8 @@ in
   let
     recursive
       proc recursiveProc1() ~ pass end
-      | proc recursiveProc2() ~ pass end
+      | func recursiveFun() : a ~ j
+      | func recursiveFun2() : r$a ~ j
     end
   in
     pass
