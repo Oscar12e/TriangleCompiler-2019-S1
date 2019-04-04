@@ -304,7 +304,7 @@ public class Parser {
 
       case Token.IDENTIFIER:
         {
-          Identifier iAST = parseIdentifier();
+          Identifier iAST = parseLongIdentifier();
           if (currentToken.kind == Token.LPAREN) {
             acceptIt();
             ActualParameterSequence apsAST = parseActualParameterSequence();
@@ -314,7 +314,7 @@ public class Parser {
 
           } else {
 
-            Vname vAST = parseRestOfVname(iAST);
+            Vname vAST = parseRestOfVarName(iAST);
             accept(Token.BECOMES);
             Expression eAST = parseExpression();
             finish(commandPos);
@@ -759,7 +759,7 @@ public class Parser {
           expressionAST = new CallExpression(iAST, apsAST, expressionPos);
 
         } else {
-          Vname vAST = parseRestOfVname(iAST);
+          Vname vAST = parseRestOfVarName(iAST);
           finish(expressionPos);
           expressionAST = new VnameExpression(vAST, expressionPos);
         }
@@ -837,14 +837,15 @@ public class Parser {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-  Vname parseVname () throws SyntaxError {
+
+  Vname parseVarName () throws SyntaxError {
     Vname vnameAST = null; // in case there's a syntactic error
     Identifier iAST = parseIdentifier();
-    vnameAST = parseRestOfVname(iAST);
+    vnameAST = parseRestOfVarName(iAST);
     return vnameAST;
   }
 
-  Vname parseRestOfVname(Identifier identifierAST) throws SyntaxError {
+  Vname parseRestOfVarName(Identifier identifierAST) throws SyntaxError {
     SourcePosition vnamePos = new SourcePosition();
     vnamePos = identifierAST.position;
     Vname vAST = new SimpleVname(identifierAST, vnamePos);
@@ -1198,7 +1199,7 @@ public class Parser {
     case Token.VAR:
       {
         acceptIt();
-        Vname vAST = parseVname();
+        Vname vAST = parseVarName();
         finish(actualPos);
         actualAST = new VarActualParameter(vAST, actualPos);
       }
