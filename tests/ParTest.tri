@@ -1,5 +1,5 @@
 let
-  par var i: Integer | var j:== i | var H: Integer end 
+  par var i: Integer | var j::= i | var H: Integer end 
 in
   
   let

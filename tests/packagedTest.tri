@@ -1,5 +1,5 @@
-package Yo ~ var I :== 5 end;
-package Yo3 ~ var G :== 9 end
+package Yo ~ var I ::= 5 end;
+package Yo3 ~ var G ::= 9 end
 let
   var i: Integer;
   var j: Integer

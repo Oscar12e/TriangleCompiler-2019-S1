@@ -1,4 +1,3 @@
-begin
 Command :=
 if 1 < 5 then
     skip

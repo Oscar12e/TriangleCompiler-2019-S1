@@ -143,13 +143,16 @@ public final class Scanner {
       takeIt();
       if (currentChar == '=') {
         takeIt();
+        return Token.BECOMES;
+      } else if (currentChar == ':') {
+        takeIt();
         if (currentChar == '=') {
           takeIt();
           return Token.INITIALIZE;
-        } else
-        return Token.BECOMES;
+        }
       } else
-        return Token.COLON;
+          return Token.COLON;
+
 
     case ';':
       takeIt();
