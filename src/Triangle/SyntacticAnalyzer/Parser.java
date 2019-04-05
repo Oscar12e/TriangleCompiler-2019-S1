@@ -477,26 +477,29 @@ public class Parser {
 //
 ///////////////////////////////////////////////////////////////////////////////
   Cases parseCases() throws SyntaxError {
-    Cases sequentialCasesAct = null;
+    Cases seqCasesAST = null;
     SourcePosition casesPos = new SourcePosition();
 
     start (casesPos);
-    do {
-      accept(Token.WHEN);
+    accept(Token.WHEN);
+    seqCasesAST = parseCase();
+
+    while (currentToken.kind == Token.WHEN){
+      acceptIt();
       Cases caseAST = parseCase();
       finish(casesPos);
+      seqCasesAST =  new SequentialCases(seqCasesAST, caseAST, casesPos);
+    }
 
-      sequentialCasesAct = (sequentialCasesAct == null) ? caseAST : new SequentialCases(sequentialCasesAct, caseAST, casesPos);
-    } while (currentToken.kind == Token.WHEN);
 
     if (currentToken.kind == Token.ELSE){
       acceptIt();
       Cases elseAst = parseElseCase();
       finish(casesPos);
-      sequentialCasesAct = new SequentialCases(sequentialCasesAct, elseAst, casesPos);
+      seqCasesAST = new SequentialCases(seqCasesAST, elseAst, casesPos);
     }
 
-    return sequentialCasesAct;
+    return seqCasesAST;
   }
 
   Cases parseCase() throws SyntaxError {

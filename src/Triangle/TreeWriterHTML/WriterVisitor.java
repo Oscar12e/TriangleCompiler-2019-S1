@@ -66,8 +66,8 @@ import Triangle.AbstractSyntaxTrees.WhileCommand;
 
 import java.io.FileWriter;
 import java.io.IOException;
-/*
-public class WriterVisitor implements Visitor {
+
+public abstract class WriterVisitor implements Visitor {
 
 	private FileWriter fileWriter;
 
@@ -575,7 +575,6 @@ public class WriterVisitor implements Visitor {
 	 * Convert the characters "<" & "<=" to their equivalents in html
 	 */
 
-/*
 	private String transformOperator(String operator) {
 		if (operator.compareTo("<") == 0)
 			return "&lt;";
@@ -585,4 +584,4 @@ public class WriterVisitor implements Visitor {
 			return operator;
 	}
 
-}*/
+}
