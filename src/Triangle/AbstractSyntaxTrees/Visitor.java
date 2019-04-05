@@ -42,7 +42,7 @@ public interface Visitor {
   public abstract Object visitCase(Case ast, Object o);
   public abstract Object visitElseCase(ElseCase ast, Object o);
   public abstract Object visitSequentialCases(SequentialCases ast, Object o);
-  public abstract Object visitSimpleCaseLiterals(SimpleCaseLiterals ast, Object o);
+  public abstract Object visitCaseLiterals(CaseLiterals ast, Object o);
   public abstract Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o);
   public abstract Object visitSimpleCaseRange(SimpleCaseRange ast, Object o);
   public abstract Object visitCompleteCaseRange(CompleteCaseRange ast, Object o);

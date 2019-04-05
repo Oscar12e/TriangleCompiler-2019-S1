@@ -163,7 +163,7 @@ public class TableVisitor implements Visitor {
   }
 
   @Override
-  public Object visitSimpleCaseLiterals(SimpleCaseLiterals ast, Object o) {
+  public Object visitCaseLiterals(CaseLiterals ast, Object o) {
     ast.R.visit(this, null);
     return null;
   }

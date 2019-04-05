@@ -121,7 +121,7 @@ public class TreeVisitor implements Visitor {
     }
 
     @Override
-    public Object visitSimpleCaseLiterals(SimpleCaseLiterals ast, Object o) {
+    public Object visitCaseLiterals(CaseLiterals ast, Object o) {
         return(createUnary("Case Literals", ast.R));
     }
 

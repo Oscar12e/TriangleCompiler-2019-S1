@@ -159,7 +159,7 @@ public final class Encoder implements Visitor {
   }
 
   @Override
-  public Object visitSimpleCaseLiterals(SimpleCaseLiterals ast, Object o) {
+  public Object visitCaseLiterals(CaseLiterals ast, Object o) {
     return null;
   }
 

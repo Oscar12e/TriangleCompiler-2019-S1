@@ -507,7 +507,7 @@ public class Parser {
     SourcePosition casePos = new SourcePosition();
 
     start (casePos);
-    CaseLiterals literalsAST = parseCaseLiterals();
+    Cases literalsAST = parseCaseLiterals();
     accept(Token.THEN);
 
     Command cAST = parseCommand();
@@ -530,8 +530,8 @@ public class Parser {
     return elseCaseAST;
   }
 
-  CaseLiterals parseCaseLiterals() throws SyntaxError {
-    CaseLiterals caseAST = null; // in case there's a syntactic error
+  Cases parseCaseLiterals() throws SyntaxError {
+    Cases caseAST = null; // in case there's a syntactic error
 
     SourcePosition casePos = new SourcePosition();
     start(casePos);
@@ -539,12 +539,13 @@ public class Parser {
     CaseRange cAST = parseCaseRange();
 
     finish(casePos);
-    caseAST = new SimpleCaseLiterals(cAST, casePos);
+    caseAST = new CaseLiterals(cAST, casePos);
     while (currentToken.kind == Token.PIPE){
       acceptIt();
       cAST = parseCaseRange();
+      Cases cAST2 = new CaseLiterals(cAST, casePos);
       finish(casePos);
-      caseAST = new SequentialCaseLiterals(caseAST, new SimpleCaseLiterals(cAST, casePos), casePos);
+      caseAST = new SequentialCaseLiterals(caseAST, cAST2, casePos);
     }
 
     return caseAST;
