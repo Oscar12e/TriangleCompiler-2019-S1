@@ -757,6 +757,15 @@ public final class Checker implements Visitor {
 
   @Override
   public Object visitLongIdentifier(LongIdentifier ast, Object o) {
+    ast.P.visit(this, null);
+    ast.I.visit(this, null);
+    return null;
+  }
+
+  @Override
+  public Object visitLongVName(LongVname ast, Object o) {
+    ast.P.visit(this, null);
+    ast.V.visit(this, null);
     return null;
   }
 

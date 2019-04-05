@@ -731,6 +731,11 @@ public final class Encoder implements Visitor {
     return null;
   }
 
+  @Override
+  public Object visitLongVName(LongVname ast, Object o) {
+    return null;
+  }
+
 
   // Value-or-variable names
   public Object visitDotVname(DotVname ast, Object o) {

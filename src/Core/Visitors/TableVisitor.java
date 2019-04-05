@@ -652,6 +652,13 @@ public class TableVisitor implements Visitor {
   public Object visitLongIdentifier(LongIdentifier ast, Object o) {
     return null;
   }
+
+  @Override
+  public Object visitLongVName(LongVname ast, Object o) {
+    ast.P.visit(this, null);
+    ast.V.visit(this, null);
+    return null;
+  }
   // </editor-fold>
 
   // <editor-fold defaultstate="collapsed" desc=" Values or Variable Names ">

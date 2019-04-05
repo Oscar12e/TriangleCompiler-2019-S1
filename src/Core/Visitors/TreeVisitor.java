@@ -406,10 +406,13 @@ public class TreeVisitor implements Visitor {
     }
 
     public Object visitLongIdentifier(LongIdentifier ast, Object o) { return createBinary("Long Identifier", ast.P, ast.I); }
+
     // </editor-fold>
-    
+
     // <editor-fold defaultstate="collapsed" desc=" Values or Variable Names ">
     // Values or Variable Names
+    public Object visitLongVName(LongVname ast, Object o) { return createBinary("Long Vname", ast.P, ast.V); }
+
     public Object visitDotVname(DotVname ast, Object obj) {
         return(createBinary("Dot Vname", ast.I, ast.V));
     }

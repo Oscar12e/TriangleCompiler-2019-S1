@@ -837,6 +837,29 @@ public class Parser {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+  Vname parseVname() throws SyntaxError {
+    Vname vnameAST = null; // in case there's a syntactic error
+
+    SourcePosition vnamePos = new SourcePosition();
+    start(vnamePos);
+
+    Identifier iAST = parseIdentifier();
+
+    if (currentToken.kind == Token.DOLLAR) {
+      acceptIt();
+      Package pAST = parsePackageIdentifier(iAST);
+      Vname varNameAST = parseVarName();
+      finish(vnamePos);
+      vnameAST = new LongVname(pAST, varNameAST, vnamePos);
+    } else {
+      finish(vnamePos);
+      vnameAST = parseRestOfVarName(iAST);
+    }
+
+
+
+    return vnameAST;
+  }
 
   Vname parseVarName () throws SyntaxError {
     Vname vnameAST = null; // in case there's a syntactic error
@@ -1199,7 +1222,7 @@ public class Parser {
     case Token.VAR:
       {
         acceptIt();
-        Vname vAST = parseVarName();
+        Vname vAST = parseVname();
         finish(actualPos);
         actualAST = new VarActualParameter(vAST, actualPos);
       }
