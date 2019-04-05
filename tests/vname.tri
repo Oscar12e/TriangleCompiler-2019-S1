@@ -1,0 +1,7 @@
+package testPackage ~ var i :== 5; var j:==10 end
+
+let
+  proc singleProc(var pNum: Integer, var pBusq: Integer) ~ pass end
+in 
+  singleProc(var testPackage$i, var testPackage$j)
+end
