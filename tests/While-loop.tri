@@ -4,8 +4,21 @@ let
 in
   i:=5;
   j:=7;
-  loop for i from j to j
-   do pass
+  loop
+    for i from j to j do
+      pass
+  end;
+
+  loop
+    for i from I to j
+      while i do
+        pass
+  end;
+
+  loop
+    for i from I to j
+      until i do
+        pass
   end
 end
   

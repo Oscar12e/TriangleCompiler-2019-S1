@@ -72,6 +72,7 @@ public interface Visitor {
   public abstract Object visitUnaryOperatorDeclaration(UnaryOperatorDeclaration ast, Object o);
   public abstract Object visitVarDeclaration(VarDeclaration ast, Object o);
   //Added for project
+  public abstract Object visitForDeclaration(ForDeclaration ast, Object o);
   public abstract Object visitPrivateDeclaration(PrivateDeclaration ast, Object o);
   public abstract Object visitParDeclaration(ParDeclaration ast, Object o);
   public abstract Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o);
@@ -79,7 +80,6 @@ public interface Visitor {
   public abstract Object visitRecursiveFunc(RecursiveFunc ast, Object o);
   public abstract Object visitRecursiveProc(RecursiveProc ast, Object o);
   public abstract Object visitInitializedDeclaration(InitializedDeclaration ast, Object o);
-
 
 
   // Array Aggregates

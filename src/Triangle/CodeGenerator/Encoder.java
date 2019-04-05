@@ -381,6 +381,11 @@ public final class Encoder implements Visitor {
   }
 
   @Override
+  public Object visitForDeclaration(ForDeclaration ast, Object o) {
+    return null;
+  }
+
+  @Override
   public Object visitPrivateDeclaration(PrivateDeclaration ast, Object o) {
     return null;
   }

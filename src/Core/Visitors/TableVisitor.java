@@ -116,27 +116,21 @@ public class TableVisitor implements Visitor {
 
   @Override
   public Object visitForCommand(ForCommand ast, Object o) {
-	  ast.I.visit(this, null);
-	  ast.E1.visit(this, null);
-	  ast.E2.visit(this, null);
+	  ast.F.visit(this, null);
 	  ast.C.visit(this, null);
     return null;
   }
 
   @Override
   public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
-	  ast.I.visit(this, null);
-	  ast.E1.visit(this, null);
-	  ast.E2.visit(this, null);
+	  ast.F.visit(this, null);
 	  ast.W.visit(this, null);
     return null;
   }
 
   @Override
   public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
-	  ast.I.visit(this, null);
-	  ast.E1.visit(this, null);
-	  ast.E2.visit(this, null);
+	  ast.F.visit(this, null);
 	  ast.U.visit(this, null);
     return null;
   }
@@ -366,6 +360,14 @@ public class TableVisitor implements Visitor {
       
       ast.T.visit(this, null);
       return(null);
+  }
+
+  @Override
+  public Object visitForDeclaration(ForDeclaration ast, Object o) {
+    ast.I.visit(this, null);
+    ast.E1.visit(this, null);
+    ast.E2.visit(this, null);
+    return null;
   }
 
   @Override

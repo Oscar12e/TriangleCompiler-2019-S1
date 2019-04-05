@@ -406,11 +406,7 @@ public class Parser {
 
           case Token.FOR: {
             acceptIt();
-            Identifier iAST = parseIdentifier();
-            accept(Token.FROM);
-            Expression eAST1 = parseExpression();
-            accept(Token.TO);
-            Expression eAST2 = parseExpression();
+            ForDeclaration fAST = parseForDeclaration();
 
             switch (currentToken.kind) {
               case Token.DO:{
@@ -418,7 +414,7 @@ public class Parser {
                 Command cAST = parseCommand();
                 accept(Token.END);
                 finish(commandPos);
-                commandAST = new ForCommand(iAST, eAST1, eAST2, cAST, commandPos);
+                commandAST = new ForCommand(fAST, cAST, commandPos);
               }
               break;
 
@@ -433,8 +429,8 @@ public class Parser {
                 accept(Token.END);
                 finish(commandPos);
                 commandAST = (isWhileCommand ?
-                        new ForWhileCommand(iAST, eAST1, eAST2, new WhileCommand(eAST3, cAST, commandPos), commandPos) :
-                        new ForUntilCommand(iAST, eAST1, eAST2, new UntilCommand(eAST3, cAST, commandPos), commandPos));
+                        new ForWhileCommand(fAST, new WhileCommand(eAST3, cAST, commandPos), commandPos) :
+                        new ForUntilCommand(fAST, new UntilCommand(eAST3, cAST, commandPos), commandPos));
               }
               break;
 
@@ -896,6 +892,20 @@ public class Parser {
 // DECLARATIONS
 //
 ///////////////////////////////////////////////////////////////////////////////
+
+  ForDeclaration parseForDeclaration() throws SyntaxError {
+    ForDeclaration declarationAST = null; // in case there's a syntactic error
+    SourcePosition declarationPos = new SourcePosition();
+    start(declarationPos);
+    Identifier iAST = parseIdentifier();
+    accept(Token.FROM);
+    Expression eAST1 = parseExpression();
+    accept(Token.TO);
+    Expression eAST2 = parseExpression();
+    declarationAST = new ForDeclaration(iAST, eAST1, eAST2, declarationPos);
+    finish(declarationPos);
+    return declarationAST;
+  }
 
   Declaration parseDeclaration() throws SyntaxError {
     Declaration declarationAST = null; // in case there's a syntactic error

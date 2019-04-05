@@ -90,7 +90,7 @@ public class LayoutVisitor implements Visitor {
 
   @Override
   public Object visitForCommand(ForCommand ast, Object o) {
-    return layoutQuaternary("DOUntilCom.", ast.I, ast.E1, ast.E2, ast.C);
+    return layoutBinary("ForCom.", ast.F, ast.C);
   }
 
   @Override
@@ -227,6 +227,11 @@ public class LayoutVisitor implements Visitor {
 
   public Object visitVarDeclaration(VarDeclaration ast, Object obj) {
     return layoutBinary("VarDecl.", ast.I, ast.T);
+  }
+
+  @Override
+  public Object visitForDeclaration(ForDeclaration ast, Object o) {
+    return layoutTernary("For.Decl.", ast.I, ast.E1, ast.E2);
   }
 
   @Override

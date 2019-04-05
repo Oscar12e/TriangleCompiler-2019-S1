@@ -87,18 +87,17 @@ public class TreeVisitor implements Visitor {
 
     @Override
     public Object visitForCommand(ForCommand ast, Object o) {
-        return(createQuaternary("For Command", ast.I, ast.E1, ast.E2, ast.C));
+        return(createBinary("For Command", ast.F, ast.C));
     }
 
     @Override
     public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
-        //return(createQuaternary("For-While Command", ast.I, ast.E1, ast.E2, ast.W));
-        return null;
+        return(createBinary("For-While Command", ast.F, ast.W));
     }
 
     @Override
     public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
-        return(createQuaternary("For-Until Command", ast.I, ast.E1, ast.E2, ast.U));
+        return(createBinary("For-Until Command", ast.F, ast.U));
     }
 
     @Override
@@ -226,6 +225,11 @@ public class TreeVisitor implements Visitor {
     
     public Object visitVarDeclaration(VarDeclaration ast, Object obj) {
         return(createBinary("Variable Declaration", ast.I, ast.T));
+    }
+
+    @Override
+    public Object visitForDeclaration(ForDeclaration ast, Object o) {
+        return (createTernary("For Declaration", ast.I, ast.E1, ast.E2));
     }
 
     @Override
@@ -424,6 +428,7 @@ public class TreeVisitor implements Visitor {
     public Object visitSubscriptVname(SubscriptVname ast, Object obj) {
         return(createBinary("Subscript Vname", ast.V, ast.E));
     }
+    // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc=" Tree and Programs ">
     // Programs

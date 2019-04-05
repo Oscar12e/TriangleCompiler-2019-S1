@@ -179,6 +179,6 @@ final class Token extends Object {
   };
 
   private final static int	firstReservedWord = Token.ARRAY,
-  				lastReservedWord  = Token.WHEN;
+  				lastReservedWord  = Token.WHILE;
 
 }

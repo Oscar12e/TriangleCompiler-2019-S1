@@ -136,35 +136,21 @@ public final class Checker implements Visitor {
 
   @Override
   public Object visitForCommand(ForCommand ast, Object o) {
-    TypeDenoter iType = (TypeDenoter) ast.I.visit(this, null);
-    TypeDenoter e1Type = (TypeDenoter) ast.E1.visit(this, null);
-    TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
-    if (! iType.equals(e1Type.equals(e2Type)))
-      reporter.reportError("Identifiers and expressions should be the same type", "", ast.E1.position);
+    ast.F.visit(this, null);
     ast.C.visit(this, null);
     return null;
   }
 
   @Override
   public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
-    TypeDenoter iType = (TypeDenoter) ast.I.visit(this, null);
-    TypeDenoter e1Type = (TypeDenoter) ast.E1.visit(this, null);
-    TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
-    if (! iType.equals(e1Type.equals(e2Type)))
-      reporter.reportError("Identifiers and expressions should be the same type", "", ast.E1.position);
-
+    ast.F.visit(this, null);
     ast.W.visit(this, null);
     return null;
   }
 
   @Override
   public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
-    TypeDenoter iType = (TypeDenoter) ast.I.visit(this, null);
-    TypeDenoter e1Type = (TypeDenoter) ast.E1.visit(this, null);
-    TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
-    if (! iType.equals(e1Type.equals(e2Type)))
-      reporter.reportError("Identifiers and expressions should be the same type", "", ast.E1.position);
-
+    ast.F.visit(this, null);
     ast.U.visit(this, null);
     return null;
   }
@@ -410,6 +396,14 @@ public final class Checker implements Visitor {
       reporter.reportError ("identifier \"%\" already declared",
                             ast.I.spelling, ast.position);
 
+    return null;
+  }
+
+  @Override
+  public Object visitForDeclaration(ForDeclaration ast, Object o) {
+    ast.I.visit(this, null);
+    ast.E1.visit(this, null);
+    ast.E2.visit(this, null);
     return null;
   }
 
