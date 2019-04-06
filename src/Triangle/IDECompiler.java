@@ -70,12 +70,13 @@ public class IDECompiler {
         }
 
         if (success) {
-            System.out.println("Compilation was successful. A winner is you.");
-            System.out.println("Generating " + sourceName + " html file");
+            System.out.println("Compilation was successful.");
+            System.out.println("Generating html file...");
             scanner.finishWriting();
+            System.out.println("Generating xml file...");
 
         } else
-            System.out.println("Compilation was unsuccessful dude. All your bases are belong to us.");
+            System.out.println("Compilation was unsuccessful. Check the error log to solve yhe issues.");
         
         return(success);
     }

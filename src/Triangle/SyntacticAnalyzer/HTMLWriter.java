@@ -8,31 +8,19 @@ import java.util.Queue;
 public class HTMLWriter {
 
 	private String fileName;
-	private String spaceBuffer;
 	private Queue<String> dataQueue;
 	private String lastTag;
-	private String CSS_CODE = "<style>div.code{\n" +
-					"\tfont-family : \"Courier New\", \"Lucida Console\";\n" +
-					"\tfont-size : 1em;\n" +
-					"}\n" +
-					"\n" +
-					"resword{\n" +
-					"\tfont-weight: bold;\n" +
-					"}\n" +
-					"\n" +
-					"literal{\n" +
-					"\tcolor: #11A8FF;\n" +
-					"}\n" +
-					"\n" +
-					"comment{\n" +
-					"\tcolor: #00A310;\n" +
-					"}/<style>";
+	private String CSS_CODE = "<style>" +
+					"div.code{ font-family : \"Courier New\", \"Lucida Console\"; font-size : 1em;}\n" +
+					"resword{font-weight: bold; }\n" +
+					"literal{color: #11A8FF;}\n" +
+					"comment{color: #00A310;}" +
+					"</style>";
 
 	public HTMLWriter(String fileName) {
 		this.fileName = fileName;
 		dataQueue = new LinkedList<>();
 		lastTag = "";
-		spaceBuffer = "";
 		writeHeader();
 	}
 
@@ -45,7 +33,10 @@ public class HTMLWriter {
 		this.dataQueue.add("<div class= \"code\">");
 	}
 
-	// Draw the AST representing a complete program.
+	public void closeTag(String pTag){
+		this.dataQueue.add( String.format("</%s>", pTag) );
+	}
+
 	public void writeSeparator(char pSeparator) {
 		String rawText;
 		switch (pSeparator){
@@ -65,11 +56,6 @@ public class HTMLWriter {
 				rawText = Character.toString(pSeparator);
 		}
 		this.dataQueue.add(rawText);
-	}
-
-
-	public void closeTag(String pTag){
-		this.dataQueue.add( String.format("</%s>", pTag) );
 	}
 
 	public void write(String pText, int pKind) {
@@ -108,7 +94,7 @@ public class HTMLWriter {
 
 		this.dataQueue.add("</div>");
 		this.dataQueue.add("</body>");
-		this.dataQueue.add("</<html>>");
+		this.dataQueue.add("</<html>");
 
 		try {
 			FileWriter fileWriter = new FileWriter(fileName);

@@ -751,7 +751,7 @@ public class Parser {
 
     case Token.IDENTIFIER:
       {
-        Identifier iAST= parseIdentifier();
+        Identifier iAST= parseLongIdentifier();
         if (currentToken.kind == Token.LPAREN) {
           acceptIt();
           ActualParameterSequence apsAST = parseActualParameterSequence();
@@ -760,7 +760,13 @@ public class Parser {
           expressionAST = new CallExpression(iAST, apsAST, expressionPos);
 
         } else {
-          Vname vAST = parseRestOfVarName(iAST);
+          Vname vAST;
+          if (iAST instanceof LongIdentifier) {
+            LongIdentifier iAST2 = (LongIdentifier) iAST;
+            vAST = parseRestOfVarName(iAST2);
+          } else {
+            vAST = parseRestOfVarName(iAST);
+          }
           finish(expressionPos);
           expressionAST = new VnameExpression(vAST, expressionPos);
         }
@@ -857,8 +863,6 @@ public class Parser {
       vnameAST = parseRestOfVarName(iAST);
     }
 
-
-
     return vnameAST;
   }
 
@@ -876,6 +880,29 @@ public class Parser {
 
     while (currentToken.kind == Token.DOT ||
            currentToken.kind == Token.LBRACKET) {
+
+      if (currentToken.kind == Token.DOT) {
+        acceptIt();
+        Identifier iAST = parseIdentifier();
+        vAST = new DotVname(vAST, iAST, vnamePos);
+      } else {
+        acceptIt();
+        Expression eAST = parseExpression();
+        accept(Token.RBRACKET);
+        finish(vnamePos);
+        vAST = new SubscriptVname(vAST, eAST, vnamePos);
+      }
+    }
+    return vAST;
+  }
+
+  Vname parseRestOfVarName(LongIdentifier identifierAST) throws SyntaxError {
+    SourcePosition vnamePos = new SourcePosition();
+    vnamePos = identifierAST.I.position;
+    Vname vAST = new SimpleVname(identifierAST, vnamePos);
+
+    while (currentToken.kind == Token.DOT ||
+            currentToken.kind == Token.LBRACKET) {
 
       if (currentToken.kind == Token.DOT) {
         acceptIt();
@@ -1000,7 +1027,7 @@ public class Parser {
         acceptIt();
         Identifier iAST = parseIdentifier();
         if (currentToken.kind == Token.COLON){
-          accept(Token.COLON);
+          acceptIt();
           TypeDenoter tAST = parseTypeDenoter();
           finish(declarationPos);
           declarationAST = new VarDeclaration(iAST, tAST, declarationPos);
@@ -1009,6 +1036,9 @@ public class Parser {
           Expression eAST = parseExpression();
           finish(declarationPos);
           declarationAST = new InitializedDeclaration(iAST, eAST, declarationPos);
+        } else {
+          syntacticError("Found \"%\" instead of : or ::=",
+                  currentToken.spelling);
         }
 
       }

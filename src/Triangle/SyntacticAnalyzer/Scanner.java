@@ -167,7 +167,6 @@ public final class Scanner {
       } else
           return Token.COLON;
 
-
     case ';':
       takeIt();
       return Token.SEMICOLON;
