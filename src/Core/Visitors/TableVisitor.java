@@ -144,7 +144,7 @@ public class TableVisitor implements Visitor {
 
   @Override
   public Object visitCase(Case ast, Object o) {
-    ast.L.visit(this, null);
+    ast.CL.visit(this, null);
     ast.C.visit(this, null);
     return null;
   }

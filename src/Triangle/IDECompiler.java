@@ -47,6 +47,7 @@ public class IDECompiler {
         System.out.println("Syntactic Analysis ...");
         SourceFile source = new SourceFile(sourceName);
         Scanner scanner = new Scanner(source);
+        scanner.enableWriting(sourceName.replace(".tri", ".html")); //To write the html version
         report = new IDEReporter();
         Parser parser = new Parser(scanner, report);
         boolean success = false;
@@ -68,9 +69,12 @@ public class IDECompiler {
             }
         }
 
-        if (success)
+        if (success) {
             System.out.println("Compilation was successful. A winner is you.");
-        else
+            System.out.println("Generating " + sourceName + " html file");
+            scanner.finishWriting();
+
+        } else
             System.out.println("Compilation was unsuccessful dude. All your bases are belong to us.");
         
         return(success);
@@ -96,5 +100,6 @@ public class IDECompiler {
     // <editor-fold defaultstate="collapsed" desc=" Attributes ">
     private Program rootAST;        // The Root Abstract Syntax Tree.    
     private IDEReporter report;     // Our ErrorReporter class.
+
     // </editor-fold>
 }

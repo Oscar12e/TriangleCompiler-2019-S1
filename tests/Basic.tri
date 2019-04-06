@@ -1,6 +1,1 @@
-Command :=
-if 1 < 5 then
-    skip
-else skip !
-;
-end
+package

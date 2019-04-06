@@ -15,7 +15,7 @@
 package Triangle.SyntacticAnalyzer;
 
 
-final class Token extends Object {
+public final class Token extends Object {
 
   protected int kind;
   protected String spelling;
@@ -38,10 +38,7 @@ final class Token extends Object {
         } else {
           currentKind ++;
         }
-        if (spelling.equals("for")){
-          System.out.println("Look at me " + tokenTable[currentKind].toString() + " " + spelling);
-          System.out.println(comparison);
-        }
+
       }
     } else
       this.kind = kind;

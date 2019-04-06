@@ -92,10 +92,10 @@ public class Parser {
         SourcePosition packPos = new SourcePosition();
         start(packPos);
         pAST = parsePackageDeclaration();
-
-        while (currentToken.kind == Token.SEMICOLON){
-          acceptIt();
+        accept(Token.SEMICOLON);
+        while (currentToken.kind == Token.PACKAGE){
           Package pAST2 = parsePackageDeclaration();
+          accept(Token.SEMICOLON);
           finish(packPos);
           pAST = new SequentialPackageDeclaration(pAST, pAST2, packPos);
         }
@@ -362,6 +362,7 @@ public class Parser {
         Expression eAST = parseExpression();
         accept(Token.FROM);
         Cases cAST = parseCases();
+        accept(Token.END);
         finish(commandPos);
         commandAST = new ChooseCommand(eAST, cAST, commandPos);
       }

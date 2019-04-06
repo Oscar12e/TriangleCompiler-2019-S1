@@ -6,13 +6,13 @@ public class Case extends Cases {
 
 	public Case (Cases lAst, Command cAST, SourcePosition thePosition) {
 		super (thePosition);
-		L = lAst;
+		CL = lAst;
 		C = cAST;
 	}
 
 	public Object visit(Visitor v, Object o) {
 		return v.visitCase(this, o);
 	}
-	public Cases L;
+	public Cases CL;
 	public Command C;
 }

@@ -1,9 +1,9 @@
 let
-  var i: Integer;
-  var j: Integer
+	var i: Integer;
+	var j: Integer
 in
-  i:=5;
-  j:=7;
+	i:=5;
+	j:=7;
   loop
     for i from j to j do
       pass
@@ -18,7 +18,8 @@ in
   loop
     for i from I to j
       until i do
-        pass
+        pass !Vamos a ver
   end
 end
-  
+  
+!Vamos a ver

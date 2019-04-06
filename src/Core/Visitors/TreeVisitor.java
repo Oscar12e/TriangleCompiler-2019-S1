@@ -7,7 +7,6 @@ package Core.Visitors;
 import Triangle.AbstractSyntaxTrees.*;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import java.lang.Package;
 
 /**
  * Implements the Triangle Visitor interface, which is used to
@@ -107,7 +106,7 @@ public class TreeVisitor implements Visitor {
 
     @Override
     public Object visitCase(Case ast, Object o) {
-        return(createBinary("Case", ast.L, ast.C));
+        return(createBinary("Case", ast.CL, ast.C));
     }
 
     @Override

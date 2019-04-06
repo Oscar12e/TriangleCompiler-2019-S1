@@ -15,14 +15,18 @@
 package Triangle.SyntacticAnalyzer;
 
 
+import Triangle.TreeWriterHTML.HTMLWriter;
+
 public final class Scanner {
 
   private SourceFile sourceFile;
+  private HTMLWriter writer;
   private boolean debug;
 
   private char currentChar;
   private StringBuffer currentSpelling;
   private boolean currentlyScanningToken;
+  private boolean writing;
 
   private boolean isLetter(char c) {
     return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
@@ -41,19 +45,27 @@ public final class Scanner {
 	    c == '?');
   }
 
-  private boolean isChangeOfLine(char c) {return c == '\n' || c == '\r';}
-
-
 ///////////////////////////////////////////////////////////////////////////////
 
   public Scanner(SourceFile source) {
     sourceFile = source;
     currentChar = sourceFile.getSource();
     debug = false;
+    this.writing = false;
   }
 
   public void enableDebugging() {
     debug = true;
+  }
+
+  public void enableWriting(String pFilename){
+    this.writing = true;
+    writer = new HTMLWriter(pFilename);
+  }
+
+  public void finishWriting(){
+    this.writing = false;
+    writer.save();
   }
 
   // takeIt appends the current character to the current token, and gets
@@ -62,6 +74,8 @@ public final class Scanner {
   private void takeIt() {
     if (currentlyScanningToken)
       currentSpelling.append(currentChar);
+    else if (this.writing)
+      writer.writeSeparator(currentChar);
     currentChar = sourceFile.getSource();
   }
 
@@ -71,9 +85,11 @@ public final class Scanner {
     switch (currentChar) {
     case '!':
       {
+
         takeIt();
         while ((currentChar != SourceFile.EOL) && (currentChar != SourceFile.EOT))
           takeIt();
+        writer.closeTag("comment");
         if (currentChar == SourceFile.EOL)
           takeIt();
       }
@@ -229,11 +245,16 @@ public final class Scanner {
     kind = scanToken();
 
     pos.finish = sourceFile.getCurrentLine();
+
     tok = new Token(kind, currentSpelling.toString(), pos);
+
+    if (this.writing){
+      writer.write(tok.spelling, tok.kind);
+    }
 
     if (debug)
       System.out.println(tok);
-    System.out.println(tok.spelling);
+
     return tok;
   }
 

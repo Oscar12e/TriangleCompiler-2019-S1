@@ -4,10 +4,11 @@ import Triangle.AbstractSyntaxTrees.Program;
 
 import java.io.FileWriter;
 import java.io.IOException;
-/*
+
 public class Writer {
 
 	private String fileName;
+
 
 	public Writer(String fileName) {
 		this.fileName = fileName;
@@ -33,4 +34,5 @@ public class Writer {
 		}
 	}
 
-}*/
+
+}
