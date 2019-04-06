@@ -1,4 +1,4 @@
-package Triangle.TreeWriterHTML;
+package Triangle.TreeWriterXML;
 
 import Triangle.AbstractSyntaxTrees.Program;
 

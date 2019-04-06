@@ -1,11 +1,9 @@
-package Triangle.TreeWriterHTML;
+package Triangle.SyntacticAnalyzer;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
-
-import Triangle.SyntacticAnalyzer.Token;
 
 public class HTMLWriter {
 
@@ -13,7 +11,22 @@ public class HTMLWriter {
 	private String spaceBuffer;
 	private Queue<String> dataQueue;
 	private String lastTag;
-
+	private String CSS_CODE = "<style>div.code{\n" +
+					"\tfont-family : \"Courier New\", \"Lucida Console\";\n" +
+					"\tfont-size : 1em;\n" +
+					"}\n" +
+					"\n" +
+					"resword{\n" +
+					"\tfont-weight: bold;\n" +
+					"}\n" +
+					"\n" +
+					"literal{\n" +
+					"\tcolor: #11A8FF;\n" +
+					"}\n" +
+					"\n" +
+					"comment{\n" +
+					"\tcolor: #00A310;\n" +
+					"}/<style>";
 
 	public HTMLWriter(String fileName) {
 		this.fileName = fileName;
@@ -24,9 +37,9 @@ public class HTMLWriter {
 	}
 
 	private void writeHeader(){
-		this.dataQueue.add("<?xml version=\"1.0\" standalone=\"yes\"?>\n");
+		this.dataQueue.add("<!DOCTYPE html> <html>");
 		this.dataQueue.add("<head>\n");
-		this.dataQueue.add("  <link rel=\"stylesheet\" href=\"codeStyle.css\">\n");
+		this.dataQueue.add(CSS_CODE);
 		this.dataQueue.add("</head>");
 		this.dataQueue.add("<body>");
 		this.dataQueue.add("<div class= \"code\">");
@@ -80,7 +93,7 @@ public class HTMLWriter {
 			break;
 
 			default:
-				if (pKind < Token.WHILE)
+				if (pKind < Token.getLastReservedWord())
 					tag = "resword";//String.format("<common> %s </common>", pText);
 				else
 					tag = "identifier";
@@ -95,6 +108,7 @@ public class HTMLWriter {
 
 		this.dataQueue.add("</div>");
 		this.dataQueue.add("</body>");
+		this.dataQueue.add("</<html>>");
 
 		try {
 			FileWriter fileWriter = new FileWriter(fileName);

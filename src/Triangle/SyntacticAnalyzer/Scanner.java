@@ -15,8 +15,6 @@
 package Triangle.SyntacticAnalyzer;
 
 
-import Triangle.TreeWriterHTML.HTMLWriter;
-
 public final class Scanner {
 
   private SourceFile sourceFile;

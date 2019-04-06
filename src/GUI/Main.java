@@ -9,8 +9,7 @@ import Core.Console.OutputRedirector;
 import Core.IDE.IDEDisassembler;
 import Core.IDE.IDEInterpreter;
 import Core.Visitors.TableVisitor;
-import Triangle.TreeWriterHTML.Writer;
-import Triangle.TreeWriterHTML.WriterVisitor;
+import Triangle.TreeWriterXML.Writer;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -621,8 +620,8 @@ public class Main extends javax.swing.JFrame {
                 ((FileFrame)desktopPane.getSelectedFrame()).setTree((DefaultMutableTreeNode)treeVisitor.visitProgramTree(compiler.getAST(), null));
                 //((FileFrame)desktopPane.getSelectedFrame()).setTable(tableVisitor.getTable(compiler.getAST()));
                 String fileName = ((FileFrame)desktopPane.getSelectedFrame()).getTitle();
-                //Writer w = new Writer(fileName.replace(".tri",".html"));
-                //w.write(compiler.getAST());
+                Writer w = new Writer(fileName.replace(".tri",".xml"));
+                w.write(compiler.getAST());
                 
                 runMenuItem.setEnabled(false);
                 buttonRun.setEnabled(false);
