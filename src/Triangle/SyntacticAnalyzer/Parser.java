@@ -312,7 +312,8 @@ public class Parser {
             finish(commandPos);
             commandAST = new CallCommand(iAST, apsAST, commandPos);
 
-          } else {
+          } else if  
+          else {
 
             Vname vAST = parseRestOfVarName(iAST);
             accept(Token.BECOMES);
@@ -850,7 +851,7 @@ public class Parser {
     SourcePosition vnamePos = new SourcePosition();
     start(vnamePos);
 
-    Identifier iAST = parseIdentifier();
+    Identifier iAST = parseLongIdentifier(); //Covers package, dollar and identifier
 
     if (currentToken.kind == Token.DOLLAR) {
       acceptIt();
@@ -863,6 +864,24 @@ public class Parser {
       vnameAST = parseRestOfVarName(iAST);
     }
 
+    return vnameAST;
+  }
+
+  /**
+   *
+   * @param identifierAST Covers package, dollar and identifier
+   * @return an AST of Vname
+   * @throws SyntaxError
+   */
+  Vname parseRestOfVname(LongIdentifier identifierAST) throws SyntaxError {
+    Vname vnameAST = null; // in case there's a syntactic error
+
+    SourcePosition vnamePos = new SourcePosition();
+    vnamePos = identifierAST.position;
+    Vname vAST = parseRestOfVarName(identifierAST.I);
+    finish(vnamePos);
+
+    vnameAST = new LongVname(identifierAST.P, vAST, vnamePos);
     return vnameAST;
   }
 
@@ -1035,6 +1054,7 @@ public class Parser {
           acceptIt();
           Expression eAST = parseExpression();
           finish(declarationPos);
+          declarationAST = new InitializedDeclaration(iAST, eAST, declarationPos);
           declarationAST = new InitializedDeclaration(iAST, eAST, declarationPos);
         } else {
           syntacticError("Found \"%\" instead of : or ::=",
