@@ -312,10 +312,9 @@ public class Parser {
             finish(commandPos);
             commandAST = new CallCommand(iAST, apsAST, commandPos);
 
-          } else if  
-          else {
+          } else {
+            Vname vAST = parseRestOfVname(iAST);
 
-            Vname vAST = parseRestOfVarName(iAST);
             accept(Token.BECOMES);
             Expression eAST = parseExpression();
             finish(commandPos);
@@ -761,13 +760,7 @@ public class Parser {
           expressionAST = new CallExpression(iAST, apsAST, expressionPos);
 
         } else {
-          Vname vAST;
-          if (iAST instanceof LongIdentifier) {
-            LongIdentifier iAST2 = (LongIdentifier) iAST;
-            vAST = parseRestOfVarName(iAST2);
-          } else {
-            vAST = parseRestOfVarName(iAST);
-          }
+          Vname vAST = parseRestOfVname(iAST);
           finish(expressionPos);
           expressionAST = new VnameExpression(vAST, expressionPos);
         }
@@ -845,43 +838,40 @@ public class Parser {
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+  /**
+   * Parse a variable name, covers the case of simple variables and long variables
+   * @return a Vname AST
+   * @throws SyntaxError
+   */
   Vname parseVname() throws SyntaxError {
     Vname vnameAST = null; // in case there's a syntactic error
 
-    SourcePosition vnamePos = new SourcePosition();
-    start(vnamePos);
-
     Identifier iAST = parseLongIdentifier(); //Covers package, dollar and identifier
-
-    if (currentToken.kind == Token.DOLLAR) {
-      acceptIt();
-      Package pAST = parsePackageIdentifier(iAST);
-      Vname varNameAST = parseVarName();
-      finish(vnamePos);
-      vnameAST = new LongVname(pAST, varNameAST, vnamePos);
-    } else {
-      finish(vnamePos);
-      vnameAST = parseRestOfVarName(iAST);
-    }
+    vnameAST = parseRestOfVname(iAST);
 
     return vnameAST;
   }
 
   /**
-   *
-   * @param identifierAST Covers package, dollar and identifier
+   * Parse the case of package$variable
+   * @param iAST Covers package, dollar and identifier
    * @return an AST of Vname
    * @throws SyntaxError
    */
-  Vname parseRestOfVname(LongIdentifier identifierAST) throws SyntaxError {
+  Vname parseRestOfVname(Identifier iAST) throws SyntaxError {
     Vname vnameAST = null; // in case there's a syntactic error
 
-    SourcePosition vnamePos = new SourcePosition();
-    vnamePos = identifierAST.position;
-    Vname vAST = parseRestOfVarName(identifierAST.I);
-    finish(vnamePos);
+    if (iAST instanceof LongIdentifier){
+      LongIdentifier iAST2 = (LongIdentifier) iAST;
+      SourcePosition vnamePos = new SourcePosition();
+      vnamePos = iAST2.position;
+      Vname vAST = parseRestOfVarName(iAST2.I);
+      finish(vnamePos);
 
-    vnameAST = new LongVname(identifierAST.P, vAST, vnamePos);
+      vnameAST = new LongVname(iAST2.P, vAST, vnamePos);
+    } else
+      vnameAST = parseRestOfVarName(iAST);
+
     return vnameAST;
   }
 
@@ -892,6 +882,15 @@ public class Parser {
     return vnameAST;
   }
 
+  /**
+   * Parse identifier, for both varNames and vnames. In case of vname (long vname),
+   * it receives the identifier hold in a long indetifier. In case of varname (simple vname),
+   * it receives a common identifier.
+   * @param identifierAST can be a identifier from a simple Vname of LongVanme
+   * @return a vname AST for simple vname, dotVname, subscipt vname
+   * @throws SyntaxError
+   */
+
   Vname parseRestOfVarName(Identifier identifierAST) throws SyntaxError {
     SourcePosition vnamePos = new SourcePosition();
     vnamePos = identifierAST.position;
@@ -899,29 +898,6 @@ public class Parser {
 
     while (currentToken.kind == Token.DOT ||
            currentToken.kind == Token.LBRACKET) {
-
-      if (currentToken.kind == Token.DOT) {
-        acceptIt();
-        Identifier iAST = parseIdentifier();
-        vAST = new DotVname(vAST, iAST, vnamePos);
-      } else {
-        acceptIt();
-        Expression eAST = parseExpression();
-        accept(Token.RBRACKET);
-        finish(vnamePos);
-        vAST = new SubscriptVname(vAST, eAST, vnamePos);
-      }
-    }
-    return vAST;
-  }
-
-  Vname parseRestOfVarName(LongIdentifier identifierAST) throws SyntaxError {
-    SourcePosition vnamePos = new SourcePosition();
-    vnamePos = identifierAST.I.position;
-    Vname vAST = new SimpleVname(identifierAST, vnamePos);
-
-    while (currentToken.kind == Token.DOT ||
-            currentToken.kind == Token.LBRACKET) {
 
       if (currentToken.kind == Token.DOT) {
         acceptIt();
