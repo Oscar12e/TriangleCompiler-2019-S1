@@ -71,6 +71,7 @@ public class Parser {
     throw(new SyntaxError());
   }
 
+  // <editor-fold defaultstate="collapsed" desc=" Programs ">
 ///////////////////////////////////////////////////////////////////////////////
 //
 // PROGRAMS
@@ -117,6 +118,9 @@ public class Parser {
     return programAST;
   }
 
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Packages ">
 ///////////////////////////////////////////////////////////////////////////////
 //
 // PACKAGES
@@ -190,7 +194,9 @@ public class Parser {
     return lAST;
   }
 
+  // </editor-fold>
 
+  // <editor-fold defaultstate="collapsed" desc=" Literals ">
 ///////////////////////////////////////////////////////////////////////////////
 //
 // LITERALS
@@ -268,6 +274,10 @@ public class Parser {
     }
     return O;
   }
+
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Commands ">
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -472,6 +482,9 @@ public class Parser {
     return commandAST;
   }
 
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Cases ">
 ///////////////////////////////////////////////////////////////////////////////
 //
 // CASES
@@ -587,6 +600,9 @@ public class Parser {
     return caseAST;
   }
 
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Proc-funcs ">
 ///////////////////////////////////////////////////////////////////////////////
 //
 // PROC-FUNC
@@ -643,6 +659,9 @@ public class Parser {
     return procFuncsAST;
   }
 
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Expressions ">
 ///////////////////////////////////////////////////////////////////////////////
 //
 // EXPRESSIONS
@@ -791,6 +810,9 @@ public class Parser {
     return expressionAST;
   }
 
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Aggregate ">
   RecordAggregate parseRecordAggregate() throws SyntaxError {
     RecordAggregate aggregateAST = null; // in case there's a syntactic error
 
@@ -832,6 +854,9 @@ public class Parser {
     return aggregateAST;
   }
 
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Vname ">
 ///////////////////////////////////////////////////////////////////////////////
 //
 // VALUE-OR-VARIABLE NAMES
@@ -914,6 +939,9 @@ public class Parser {
     return vAST;
   }
 
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Declarations ">
 ///////////////////////////////////////////////////////////////////////////////
 //
 // DECLARATIONS
@@ -1092,6 +1120,9 @@ public class Parser {
     return declarationAST;
   }
 
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Parameters ">
 ///////////////////////////////////////////////////////////////////////////////
 //
 // PARAMETERS
@@ -1296,6 +1327,9 @@ public class Parser {
     return actualAST;
   }
 
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Type Denoters ">
 ///////////////////////////////////////////////////////////////////////////////
 //
 // TYPE-DENOTERS
@@ -1368,4 +1402,6 @@ public class Parser {
     }
     return fieldAST;
   }
+
+  // </editor-fold>
 }
