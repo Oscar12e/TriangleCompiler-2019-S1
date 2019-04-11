@@ -106,7 +106,7 @@ public class Parser {
       }
       else {
         Command cAST = parseCommand();
-        programAST = new Program(cAST, previousTokenPosition);
+        programAST = new SimpleProgram(cAST, previousTokenPosition);
       }
 
       if (currentToken.kind != Token.EOT) {

@@ -841,16 +841,21 @@ public final class Checker implements Visitor {
     return ast.type;
   }
 
+  // Programs
   @Override
   public Object visitProgram(Program ast, Object o) {
-    ast.C.visit(this, null);
-    return null;
+    if (ast instanceof SimpleProgram){
+      SimpleProgram pAST = (SimpleProgram) ast;
+      return visitSimpleProgram(pAST, o);
+    } else {
+      PackagedProgram pAST = (PackagedProgram) ast;
+      return visitPackagedProgram(pAST, o);
+    }
   }
 
-  // Programs
-
-  public Object visitSimpleProgram(Program ast, Object o) {
-    //ast.C.visit(this, null);
+  @Override
+  public Object visitSimpleProgram(SimpleProgram ast, Object o) {
+    ast.C.visit(this, null);
     return null;
   }
 

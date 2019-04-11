@@ -739,18 +739,21 @@ public class WriterVisitor implements Visitor {
 	// <editor-fold defaultstate="collapsed" desc=" Programs ">
 	// Programs
 	public Object visitProgram(Program ast, Object obj) {
+		if (ast instanceof SimpleProgram){
+			SimpleProgram pAST = (SimpleProgram) ast;
+			return visitSimpleProgram(pAST, obj);
+		} else {
+			PackagedProgram pAST = (PackagedProgram) ast;
+			return visitPackagedProgram(pAST, obj);
+		}
+	}
+
+	@Override
+	public Object visitSimpleProgram(SimpleProgram ast, Object o) {
 		writeLineXML("<Program>");
 		ast.C.visit(this, null);
 		writeLineXML("</Program>");
 		return null;
-	}
-
-	public Object visitProgramTree (Program ast, Object obj) {
-		if (ast instanceof PackagedProgram) {
-			PackagedProgram ast2 = (PackagedProgram) ast;
-			return visitPackagedProgram(ast2, null);
-		}
-		return (visitProgram(ast, null));
 	}
 
 	@Override

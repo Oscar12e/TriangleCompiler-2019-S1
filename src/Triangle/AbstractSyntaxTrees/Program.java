@@ -16,11 +16,10 @@ package Triangle.AbstractSyntaxTrees;
 
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
-public class Program extends AST {
+public abstract class Program extends AST {
 
-  public Program (Command cAST, SourcePosition thePosition) {
+  public Program (SourcePosition thePosition) {
     super (thePosition);
-    C = cAST;
   }
 
   public Object visit(Visitor v, Object o) {

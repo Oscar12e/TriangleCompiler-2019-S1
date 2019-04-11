@@ -440,6 +440,17 @@ public class LayoutVisitor implements Visitor {
 
   // Programs
   public Object visitProgram(Program ast, Object obj) {
+    if (ast instanceof SimpleProgram){
+      SimpleProgram pAST = (SimpleProgram) ast;
+      return visitSimpleProgram(pAST, obj);
+    } else {
+      PackagedProgram pAST = (PackagedProgram) ast;
+      return visitPackagedProgram(pAST, obj);
+    }
+  }
+
+  @Override
+  public Object visitSimpleProgram(SimpleProgram ast, Object o) {
     return layoutUnary("Program", ast.C);
   }
 

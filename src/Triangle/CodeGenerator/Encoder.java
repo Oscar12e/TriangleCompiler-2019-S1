@@ -791,12 +791,24 @@ public final class Encoder implements Visitor {
 
   // Programs
   public Object visitProgram(Program ast, Object o) {
+    if (ast instanceof SimpleProgram){
+      SimpleProgram pAST = (SimpleProgram) ast;
+      return visitSimpleProgram(pAST, o);
+    } else {
+      PackagedProgram pAST = (PackagedProgram) ast;
+      return visitPackagedProgram(pAST, o);
+    }
+  }
+
+  @Override
+  public Object visitSimpleProgram(SimpleProgram ast, Object o) {
     return ast.C.visit(this, o);
   }
 
   @Override
   public Object visitPackagedProgram(PackagedProgram ast, Object o) {
-    return null;
+    ast.P.visit(this, o);
+    return ast.C.visit(this, o);
   }
 
   public Encoder (ErrorReporter reporter) {

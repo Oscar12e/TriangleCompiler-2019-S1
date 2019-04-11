@@ -689,9 +689,19 @@ public class TableVisitor implements Visitor {
   // <editor-fold defaultstate="collapsed" desc=" Table Creation Methods ">
   // Programs
   public Object visitProgram(Program ast, Object o) {
-      ast.C.visit(this, null);
-      
-      return(null);
+    if (ast instanceof SimpleProgram){
+      SimpleProgram pAST = (SimpleProgram) ast;
+      return visitSimpleProgram(pAST, o);
+    } else {
+      PackagedProgram pAST = (PackagedProgram) ast;
+      return visitPackagedProgram(pAST, o);
+    }
+  }
+
+  @Override
+  public Object visitSimpleProgram(SimpleProgram ast, Object o) {
+    ast.C.visit(this, null);
+    return null;
   }
 
   public Object visitPackagedProgram(PackagedProgram ast, Object o) {
