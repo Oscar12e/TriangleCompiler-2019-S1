@@ -19,12 +19,17 @@ import Triangle.ErrorReporter;
 import Triangle.StdEnvironment;
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public final class Checker implements Visitor {
 
+
+
+  // <editor-fold defaultstate="collapsed" desc=" Packages ">
   // Commands
-
-  // Always returns null. Does not use the given object.
-
   @Override
   public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
     ast.P.visit(this, null);
@@ -44,6 +49,12 @@ public final class Checker implements Visitor {
     ast.I.visit(this, null);
     return null;
   }
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Commands ">
+  // Commands
+
+  // Always returns null. Does not use the given object.
 
   public Object visitAssignCommand(AssignCommand ast, Object o) {
     TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
@@ -122,7 +133,6 @@ public final class Checker implements Visitor {
       reporter.reportError("Boolean expression expected here", "", ast.E.position);
     ast.C.visit(this, null);
     return null;
-
   }
 
   @Override
@@ -136,70 +146,185 @@ public final class Checker implements Visitor {
 
   @Override
   public Object visitForCommand(ForCommand ast, Object o) {
+    idTable.openScope();
     ast.F.visit(this, null);
     ast.C.visit(this, null);
+    idTable.closeScope();
     return null;
   }
 
   @Override
   public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
+    idTable.openScope();
     ast.F.visit(this, null);
     ast.W.visit(this, null);
+    idTable.closeScope();
     return null;
   }
 
   @Override
   public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
+    idTable.openScope();
     ast.F.visit(this, null);
     ast.U.visit(this, null);
+    idTable.closeScope();
     return null;
   }
 
   @Override
   public Object visitChooseCommand(ChooseCommand ast, Object o) {
+    idTable.openScope();
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+    List<Terminal[]> casesLiterals = (List<Terminal[]>) ast.C.visit(this, null);
+    idTable.closeScope();
+
+    //Firsts we check
+    Set<String> rangesSet = new HashSet<>();
+
+    if (! (eType.equals(StdEnvironment.integerType) || eType.equals(StdEnvironment.charType)) ){
+      reporter.reportError("Integer or Char expression expected here", "", ast.E.position);
+    } else {
+      TypeDenoter chooseType = eType.equals(StdEnvironment.integerType) ? StdEnvironment.integerType : StdEnvironment.charType;
+      List<Terminal[]> validLiterals = new ArrayList<>();
+
+      //Checking all literals are the same type as the choose type, if they are report the error
+      //If ain't an error, stores to check if it repeats
+      for (Terminal[] currentLiterals : casesLiterals){
+        TypeDenoter eType1 = (TypeDenoter) currentLiterals[0].visit(this, null);
+        if (currentLiterals.length == 2){
+          TypeDenoter eType2 = (TypeDenoter) currentLiterals[1].visit(this, null);
+
+          if (! (eType1.equals(chooseType) && eType2.equals(chooseType)) ){
+            SourcePosition errorPos = !eType1.equals(chooseType) ? currentLiterals[0].position : currentLiterals[1].position;
+            reporter.reportError("Case literal value type do not match with choose value type", "", errorPos);
+            continue;
+          }
+
+        } else if (! eType1.equals(chooseType) ){
+          reporter.reportError("Case literal value type do not match with choose value type", "", currentLiterals[0].position);
+          continue;
+        }
+
+        validLiterals.add(currentLiterals);
+      }
+      casesLiterals = validLiterals;
+    }
+
+    for (Terminal[] currentLiterals : casesLiterals){
+      String rangeString = currentLiterals[0].spelling;
+
+      if (currentLiterals.length == 2){
+        TypeDenoter eType1 = (TypeDenoter) currentLiterals[0].visit(this, null);
+        TypeDenoter eType2 = (TypeDenoter) currentLiterals[1].visit(this, null);
+
+        if ( !eType1.equals(eType2)) //Case that there's a mismatch
+          continue;
+
+        rangeString = rangeString + ".." + currentLiterals[1].spelling;
+      }
+
+      if (rangesSet.contains(rangeString))
+        reporter.reportError(rangeString + " is already defined in the scope", "", currentLiterals[1].position);
+      else
+        rangesSet.add(rangeString);
+    }
+
     return null;
   }
 
   @Override
   public Object visitCase(Case ast, Object o) {
-    return null;
+    List<Terminal[]> terminals = (List<Terminal[]>) ast.CL.visit(this, null);
+    ast.C.visit(this, null);
+    return terminals;
   }
 
   @Override
   public Object visitElseCase(ElseCase ast, Object o) {
-    return null;
+    ast.C.visit(this, null);
+    return new ArrayList<Terminal[]>();
   }
 
   @Override
   public Object visitSequentialCases(SequentialCases ast, Object o) {
-    return null;
+    List<Terminal[]> T1 = (List<Terminal[]>) ast.C1.visit(this, null);
+    List<Terminal[]> T2 = (List<Terminal[]>) ast.C2.visit(this, null);
+
+    return new ArrayList<Terminal[]>(T1){{ addAll(T2);}};
+
   }
 
   @Override
   public Object visitCaseLiterals(CaseLiterals ast, Object o) {
-    return null;
+    Terminal[] T = (Terminal[]) ast.R.visit(this, null);
+
+    return new ArrayList<Terminal[]>(){{ add(T); }};
   }
 
   @Override
   public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
-    return null;
+    List<Terminal[]> T1 = (List<Terminal[]>) ast.L1.visit(this, null);
+    List<Terminal[]> T2 = (List<Terminal[]>) ast.L2.visit(this, null);
+
+
+    return new ArrayList<Terminal[]>(T1){{ addAll(T2);}};
   }
 
   @Override
   public Object visitSimpleCaseRange(SimpleCaseRange ast, Object o) {
-    return null;
+    Terminal T = (Terminal) ast.L.visit(this, null);
+    Terminal [] terminals = new Terminal[1];
+    terminals[0] = T;
+
+    return terminals;
   }
 
   @Override
   public Object visitCompleteCaseRange(CompleteCaseRange ast, Object o) {
-    return null;
+    Terminal T1 = (Terminal) ast.L1.visit(this, null);
+    Terminal T2 = (Terminal) ast.L2.visit(this, null);
+
+    TypeDenoter eType1 = (TypeDenoter) T1.visit(this, null);
+    TypeDenoter eType2 = (TypeDenoter) T2.visit(this, null);
+
+    if (! eType1.equals(eType2)){
+      reporter.reportError("Incompatible value types found in range limits.", "", ast.position);
+    } else {
+
+      if (eType1.equals(StdEnvironment.integerType)){
+        int lMin = Integer.parseInt(T1.spelling);
+        int lMax = Integer.parseInt(T2.spelling);
+
+        if (lMax < lMin)
+          reporter.reportError("Inconsistency found in limits values in range.", "", ast.position);
+      } else {
+        char lMin = T1.spelling.charAt(0);
+        char lMax = T2.spelling.charAt(0);
+
+        if (lMax < lMin)
+          reporter.reportError("Inconsistency found in limits values in range.", "", ast.position);
+      }
+    }
+
+    Terminal [] terminals = new Terminal[2];
+    terminals[0] = T1;
+    terminals[1] = T2;
+    return terminals;
+
   }
 
   @Override
+  /** To sum up, return a set because reasons
+   * @param ast: An single CaseLiteral.
+   * @return set with the Literal as value
+   */
   public Object visitCaseLiteral(CaseLiteral ast, Object o) {
-    return null;
+    return ast.L;
   }
 
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Expressions ">
   // Expressions
 
   // Returns the TypeDenoter denoting the type of the expression. Does
@@ -326,6 +451,9 @@ public final class Checker implements Visitor {
     return ast.type;
   }
 
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Declarations ">
   // Declarations
 
   // Always returns null. Does not use the given object.
@@ -401,9 +529,19 @@ public final class Checker implements Visitor {
 
   @Override
   public Object visitForDeclaration(ForDeclaration ast, Object o) {
-    ast.I.visit(this, null);
-    ast.E1.visit(this, null);
-    ast.E2.visit(this, null);
+    TypeDenoter eType1 = (TypeDenoter) ast.E1.visit(this, null);
+    TypeDenoter eType2 = (TypeDenoter) ast.E2.visit(this, null);
+
+    if (! eType1.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.E1.position);
+    if (! eType2.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.E2.position);
+
+    idTable.enter(ast.I.spelling, ast);
+    if (ast.duplicated)
+      reporter.reportError ("identifier \"%\" already declared",
+              ast.I.spelling, ast.position);
+
     return null;
   }
 
@@ -440,9 +578,16 @@ public final class Checker implements Visitor {
 
   @Override
   public Object visitInitializedDeclaration(InitializedDeclaration ast, Object o) {
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+    idTable.enter(ast.I.spelling, ast);
+    if (ast.duplicated)
+      reporter.reportError ("identifier \"%\" already declared",
+              ast.I.spelling, ast.position);
     return null;
   }
+  // </editor-fold>
 
+  // <editor-fold defaultstate="collapsed" desc=" Aggregates ">
   // Array Aggregates
 
   // Returns the TypeDenoter for the Array Aggregate. Does not use the
@@ -484,7 +629,9 @@ public final class Checker implements Visitor {
     ast.type = new SingleFieldTypeDenoter(ast.I, eType, ast.position);
     return ast.type;
   }
+  // </editor-fold>
 
+  // <editor-fold defaultstate="collapsed" desc=" Parameters ">
   // Formal Parameters
 
   // Always returns null. Does not use the given object.
@@ -664,7 +811,9 @@ public final class Checker implements Visitor {
     }
     return null;
   }
+  // </editor-fold>
 
+  // <editor-fold defaultstate="collapsed" desc=" Type Denoters ">
   // Type Denoters
 
   // Returns the expanded version of the TypeDenoter. Does not
@@ -756,13 +905,9 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  @Override
-  public Object visitLongVName(LongVname ast, Object o) {
-    ast.P.visit(this, null);
-    ast.V.visit(this, null);
-    return null;
-  }
+  // </editor-fold>
 
+  // <editor-fold defaultstate="collapsed" desc=" Value-or-variable names ">
   // Value-or-variable names
 
   // Determines the address of a named object (constant or variable).
@@ -784,6 +929,13 @@ public final class Checker implements Visitor {
   // Returns the TypeDenoter of the Vname. Does not use the
   // given object.
 
+  @Override
+  public Object visitLongVName(LongVname ast, Object o) {
+    ast.P.visit(this, null);
+    //ast.V.visit(this, null);
+    return ast.V.visit(this, null);
+  }
+
   public Object visitDotVname(DotVname ast, Object o) {
     ast.type = null;
     TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
@@ -802,6 +954,7 @@ public final class Checker implements Visitor {
   public Object visitSimpleVname(SimpleVname ast, Object o) {
     ast.variable = false;
     ast.type = StdEnvironment.errorType;
+
     Declaration binding = (Declaration) ast.I.visit(this, null);
     if (binding == null)
       reportUndeclared(ast.I);
@@ -809,6 +962,12 @@ public final class Checker implements Visitor {
       if (binding instanceof ConstDeclaration) {
         ast.type = ((ConstDeclaration) binding).E.type;
         ast.variable = false;
+      } if (binding instanceof ForDeclaration) {
+        ast.type = StdEnvironment.integerType;
+        ast.variable = false;
+      } else if (binding instanceof InitializedDeclaration) {
+        ast.type = ((InitializedDeclaration) binding).E.type;
+        ast.variable = true;
       } else if (binding instanceof VarDeclaration) {
         ast.type = ((VarDeclaration) binding).T;
         ast.variable = true;
@@ -841,6 +1000,9 @@ public final class Checker implements Visitor {
     return ast.type;
   }
 
+  // </editor-fold>
+
+  // <editor-fold defaultstate="collapsed" desc=" Program ">
   // Programs
   @Override
   public Object visitProgram(Program ast, Object o) {
@@ -865,6 +1027,8 @@ public final class Checker implements Visitor {
     ast.C.visit(this, null);
     return null;
   }
+
+  // </editor-fold>
 
   // Checks whether the source program, represented by its AST, satisfies the
   // language's scope rules and type rules.

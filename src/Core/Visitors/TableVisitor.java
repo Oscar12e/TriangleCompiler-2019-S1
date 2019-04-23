@@ -31,16 +31,21 @@ public class TableVisitor implements Visitor {
 
   @Override
   public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
+    ast.P.visit(this, null);
+    ast.D.visit(this, null);
     return null;
   }
 
   @Override
   public Object visitSequentialPackageDeclaration(SequentialPackageDeclaration ast, Object o) {
+    ast.P1.visit(this, null);
+    ast.P2.visit(this, null);
     return null;
   }
 
   @Override
   public Object visitPackageIdentifier(PackageIdentifier ast, Object o) {
+    ast.I.visit(this, null);
     return null;
   }
 
@@ -49,7 +54,6 @@ public class TableVisitor implements Visitor {
   public Object visitAssignCommand(AssignCommand ast, Object o) { 
       ast.V.visit(this, null);
       ast.E.visit(this, null);
-      
       return(null);
   }
   
@@ -402,7 +406,29 @@ public class TableVisitor implements Visitor {
 
   @Override
   public Object visitInitializedDeclaration(InitializedDeclaration ast, Object o) {
-    return null;
+      String name = ast.I.spelling;
+      String type = "N/A";
+      try {
+          int size = (ast.entity!=null?ast.entity.size:0);
+          int level = -1;
+          int displacement = -1;
+          int value = -1;
+
+          if (ast.entity instanceof KnownValue) {
+              type = "KnownValue";
+              value = ((KnownValue)ast.entity).value;
+          }
+          else if (ast.entity instanceof UnknownValue) {
+              type = "UnknownValue";
+              level = ((UnknownValue)ast.entity).address.level;
+              displacement = ((UnknownValue)ast.entity).address.displacement;
+          }
+          addIdentifier(name, type, size, level, displacement, value);
+      } catch (NullPointerException e) { }
+
+      ast.E.visit(this, null);
+      ast.I.visit(this, null);
+      return (null);
   }
 
   // </editor-fold>
@@ -646,7 +672,6 @@ public class TableVisitor implements Visitor {
   
   public Object visitOperator(Operator ast, Object o) { 
       ast.decl.visit(this, null);
-  
       return(null);
   }
 
@@ -691,15 +716,17 @@ public class TableVisitor implements Visitor {
   public Object visitProgram(Program ast, Object o) {
     if (ast instanceof SimpleProgram){
       SimpleProgram pAST = (SimpleProgram) ast;
-      return visitSimpleProgram(pAST, o);
+      visitSimpleProgram(pAST, o);
     } else {
       PackagedProgram pAST = (PackagedProgram) ast;
-      return visitPackagedProgram(pAST, o);
+      visitPackagedProgram(pAST, o);
     }
+    return null;
   }
 
   @Override
   public Object visitSimpleProgram(SimpleProgram ast, Object o) {
+    System.out.println("Yo");
     ast.C.visit(this, null);
     return null;
   }
@@ -736,8 +763,8 @@ public class TableVisitor implements Visitor {
      */
     public DefaultTableModel getTable(Program ast) {
         model = new DefaultTableModel((new String[] {"Name", "Type", "Size", "Level", "Displacement", "Value"}), 0);
-        //visitProgram(ast, null);
-        ast.visit(this, null);
+        visitProgram(ast, null);
+        //ast.visit(this, null);
         return(model);
     }
     

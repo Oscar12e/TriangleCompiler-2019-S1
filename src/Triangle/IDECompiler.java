@@ -54,9 +54,9 @@ public class IDECompiler {
         
         rootAST = parser.parseProgram();
         if (report.numErrors == 0) {
-            /*System.out.println("Contextual Analysis ...");
+            System.out.println("Contextual Analysis ...");
             Checker checker = new Checker(report);
-            checker.check(rootAST);*/
+            checker.check(rootAST);
             if (report.numErrors == 0) {
                 /*System.out.println("Code Generation ...");
                 Encoder encoder = new Encoder(report);
@@ -76,7 +76,7 @@ public class IDECompiler {
             System.out.println("Generating xml file...");
 
         } else
-            System.out.println("Compilation was unsuccessful. Check the error log to solve yhe issues.");
+            System.out.println("Compilation was unsuccessful. Check the errors listed above to solve the issues.");
         
         return(success);
     }

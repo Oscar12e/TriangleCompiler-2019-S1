@@ -13,5 +13,5 @@ public class CaseLiteral extends Cases {
 		return v.visitCaseLiteral(this, o);
 	}
 
-	public Terminal L;
+	public Terminal L; //Can be a Integer Literal as a Char Literal
 }

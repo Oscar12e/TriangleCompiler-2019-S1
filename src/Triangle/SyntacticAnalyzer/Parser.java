@@ -324,7 +324,6 @@ public class Parser {
 
           } else {
             Vname vAST = parseRestOfVname(iAST);
-
             accept(Token.BECOMES);
             Expression eAST = parseExpression();
             finish(commandPos);
@@ -504,7 +503,6 @@ public class Parser {
       finish(casesPos);
       seqCasesAST =  new SequentialCases(seqCasesAST, caseAST, casesPos);
     }
-
 
     if (currentToken.kind == Token.ELSE){
       acceptIt();
@@ -993,6 +991,7 @@ public class Parser {
         declarationAST = new RecursiveDeclaration(pfAST, declarationPos);
       }
         break;
+
       case Token.PRIVATE:{
         acceptIt();
         Declaration dAst1 = parseDeclaration();
@@ -1002,8 +1001,8 @@ public class Parser {
         finish(declarationPos);
         declarationAST = new PrivateDeclaration(dAst1,dAst2,declarationPos);
       }
-
         break;
+
       case Token.PAR:{
         acceptIt();
 
@@ -1018,6 +1017,7 @@ public class Parser {
         accept(Token.END);
       }
         break;
+
       default:
         finish(declarationPos);
         declarationAST = parseSingleDeclaration();
@@ -1058,7 +1058,6 @@ public class Parser {
           acceptIt();
           Expression eAST = parseExpression();
           finish(declarationPos);
-          declarationAST = new InitializedDeclaration(iAST, eAST, declarationPos);
           declarationAST = new InitializedDeclaration(iAST, eAST, declarationPos);
         } else {
           syntacticError("Found \"%\" instead of : or ::=",

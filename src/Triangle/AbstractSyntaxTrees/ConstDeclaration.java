@@ -18,8 +18,7 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public class ConstDeclaration extends Declaration {
 
-  public ConstDeclaration (Identifier iAST, Expression eAST,
-                    SourcePosition thePosition) {
+  public ConstDeclaration (Identifier iAST, Expression eAST, SourcePosition thePosition) {
     super (thePosition);
     I = iAST;
     E = eAST;
