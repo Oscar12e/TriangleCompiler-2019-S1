@@ -14,9 +14,9 @@
 
 package Triangle.TreeDrawer;
 
-import java.awt.FontMetrics;
-
 import Triangle.AbstractSyntaxTrees.*;
+
+import java.awt.*;
 
 public class LayoutVisitor implements Visitor {
 
@@ -133,13 +133,9 @@ public class LayoutVisitor implements Visitor {
     return null;
   }
 
-  @Override
-  public Object visitSimpleCaseRange(SimpleCaseRange ast, Object o) {
-    return null;
-  }
 
   @Override
-  public Object visitCompleteCaseRange(CompleteCaseRange ast, Object o) {
+  public Object visitCaseRange(CaseRange ast, Object o) {
     return null;
   }
 

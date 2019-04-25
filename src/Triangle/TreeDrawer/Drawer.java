@@ -14,13 +14,9 @@
 
 package Triangle.TreeDrawer;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Point;
-
 import Triangle.AbstractSyntaxTrees.Program;
+
+import java.awt.*;
 
 public class Drawer {
 

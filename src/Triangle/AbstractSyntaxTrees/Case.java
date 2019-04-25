@@ -4,7 +4,7 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public class Case extends Cases {
 
-	public Case (Cases lAst, Command cAST, SourcePosition thePosition) {
+	public Case (Expression lAst, Command cAST, SourcePosition thePosition) {
 		super (thePosition);
 		CL = lAst;
 		C = cAST;
@@ -13,6 +13,6 @@ public class Case extends Cases {
 	public Object visit(Visitor v, Object o) {
 		return v.visitCase(this, o);
 	}
-	public Cases CL;
+	public Expression CL;
 	public Command C;
 }

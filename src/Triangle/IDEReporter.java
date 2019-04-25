@@ -4,8 +4,8 @@
  */
 
 package Triangle;
+
 import Triangle.SyntacticAnalyzer.SourcePosition;
-import Triangle.*;
 
 /**
  * Extends the Triangle.ErrorReporter class. Used to get the source lines

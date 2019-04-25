@@ -6,13 +6,8 @@
 package Core.Visitors;
 
 import Triangle.AbstractSyntaxTrees.*;
-import Triangle.CodeGenerator.Field;
-import Triangle.CodeGenerator.KnownAddress;
-import Triangle.CodeGenerator.KnownRoutine;
-import Triangle.CodeGenerator.KnownValue;
-import Triangle.CodeGenerator.UnknownAddress;
-import Triangle.CodeGenerator.UnknownRoutine;
-import Triangle.CodeGenerator.UnknownValue;
+import Triangle.CodeGenerator.*;
+
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -180,13 +175,7 @@ public class TableVisitor implements Visitor {
   }
 
   @Override
-  public Object visitSimpleCaseRange(SimpleCaseRange ast, Object o) {
-    ast.L.visit(this, null);
-    return null;
-  }
-
-  @Override
-  public Object visitCompleteCaseRange(CompleteCaseRange ast, Object o) {
+  public Object visitCaseRange(CaseRange ast, Object o) {
     ast.L1.visit(this, null);
     ast.L2.visit(this, null);
     return null;

@@ -14,16 +14,16 @@
 
 package Triangle.CodeGenerator;
 
-import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import TAM.Instruction;
 import TAM.Machine;
 import Triangle.AbstractSyntaxTrees.*;
 import Triangle.ErrorReporter;
 import Triangle.StdEnvironment;
+
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public final class Encoder implements Visitor {
 
@@ -169,12 +169,7 @@ public final class Encoder implements Visitor {
   }
 
   @Override
-  public Object visitSimpleCaseRange(SimpleCaseRange ast, Object o) {
-    return null;
-  }
-
-  @Override
-  public Object visitCompleteCaseRange(CompleteCaseRange ast, Object o) {
+  public Object visitCaseRange(CaseRange ast, Object o) {
     return null;
   }
 

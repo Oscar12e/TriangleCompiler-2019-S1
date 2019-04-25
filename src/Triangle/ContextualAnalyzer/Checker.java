@@ -267,20 +267,11 @@ public final class Checker implements Visitor {
     List<Terminal[]> T2 = (List<Terminal[]>) ast.L2.visit(this, null);
 
 
-    return new ArrayList<Terminal[]>(T1){{ addAll(T2);}};
+    return new ArrayList<>(T1){{ addAll(T2);}};
   }
 
   @Override
-  public Object visitSimpleCaseRange(SimpleCaseRange ast, Object o) {
-    Terminal T = (Terminal) ast.L.visit(this, null);
-    Terminal [] terminals = new Terminal[1];
-    terminals[0] = T;
-
-    return terminals;
-  }
-
-  @Override
-  public Object visitCompleteCaseRange(CompleteCaseRange ast, Object o) {
+  public Object visitCaseRange(CaseRange ast, Object o) {
     Terminal T1 = (Terminal) ast.L1.visit(this, null);
     Terminal T2 = (Terminal) ast.L2.visit(this, null);
 
@@ -310,7 +301,6 @@ public final class Checker implements Visitor {
     terminals[0] = T1;
     terminals[1] = T2;
     return terminals;
-
   }
 
   @Override

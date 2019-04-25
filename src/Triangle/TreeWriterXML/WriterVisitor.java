@@ -202,15 +202,7 @@ public class WriterVisitor implements Visitor {
 	}
 
 	@Override
-	public Object visitSimpleCaseRange(SimpleCaseRange ast, Object o) {
-		writeLineXML("<SimpleCaseRange>");
-		ast.L.visit(this, null);
-		writeLineXML("</SimpleCaseRange>");
-		return null;
-	}
-
-	@Override
-	public Object visitCompleteCaseRange(CompleteCaseRange ast, Object o) {
+	public Object visitCaseRange(CaseRange ast, Object o) {
 		writeLineXML("<CompleteCaseRange>");
 		ast.L1.visit(this, null);
 		ast.L2.visit(this, null);

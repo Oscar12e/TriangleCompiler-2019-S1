@@ -4,19 +4,15 @@
  */
 
 package GUI;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.MouseListener;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTree;
+
+import javax.swing.*;
 import javax.swing.event.InternalFrameListener;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.Element;
 import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.MouseListener;
 
 /**
  * File Frame. Contains the source edition text box, console, ASTs and 

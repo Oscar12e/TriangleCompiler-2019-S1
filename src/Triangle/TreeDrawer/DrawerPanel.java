@@ -14,10 +14,8 @@
 
 package Triangle.TreeDrawer;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.awt.*;
 
 class DrawerPanel extends JPanel {
   private Drawer drawer;

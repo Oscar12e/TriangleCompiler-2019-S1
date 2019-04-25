@@ -2,9 +2,9 @@ package Triangle.AbstractSyntaxTrees;
 
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
-public class PackageIdentifier extends Package {
+public class PackageIdentifier extends Identifier {
 	public PackageIdentifier(Identifier iAST, SourcePosition thePosition){
-		super(thePosition);
+		super(iAST.spelling,thePosition);
 		I = iAST;
 	}
 

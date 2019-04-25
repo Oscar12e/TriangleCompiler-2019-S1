@@ -5,10 +5,8 @@
 
 package GUI;
 
-import javax.swing.JPanel;
-import javax.swing.ImageIcon;
-import java.awt.Graphics;
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 
 
 /**

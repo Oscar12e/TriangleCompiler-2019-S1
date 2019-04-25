@@ -184,12 +184,10 @@ public class Parser {
       Identifier iAST2 = parseIdentifier();
       finish(packagePos);
       lAST = new LongIdentifier(pAST, iAST2, packagePos);
-      //Modifies
     } else {
       finish(packagePos);
       lAST = iAST;
     }
-
 
     return lAST;
   }
@@ -490,6 +488,12 @@ public class Parser {
 // CASES
 //
 ///////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Parse all the cases that the user typed in the code.
+   * @return
+   * @throws SyntaxError
+   */
   Cases parseCases() throws SyntaxError {
     Cases seqCasesAST = null;
     SourcePosition casesPos = new SourcePosition();
@@ -512,6 +516,7 @@ public class Parser {
       seqCasesAST = new SequentialCases(seqCasesAST, elseAst, casesPos);
     }
 
+
     return seqCasesAST;
   }
 
@@ -520,7 +525,7 @@ public class Parser {
     SourcePosition casePos = new SourcePosition();
 
     start (casePos);
-    Cases literalsAST = parseCaseLiterals();
+    Expression literalsAST = parseCaseLiterals();
     accept(Token.THEN);
 
     Command cAST = parseCommand();
@@ -543,20 +548,20 @@ public class Parser {
     return elseCaseAST;
   }
 
-  Cases parseCaseLiterals() throws SyntaxError {
-    Cases caseAST = null; // in case there's a syntactic error
+  Expression parseCaseLiterals() throws SyntaxError {
+    Expression caseAST = null; // in case there's a syntactic error
 
     SourcePosition casePos = new SourcePosition();
     start(casePos);
 
-    CaseRange cAST = parseCaseRange();
+    Expression cAST = parseCaseRange();
 
     finish(casePos);
     caseAST = new CaseLiterals(cAST, casePos);
     while (currentToken.kind == Token.PIPE){
       acceptIt();
       cAST = parseCaseRange();
-      Cases cAST2 = new CaseLiterals(cAST, casePos);
+      Expression cAST2 = new CaseLiterals(cAST, casePos);
       finish(casePos);
       caseAST = new SequentialCaseLiterals(caseAST, cAST2, casePos);
     }
@@ -564,29 +569,27 @@ public class Parser {
     return caseAST;
   }
 
-  CaseRange parseCaseRange() throws SyntaxError {
+  Expression parseCaseRange() throws SyntaxError {
     CaseRange caseAST = null; // in case there's a syntactic error
 
     SourcePosition casePos = new SourcePosition();
     start(casePos);
 
-    CaseLiteral rAst1 = parseCaseLiteral();
+    Expression rAst1 = parseCaseLiteral();
+    finish(casePos);
 
     if (currentToken.kind == Token.DOUBLEDOTS){ //Two range trees
       acceptIt();
-      CaseLiteral rAst2 = parseCaseLiteral();
+      Expression rAst2 = parseCaseLiteral();
       finish(casePos);
-      caseAST = new CompleteCaseRange(rAst1, rAst2, casePos);
-    } else {
-      finish(casePos);
-      caseAST = new SimpleCaseRange(rAst1, casePos);
+      caseAST = new CaseRange(rAst1, rAst2, casePos);
     }
 
     return caseAST;
   }
 
-  CaseLiteral parseCaseLiteral() throws SyntaxError {
-    CaseLiteral caseAST = null; // in case there's a syntactic error
+  Expression parseCaseLiteral() throws SyntaxError {
+    Expression caseAST = null; // in case there's a syntactic error
     SourcePosition casePos = new SourcePosition();
     start(casePos);
 

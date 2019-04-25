@@ -4,38 +4,29 @@
  */
 
 package GUI;
+
 import Core.Console.InputRedirector;
 import Core.Console.OutputRedirector;
+import Core.ExampleFileFilter;
 import Core.IDE.IDEDisassembler;
 import Core.IDE.IDEInterpreter;
 import Core.Visitors.TableVisitor;
+import Core.Visitors.TreeVisitor;
+import Triangle.IDECompiler;
 import Triangle.TreeWriterXML.Writer;
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.ClipboardOwner;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
+
+import javax.swing.*;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.*;
+import java.awt.datatransfer.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import Triangle.IDECompiler;
-import Core.ExampleFileFilter;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.InternalFrameListener;
-import Core.Visitors.TreeVisitor;
-import javax.swing.tree.DefaultMutableTreeNode;
+import java.io.*;
 
 /**
  * The Main class. Contains the main form.

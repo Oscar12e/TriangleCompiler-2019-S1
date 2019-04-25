@@ -2,7 +2,7 @@ package Triangle.AbstractSyntaxTrees;
 
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
-public class CaseLiteral extends Cases {
+public class CaseLiteral extends Expression {
 
 	public CaseLiteral (Terminal lAst, SourcePosition thePosition) {
 		super (thePosition);

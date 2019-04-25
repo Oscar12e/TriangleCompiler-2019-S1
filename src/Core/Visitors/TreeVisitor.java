@@ -129,13 +129,9 @@ public class TreeVisitor implements Visitor {
         return(createBinary("Sequential Case Literals", ast.L1, ast.L2));
     }
 
-    @Override
-    public Object visitSimpleCaseRange(SimpleCaseRange ast, Object o) {
-        return(createUnary("Case Range", ast.L));
-    }
 
     @Override
-    public Object visitCompleteCaseRange(CompleteCaseRange ast, Object o) {
+    public Object visitCaseRange(CaseRange ast, Object o) {
         return(createBinary("Case Range", ast.L1, ast.L2));
     }
 
