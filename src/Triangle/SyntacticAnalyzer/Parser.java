@@ -406,6 +406,7 @@ public class Parser {
             }
 
             boolean isWhileCommand = Token.WHILE == currentToken.kind;
+
             acceptIt();
             Expression eAST = parseExpression();
             accept(Token.END);
@@ -466,7 +467,7 @@ public class Parser {
       case Token.ELSE:
       case Token.IN:
       case Token.EOT:
-        syntacticError("\"%\" is no longer supported for blank command, use the reserved word \"pass\".",
+        syntacticError("Found: \"%\". Expected the beginning of a command here.",
                 currentToken.spelling);
         break;
 
