@@ -54,7 +54,6 @@ public final class Checker implements Visitor {
 
   // <editor-fold defaultstate="collapsed" desc=" Commands ">
   // Commands
-
   // Always returns null. Does not use the given object.
 
   public Object visitAssignCommand(AssignCommand ast, Object o) {
@@ -66,7 +65,6 @@ public final class Checker implements Visitor {
       reporter.reportError ("assignment incompatibility", "", ast.position);
     return null;
   }
-
 
   public Object visitCallCommand(CallCommand ast, Object o) {
 
@@ -173,6 +171,7 @@ public final class Checker implements Visitor {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public Object visitChooseCommand(ChooseCommand ast, Object o) {
     idTable.openScope();
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -236,7 +235,11 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  // <editor-fold defaultstate="collapsed" desc=" Cases ">
+  // Cases
+  // Returns their literals as they check their parts.
   @Override
+  @SuppressWarnings("unchecked")
   public Object visitCase(Case ast, Object o) {
     List<Terminal[]> terminals = (List<Terminal[]>) ast.CL.visit(this, null);
     ast.C.visit(this, null);
@@ -250,6 +253,7 @@ public final class Checker implements Visitor {
   }
 
   @Override
+  @SuppressWarnings("unchecked")
   public Object visitSequentialCases(SequentialCases ast, Object o) {
     List<Terminal[]> T1 = (List<Terminal[]>) ast.C1.visit(this, null);
     List<Terminal[]> T2 = (List<Terminal[]>) ast.C2.visit(this, null);
@@ -257,21 +261,14 @@ public final class Checker implements Visitor {
     return new ArrayList<Terminal[]>(T1){{ addAll(T2);}};
   }
 
-  /**
-   *
-   * @param ast
-   * @param o
-   * @return ArrayList<Terminal[]>
-   */
   @Override
   public Object visitCaseLiterals(CaseLiterals ast, Object o) {
     Terminal[] T = (Terminal[]) ast.R.visit(this, null);
-
     return new ArrayList<Terminal[]>(){{ add(T); }};
   }
 
   @Override
-  @SuppressWarnings("Unchecked cast")
+  @SuppressWarnings("unchecked")
   public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
     List<Terminal[]> T1 = (ArrayList<Terminal[]>) ast.L1.visit(this, null);
     List<Terminal[]> T2 = (ArrayList<Terminal[]>) ast.L2.visit(this, null);
