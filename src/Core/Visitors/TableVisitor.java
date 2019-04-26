@@ -40,7 +40,7 @@ public class TableVisitor implements Visitor {
 
   @Override
   public Object visitPackageIdentifier(PackageIdentifier ast, Object o) {
-    ast.I.visit(this, null);
+    //ast.I.visit(this, null);
     return null;
   }
 
@@ -669,12 +669,6 @@ public class TableVisitor implements Visitor {
     return null;
   }
 
-  @Override
-  public Object visitLongVName(LongVname ast, Object o) {
-    ast.P.visit(this, null);
-    ast.V.visit(this, null);
-    return null;
-  }
   // </editor-fold>
 
   // <editor-fold defaultstate="collapsed" desc=" Values or Variable Names ">

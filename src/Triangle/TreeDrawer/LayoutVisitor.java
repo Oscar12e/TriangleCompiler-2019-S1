@@ -412,12 +412,6 @@ public class LayoutVisitor implements Visitor {
     return null;
   }
 
-  @Override
-  public Object visitLongVName(LongVname ast, Object o) {
-    return layoutBinary("Long.Vname.",ast.P,ast.V);
-  }
-
-
   // Value-or-variable names
   public Object visitDotVname(DotVname ast, Object obj) {
     return layoutBinary("DotVname", ast.I, ast.V);
@@ -427,10 +421,7 @@ public class LayoutVisitor implements Visitor {
     return layoutUnary("Sim.Vname", ast.I);
   }
 
-  public Object visitSubscriptVname(SubscriptVname ast, Object obj) {
-    return layoutBinary("Sub.Vname",
-        ast.V, ast.E);
-  }
+  public Object visitSubscriptVname(SubscriptVname ast, Object obj) { return layoutBinary("Sub.Vname", ast.V, ast.E); }
 
 
   // Programs

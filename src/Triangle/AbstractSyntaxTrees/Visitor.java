@@ -130,7 +130,6 @@ public interface Visitor {
   public abstract Object visitLongIdentifier(LongIdentifier ast, Object o);
 
   // Value-or-variable names
-  public abstract Object visitLongVName(LongVname ast, Object o);
   public abstract Object visitDotVname(DotVname ast, Object o);
   public abstract Object visitSimpleVname(SimpleVname ast, Object o);
   public abstract Object visitSubscriptVname(SubscriptVname ast, Object o);

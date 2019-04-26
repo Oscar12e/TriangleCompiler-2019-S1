@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 public final class Checker implements Visitor {
 
@@ -46,7 +47,7 @@ public final class Checker implements Visitor {
 
   @Override
   public Object visitPackageIdentifier(PackageIdentifier ast, Object o) {
-    ast.I.visit(this, null);
+    //ast.I.visit(this, null);
     return null;
   }
   // </editor-fold>
@@ -178,7 +179,6 @@ public final class Checker implements Visitor {
     List<Terminal[]> casesLiterals = (List<Terminal[]>) ast.C.visit(this, null);
     idTable.closeScope();
 
-    //Firsts we check
     Set<String> rangesSet = new HashSet<>();
 
     if (! (eType.equals(StdEnvironment.integerType) || eType.equals(StdEnvironment.charType)) ){
@@ -189,6 +189,8 @@ public final class Checker implements Visitor {
 
       //Checking all literals are the same type as the choose type, if they are report the error
       //If ain't an error, stores to check if it repeats
+      casesLiterals.forEach((System.out::println));
+
       for (Terminal[] currentLiterals : casesLiterals){
         TypeDenoter eType1 = (TypeDenoter) currentLiterals[0].visit(this, null);
         if (currentLiterals.length == 2){
@@ -223,8 +225,10 @@ public final class Checker implements Visitor {
         rangeString = rangeString + ".." + currentLiterals[1].spelling;
       }
 
-      if (rangesSet.contains(rangeString))
+      if (rangesSet.contains(rangeString)){
         reporter.reportError(rangeString + " is already defined in the scope", "", currentLiterals[1].position);
+      }
+
       else
         rangesSet.add(rangeString);
     }
@@ -251,9 +255,14 @@ public final class Checker implements Visitor {
     List<Terminal[]> T2 = (List<Terminal[]>) ast.C2.visit(this, null);
 
     return new ArrayList<Terminal[]>(T1){{ addAll(T2);}};
-
   }
 
+  /**
+   *
+   * @param ast
+   * @param o
+   * @return ArrayList<Terminal[]>
+   */
   @Override
   public Object visitCaseLiterals(CaseLiterals ast, Object o) {
     Terminal[] T = (Terminal[]) ast.R.visit(this, null);
@@ -262,12 +271,12 @@ public final class Checker implements Visitor {
   }
 
   @Override
+  @SuppressWarnings("Unchecked cast")
   public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
-    List<Terminal[]> T1 = (List<Terminal[]>) ast.L1.visit(this, null);
-    List<Terminal[]> T2 = (List<Terminal[]>) ast.L2.visit(this, null);
+    List<Terminal[]> T1 = (ArrayList<Terminal[]>) ast.L1.visit(this, null);
+    List<Terminal[]> T2 = (ArrayList<Terminal[]>) ast.L2.visit(this, null);
 
-
-    return new ArrayList<>(T1){{ addAll(T2);}};
+    return new ArrayList<Terminal[]>(T1){{ addAll(T2);}};
   }
 
   @Override
@@ -891,7 +900,7 @@ public final class Checker implements Visitor {
   @Override
   public Object visitLongIdentifier(LongIdentifier ast, Object o) {
     ast.P.visit(this, null);
-    ast.I.visit(this, null);
+    //ast.I.visit(this, null);
     return null;
   }
 
@@ -918,13 +927,6 @@ public final class Checker implements Visitor {
 
   // Returns the TypeDenoter of the Vname. Does not use the
   // given object.
-
-  @Override
-  public Object visitLongVName(LongVname ast, Object o) {
-    ast.P.visit(this, null);
-    //ast.V.visit(this, null);
-    return ast.V.visit(this, null);
-  }
 
   public Object visitDotVname(DotVname ast, Object o) {
     ast.type = null;

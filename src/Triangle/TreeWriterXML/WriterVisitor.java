@@ -34,7 +34,7 @@ public class WriterVisitor implements Visitor {
 	@Override
 	public Object visitPackageIdentifier(PackageIdentifier ast, Object o) {
 		writeLineXML("<PackageIdentifier>");
-		ast.I.visit(this, null);
+		writeLineXML(ast.spelling);
 		writeLineXML("</PackageIdentifier>");
 		return null;
 	}
@@ -694,14 +694,6 @@ public class WriterVisitor implements Visitor {
 
 	// <editor-fold defaultstate="collapsed" desc=" Value-or-variable names ">
 	// Value-or-variable names
-	@Override
-	public Object visitLongVName(LongVname ast, Object o) {
-		writeLineXML("<LongVname>");
-		ast.P.visit(this, null);
-		ast.V.visit(this, null);
-		writeLineXML("</LongVname>");
-		return null;
-	}
 
 	public Object visitDotVname(DotVname ast, Object obj) {
 		writeLineXML("<DotVname>");

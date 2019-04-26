@@ -4,6 +4,7 @@
  */
 
 package Core.Visitors;
+
 import Triangle.AbstractSyntaxTrees.*;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -36,7 +37,7 @@ public class TreeVisitor implements Visitor {
 
     @Override
     public Object visitPackageIdentifier(PackageIdentifier ast, Object o) {
-        return createUnary("Package Identifier", ast.I);
+        return createNullary(ast.spelling);
     }
 
     // <editor-fold defaultstate="collapsed" desc=" Commands ">
@@ -404,13 +405,12 @@ public class TreeVisitor implements Visitor {
         return(createNullary(ast.spelling));
     }
 
-    public Object visitLongIdentifier(LongIdentifier ast, Object o) { return createBinary("Long Identifier", ast.P, ast.I); }
+    public Object visitLongIdentifier(LongIdentifier ast, Object o) { return(createNullary(ast.P.spelling +"$"+ast.spelling)); }
 
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc=" Values or Variable Names ">
     // Values or Variable Names
-    public Object visitLongVName(LongVname ast, Object o) { return createBinary("Long Vname", ast.P, ast.V); }
 
     public Object visitDotVname(DotVname ast, Object obj) {
         return(createBinary("Dot Vname", ast.I, ast.V));
@@ -473,6 +473,19 @@ public class TreeVisitor implements Visitor {
         
         return(t);
     }
+
+    /**
+     * Creates an unary tree node.
+     * @param caption The tree's caption (text to be shown when the tree is drawn).
+     * @param child1 The first children node.
+     * @return The tree node.
+     */
+    public DefaultMutableTreeNode createUnary(String caption, String child1) {
+        DefaultMutableTreeNode t = new DefaultMutableTreeNode(caption);
+        t.add(new DefaultMutableTreeNode(child1));
+
+        return(t);
+    }
     
     /**
      * Creates a binary tree node.
@@ -486,6 +499,22 @@ public class TreeVisitor implements Visitor {
         t.add((DefaultMutableTreeNode)child1.visit(this, null));
         t.add((DefaultMutableTreeNode)child2.visit(this, null));
         
+        return(t);
+    }
+
+    /**
+     * Creates a binary tree node. Especially for Integer children classes
+     * @param caption The tree's caption (text to be shown when the tree is drawn).
+     * @param child1 The first children node.
+     * @param child2 The second children node.
+     * @return The tree node.
+     */
+    public DefaultMutableTreeNode createBinary(String caption, String child1, AST child2) {
+        DefaultMutableTreeNode t = new DefaultMutableTreeNode(caption);
+
+        t.add(new DefaultMutableTreeNode(child1));
+
+        t.add((DefaultMutableTreeNode)child2.visit(this, null));
         return(t);
     }
     
