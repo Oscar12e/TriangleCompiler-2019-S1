@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 import java.util.function.Function;
 
 public final class Checker implements Visitor {
@@ -173,63 +174,40 @@ public final class Checker implements Visitor {
   @Override
   @SuppressWarnings("unchecked")
   public Object visitChooseCommand(ChooseCommand ast, Object o) {
-    idTable.openScope();
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-    List<Terminal[]> casesLiterals = (List<Terminal[]>) ast.C.visit(this, null);
-    idTable.closeScope();
-
-    Set<String> rangesSet = new HashSet<>();
+    Set<Integer> evaluatedRanges = new HashSet<>();
+    List<Terminal[]> casesLiterals;
 
     if (! (eType.equals(StdEnvironment.integerType) || eType.equals(StdEnvironment.charType)) ){
-      reporter.reportError("Integer or Char expression expected here", "", ast.E.position);
-    } else {
-      TypeDenoter chooseType = eType.equals(StdEnvironment.integerType) ? StdEnvironment.integerType : StdEnvironment.charType;
-      List<Terminal[]> validLiterals = new ArrayList<>();
-
-      //Checking all literals are the same type as the choose type, if they are report the error
-      //If ain't an error, stores to check if it repeats
-      casesLiterals.forEach((System.out::println));
-
-      for (Terminal[] currentLiterals : casesLiterals){
-        TypeDenoter eType1 = (TypeDenoter) currentLiterals[0].visit(this, null);
-        if (currentLiterals.length == 2){
-          TypeDenoter eType2 = (TypeDenoter) currentLiterals[1].visit(this, null);
-
-          if (! (eType1.equals(chooseType) && eType2.equals(chooseType)) ){
-            SourcePosition errorPos = !eType1.equals(chooseType) ? currentLiterals[0].position : currentLiterals[1].position;
-            reporter.reportError("Case literal value type do not match with choose value type", "", errorPos);
-            continue;
-          }
-
-        } else if (! eType1.equals(chooseType) ){
-          reporter.reportError("Case literal value type do not match with choose value type", "", currentLiterals[0].position);
-          continue;
-        }
-
-        validLiterals.add(currentLiterals);
-      }
-      casesLiterals = validLiterals;
+        reporter.reportError("Integer or Char expression expected here.", "", ast.E.position);
+        eType = StdEnvironment.anyType;
     }
+    idTable.openScope();
+    casesLiterals = (List<Terminal[]>) ast.C.visit(this, eType);
+    idTable.closeScope();
 
-    for (Terminal[] currentLiterals : casesLiterals){
-      String rangeString = currentLiterals[0].spelling;
+    for (Terminal[] currentLimits : casesLiterals){
+      Set currentRange;
+      String lMin = currentLimits[0].spelling;
+      String lMax = currentLimits.length == 1? lMin: currentLimits[1].spelling;
 
-      if (currentLiterals.length == 2){
-        TypeDenoter eType1 = (TypeDenoter) currentLiterals[0].visit(this, null);
-        TypeDenoter eType2 = (TypeDenoter) currentLiterals[1].visit(this, null);
-
-        if ( !eType1.equals(eType2)) //Case that there's a mismatch
-          continue;
-
-        rangeString = rangeString + ".." + currentLiterals[1].spelling;
+      if (eType.equals(StdEnvironment.integerType)){
+        currentRange = new HashSet<Integer>()
+          {{ IntStream.range(Integer.parseInt(lMin), Integer.parseInt(lMax)).forEach(this::add); }};
+      } else {
+        currentRange = new HashSet<Integer>()
+          {{ IntStream.range(lMin.charAt(0), lMax.charAt(0) ).forEach(this::add); }};
       }
 
-      if (rangesSet.contains(rangeString)){
-        reporter.reportError(rangeString + " is already defined in the scope", "", currentLiterals[1].position);
-      }
+      /*
+      currentRange = new HashSet<Integer>(){{ ( eType.equals(StdEnvironment.integerType) ?
+              IntStream.range(Integer.parseInt(lMin), Integer.parseInt(lMax)) : IntStream.range(lMin.charAt(0), lMax.charAt(0) ) ).forEach(this::add); }};
+        */
+      //If current ranges get modified
+      if ( currentRange.removeAll(evaluatedRanges) )
+        reporter.reportError("Range presents conflict with another present.", "", currentLimits[0].position);
 
-      else
-        rangesSet.add(rangeString);
+      evaluatedRanges.addAll(currentRange);
     }
 
     return null;
@@ -241,39 +219,47 @@ public final class Checker implements Visitor {
   @Override
   @SuppressWarnings("unchecked")
   public Object visitCase(Case ast, Object o) {
-    List<Terminal[]> terminals = (List<Terminal[]>) ast.CL.visit(this, null);
+    List<Terminal[]> terminals = (List<Terminal[]>) ast.CL.visit(this, o);
+    idTable.openScope();
     ast.C.visit(this, null);
+    idTable.closeScope();
     return terminals;
   }
 
   @Override
   public Object visitElseCase(ElseCase ast, Object o) {
+    idTable.openScope();
     ast.C.visit(this, null);
+    idTable.closeScope();
     return new ArrayList<Terminal[]>();
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public Object visitSequentialCases(SequentialCases ast, Object o) {
-    List<Terminal[]> T1 = (List<Terminal[]>) ast.C1.visit(this, null);
-    List<Terminal[]> T2 = (List<Terminal[]>) ast.C2.visit(this, null);
+    List<Terminal[]> T1 = (List<Terminal[]>) ast.C1.visit(this, o);
+    List<Terminal[]> T2 = (List<Terminal[]>) ast.C2.visit(this, o);
 
     return new ArrayList<Terminal[]>(T1){{ addAll(T2);}};
   }
 
   @Override
   public Object visitCaseLiterals(CaseLiterals ast, Object o) {
-    Terminal[] T = (Terminal[]) ast.R.visit(this, null);
+    Terminal[] T = (Terminal[]) ast.R.visit(this, o);
     return new ArrayList<Terminal[]>(){{ add(T); }};
   }
 
   @Override
   @SuppressWarnings("unchecked")
   public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
-    List<Terminal[]> T1 = (ArrayList<Terminal[]>) ast.L1.visit(this, null);
-    List<Terminal[]> T2 = (ArrayList<Terminal[]>) ast.L2.visit(this, null);
+    Object T1 = ast.L1.visit(this, o);
+    Object T2 = ast.L2.visit(this, o);
 
-    return new ArrayList<Terminal[]>(T1){{ addAll(T2);}};
+    List<Terminal[]>result = new ArrayList<>();
+    result.add( ast.L1 instanceof CaseRange ? (Terminal[]) T1 : new Terminal[] {(Terminal) T1});
+    result.add( ast.L2 instanceof CaseRange ? (Terminal[]) T2 : new Terminal[] {(Terminal) T2});
+
+    return result;
   }
 
   @Override
@@ -281,39 +267,50 @@ public final class Checker implements Visitor {
     Terminal T1 = (Terminal) ast.L1.visit(this, null);
     Terminal T2 = (Terminal) ast.L2.visit(this, null);
 
+    TypeDenoter chooseEType = (TypeDenoter) o;
     TypeDenoter eType1 = (TypeDenoter) T1.visit(this, null);
     TypeDenoter eType2 = (TypeDenoter) T2.visit(this, null);
 
-    if (! eType1.equals(eType2)){
-      reporter.reportError("Incompatible value types found in range limits.", "", ast.position);
+    Terminal [] terminals = new Terminal[0];
+
+    if (! (eType1.equals(eType2)) ){
+      reporter.reportError("Incompatible types found in the literals %.", T1.spelling + ".." + T2.spelling, ast.position);
     } else {
+      int lMin;
+      int lMax;
 
-      if (eType1.equals(StdEnvironment.integerType)){
-        int lMin = Integer.parseInt(T1.spelling);
-        int lMax = Integer.parseInt(T2.spelling);
-
-        if (lMax < lMin)
-          reporter.reportError("Inconsistency found in limits values in range.", "", ast.position);
+      if (chooseEType.equals(StdEnvironment.integerType)){
+        lMin = Integer.parseInt(T1.spelling);
+        lMax = Integer.parseInt(T2.spelling);
+      } else if (chooseEType.equals(StdEnvironment.charType)){
+        lMin = T1.spelling.charAt(0);
+        lMax = T2.spelling.charAt(0);
       } else {
-        char lMin = T1.spelling.charAt(0);
-        char lMax = T2.spelling.charAt(0);
+          reporter.reportError("Incompatible types found in the literals %.", T1.spelling + ".." + T2.spelling, ast.position);
+          return terminals;
+      }
 
-        if (lMax < lMin)
-          reporter.reportError("Inconsistency found in limits values in range.", "", ast.position);
+      if (lMax < lMin)
+        reporter.reportError("Inconsistency found in limits values in range.", "", ast.position);
+      else if (! eType1.equals(chooseEType) )
+          reporter.reportError("Literals mismatch the type of the choose expression.", "", ast.position);
+      else {
+        terminals = new Terminal[2];
+        terminals[0] = T1;
+        terminals[1] = T2;
       }
     }
 
-    Terminal [] terminals = new Terminal[2];
-    terminals[0] = T1;
-    terminals[1] = T2;
     return terminals;
   }
 
-  @Override
-  /** To sum up, return a set because reasons
+
+  /**
+   * To sum up, return a set because reasons
    * @param ast: An single CaseLiteral.
    * @return set with the Literal as value
    */
+  @Override
   public Object visitCaseLiteral(CaseLiteral ast, Object o) {
     return ast.L;
   }

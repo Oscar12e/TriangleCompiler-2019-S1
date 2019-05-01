@@ -570,19 +570,19 @@ public class Parser {
   }
 
   Expression parseCaseRange() throws SyntaxError {
-    CaseRange caseAST = null; // in case there's a syntactic error
+    Expression caseAST = null; // in case there's a syntactic error
 
     SourcePosition casePos = new SourcePosition();
     start(casePos);
 
-    Expression rAst1 = parseCaseLiteral();
+    caseAST = parseCaseLiteral();
     finish(casePos);
 
     if (currentToken.kind == Token.DOUBLEDOTS){ //Two range trees
       acceptIt();
       Expression rAst2 = parseCaseLiteral();
       finish(casePos);
-      caseAST = new CaseRange(rAst1, rAst2, casePos);
+      caseAST = new CaseRange(caseAST, rAst2, casePos);
     }
 
     return caseAST;
