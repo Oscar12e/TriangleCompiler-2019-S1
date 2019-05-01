@@ -7,6 +7,7 @@ package Core.Visitors;
 
 import Triangle.AbstractSyntaxTrees.*;
 import Triangle.CodeGenerator.*;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -357,6 +358,28 @@ public class TableVisitor implements Visitor {
 
   @Override
   public Object visitForDeclaration(ForDeclaration ast, Object o) {
+      String name = ast.I.spelling;
+      String type = "N/A";
+      try {
+          int size = (ast.entity!=null?ast.entity.size:0);
+          int level = -1;
+          int displacement = -1;
+          int value = -1;
+
+          if (ast.entity instanceof KnownValue) {
+              type = "KnownValue";
+              value = ((KnownValue)ast.entity).value;
+          }
+          else if (ast.entity instanceof UnknownValue) {
+              type = "UnknownValue";
+              level = ((UnknownValue)ast.entity).address.level;
+              displacement = ((UnknownValue)ast.entity).address.displacement;
+          }
+          addIdentifier(name, type, size, level, displacement, value);
+      } catch (NullPointerException e) {
+          System.out.println(e.toString());
+      }
+
     ast.I.visit(this, null);
     ast.E1.visit(this, null);
     ast.E2.visit(this, null);
@@ -413,7 +436,9 @@ public class TableVisitor implements Visitor {
               displacement = ((UnknownValue)ast.entity).address.displacement;
           }
           addIdentifier(name, type, size, level, displacement, value);
-      } catch (NullPointerException e) { }
+      } catch (NullPointerException e) {
+          System.out.println(e.toString());
+      }
 
       ast.E.visit(this, null);
       ast.I.visit(this, null);
@@ -709,7 +734,6 @@ public class TableVisitor implements Visitor {
 
   @Override
   public Object visitSimpleProgram(SimpleProgram ast, Object o) {
-    System.out.println("Yo");
     ast.C.visit(this, null);
     return null;
   }
@@ -729,7 +753,7 @@ public class TableVisitor implements Visitor {
         for (int i=0;(i<model.getRowCount() && !exists);i++)
             if (((String)model.getValueAt(i, 0)).compareTo(name) == 0)
                 exists = true;
-        
+        //if (true){
         if (!exists) {
             model.addRow(new String[] {name, 
                     type, 
@@ -747,7 +771,6 @@ public class TableVisitor implements Visitor {
     public DefaultTableModel getTable(Program ast) {
         model = new DefaultTableModel((new String[] {"Name", "Type", "Size", "Level", "Displacement", "Value"}), 0);
         visitProgram(ast, null);
-        //ast.visit(this, null);
         return(model);
     }
     

@@ -213,11 +213,14 @@ public final class Checker implements Visitor {
     return null;
   }
 
+  // </editor-fold>
+
   // <editor-fold defaultstate="collapsed" desc=" Cases ">
   // Cases
   // Returns their literals as they check their parts.
   @Override
   @SuppressWarnings("unchecked")
+  /* [Modified] */
   public Object visitCase(Case ast, Object o) {
     List<Terminal[]> terminals = (List<Terminal[]>) ast.CL.visit(this, o);
     idTable.openScope();
@@ -227,6 +230,7 @@ public final class Checker implements Visitor {
   }
 
   @Override
+  /* [Modified] */
   public Object visitElseCase(ElseCase ast, Object o) {
     idTable.openScope();
     ast.C.visit(this, null);
@@ -236,6 +240,7 @@ public final class Checker implements Visitor {
 
   @Override
   @SuppressWarnings("unchecked")
+  /* [Modified] */
   public Object visitSequentialCases(SequentialCases ast, Object o) {
     List<Terminal[]> T1 = (List<Terminal[]>) ast.C1.visit(this, o);
     List<Terminal[]> T2 = (List<Terminal[]>) ast.C2.visit(this, o);
@@ -244,6 +249,7 @@ public final class Checker implements Visitor {
   }
 
   @Override
+  /* [Modified] */
   public Object visitCaseLiterals(CaseLiterals ast, Object o) {
     Terminal[] T = (Terminal[]) ast.R.visit(this, o);
     return new ArrayList<Terminal[]>(){{ add(T); }};
@@ -251,6 +257,7 @@ public final class Checker implements Visitor {
 
   @Override
   @SuppressWarnings("unchecked")
+  /* [Modified] */
   public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
     Object T1 = ast.L1.visit(this, o);
     Object T2 = ast.L2.visit(this, o);
@@ -259,10 +266,12 @@ public final class Checker implements Visitor {
     result.add( ast.L1 instanceof CaseRange ? (Terminal[]) T1 : new Terminal[] {(Terminal) T1});
     result.add( ast.L2 instanceof CaseRange ? (Terminal[]) T2 : new Terminal[] {(Terminal) T2});
 
+    /* [Modified] */
     return result;
   }
 
   @Override
+  /* [Modified] */
   public Object visitCaseRange(CaseRange ast, Object o) {
     Terminal T1 = (Terminal) ast.L1.visit(this, null);
     Terminal T2 = (Terminal) ast.L2.visit(this, null);
@@ -304,13 +313,8 @@ public final class Checker implements Visitor {
     return terminals;
   }
 
-
-  /**
-   * To sum up, return a set because reasons
-   * @param ast: An single CaseLiteral.
-   * @return set with the Literal as value
-   */
   @Override
+  /* [Modified] */
   public Object visitCaseLiteral(CaseLiteral ast, Object o) {
     return ast.L;
   }
@@ -521,6 +525,7 @@ public final class Checker implements Visitor {
   }
 
   @Override
+  /* [Modified] */
   public Object visitForDeclaration(ForDeclaration ast, Object o) {
     TypeDenoter eType1 = (TypeDenoter) ast.E1.visit(this, null);
     TypeDenoter eType2 = (TypeDenoter) ast.E2.visit(this, null);
@@ -570,6 +575,7 @@ public final class Checker implements Visitor {
   }
 
   @Override
+  /* [Modified] */
   public Object visitInitializedDeclaration(InitializedDeclaration ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     idTable.enter(ast.I.spelling, ast);
@@ -937,6 +943,7 @@ public final class Checker implements Visitor {
     return ast.type;
   }
 
+  /* [Modified] */
   public Object visitSimpleVname(SimpleVname ast, Object o) {
     ast.variable = false;
     ast.type = StdEnvironment.errorType;
