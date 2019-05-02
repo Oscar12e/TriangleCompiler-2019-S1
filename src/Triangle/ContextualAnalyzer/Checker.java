@@ -19,10 +19,7 @@ import Triangle.ErrorReporter;
 import Triangle.StdEnvironment;
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.IntStream;
 import java.util.function.Function;
 
@@ -175,7 +172,7 @@ public final class Checker implements Visitor {
   @SuppressWarnings("unchecked")
   public Object visitChooseCommand(ChooseCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-    Set<Integer> evaluatedRanges = new HashSet<>();
+    Set<Integer> evaluatedRanges = new HashSet<Integer>();
     List<Terminal[]> casesLiterals;
 
     if (! (eType.equals(StdEnvironment.integerType) || eType.equals(StdEnvironment.charType)) ){
@@ -191,18 +188,17 @@ public final class Checker implements Visitor {
       String lMin = currentLimits[0].spelling;
       String lMax = currentLimits.length == 1? lMin: currentLimits[1].spelling;
 
+
       if (eType.equals(StdEnvironment.integerType)){
-        currentRange = new HashSet<Integer>()
-          {{ IntStream.range(Integer.parseInt(lMin), Integer.parseInt(lMax)).forEach(this::add); }};
+        currentRange = new HashSet<Integer>() {{
+          IntStream.rangeClosed(Integer.parseInt(lMin), Integer.parseInt(lMax)).forEach(this::add);
+        }};
       } else {
-        currentRange = new HashSet<Integer>()
-          {{ IntStream.range(lMin.charAt(0), lMax.charAt(0) ).forEach(this::add); }};
+        currentRange = new HashSet<Integer>() {{
+          IntStream.rangeClosed(lMin.charAt(0), lMax.charAt(0) ).forEach(this::add);
+        }};
       }
 
-      /*
-      currentRange = new HashSet<Integer>(){{ ( eType.equals(StdEnvironment.integerType) ?
-              IntStream.range(Integer.parseInt(lMin), Integer.parseInt(lMax)) : IntStream.range(lMin.charAt(0), lMax.charAt(0) ) ).forEach(this::add); }};
-        */
       //If current ranges get modified
       if ( currentRange.removeAll(evaluatedRanges) )
         reporter.reportError("Range presents conflict with another present.", "", currentLimits[0].position);
@@ -251,23 +247,39 @@ public final class Checker implements Visitor {
   @Override
   /* [Modified] */
   public Object visitCaseLiterals(CaseLiterals ast, Object o) {
-    Terminal[] T = (Terminal[]) ast.R.visit(this, o);
-    return new ArrayList<Terminal[]>(){{ add(T); }};
+    Object T = ast.R.visit(this, o);
+
+    TypeDenoter chooseEType = (TypeDenoter) o;
+    List<Terminal[]> rawTerminals = new ArrayList<Terminal[]>();
+    rawTerminals.add( ast.R instanceof CaseRange ? (Terminal[]) T : new Terminal[] {(Terminal) T});
+
+    List<Terminal[]> checkedTerminals = new ArrayList<>();
+
+    for (Terminal[] limits: rawTerminals) {
+      TypeDenoter eType = (TypeDenoter) limits[0].visit(this, null);
+      if (!eType.equals(chooseEType)) {
+        reporter.reportError("Literals mismatch the type of the choose expression.", "", ast.position);
+      } else {
+        if (limits.length == 2)
+          checkedTerminals.add(limits);
+        else if (limits.length == 1 && (eType.equals(StdEnvironment.integerType) || eType.equals(StdEnvironment.charType)) )
+          checkedTerminals.add(limits);
+      }
+    }
+
+    return checkedTerminals;
   }
 
   @Override
   @SuppressWarnings("unchecked")
   /* [Modified] */
   public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
-    Object T1 = ast.L1.visit(this, o);
-    Object T2 = ast.L2.visit(this, o);
+    List<Terminal[]> T1 = (List<Terminal[]>) ast.L1.visit(this, o);
+    List<Terminal[]> T2 = (List<Terminal[]>) ast.L2.visit(this, o);
 
-    List<Terminal[]>result = new ArrayList<>();
-    result.add( ast.L1 instanceof CaseRange ? (Terminal[]) T1 : new Terminal[] {(Terminal) T1});
-    result.add( ast.L2 instanceof CaseRange ? (Terminal[]) T2 : new Terminal[] {(Terminal) T2});
+    T1.addAll(T2);
 
-    /* [Modified] */
-    return result;
+    return T1;
   }
 
   @Override
@@ -276,7 +288,6 @@ public final class Checker implements Visitor {
     Terminal T1 = (Terminal) ast.L1.visit(this, null);
     Terminal T2 = (Terminal) ast.L2.visit(this, null);
 
-    TypeDenoter chooseEType = (TypeDenoter) o;
     TypeDenoter eType1 = (TypeDenoter) T1.visit(this, null);
     TypeDenoter eType2 = (TypeDenoter) T2.visit(this, null);
 
@@ -288,26 +299,17 @@ public final class Checker implements Visitor {
       int lMin;
       int lMax;
 
-      if (chooseEType.equals(StdEnvironment.integerType)){
+      if (eType1.equals(StdEnvironment.integerType)){
         lMin = Integer.parseInt(T1.spelling);
         lMax = Integer.parseInt(T2.spelling);
-      } else if (chooseEType.equals(StdEnvironment.charType)){
+      } else if (eType1.equals(StdEnvironment.charType)){
         lMin = T1.spelling.charAt(0);
         lMax = T2.spelling.charAt(0);
       } else {
-          reporter.reportError("Incompatible types found in the literals %.", T1.spelling + ".." + T2.spelling, ast.position);
-          return terminals;
+        reporter.reportError("Incompatible types found in the literals %.", T1.spelling + ".." + T2.spelling, ast.position);
+        return terminals;
       }
-
-      if (lMax < lMin)
-        reporter.reportError("Inconsistency found in limits values in range.", "", ast.position);
-      else if (! eType1.equals(chooseEType) )
-          reporter.reportError("Literals mismatch the type of the choose expression.", "", ast.position);
-      else {
-        terminals = new Terminal[2];
-        terminals[0] = T1;
-        terminals[1] = T2;
-      }
+      terminals =  (lMax < lMin)?new Terminal[]{T2, T1}:new Terminal[]{T1, T2};
     }
 
     return terminals;
@@ -316,7 +318,8 @@ public final class Checker implements Visitor {
   @Override
   /* [Modified] */
   public Object visitCaseLiteral(CaseLiteral ast, Object o) {
-    return ast.L;
+    TypeDenoter tType = (TypeDenoter) ast.L.visit(this, null);
+    return  ast.L ;
   }
 
   // </editor-fold>
@@ -898,8 +901,10 @@ public final class Checker implements Visitor {
   }
 
   @Override
-  public Object visitLongIdentifier(LongIdentifier ast, Object o) {
-    ast.P.visit(this, null);
+  public Object visitLongIdentifier(LongIdentifier LI, Object o) {
+    System.out.println(LI.spelling);
+
+    LI.P.visit(this, null);
     //ast.I.visit(this, null);
     return null;
   }

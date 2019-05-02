@@ -76,6 +76,7 @@ public final class IdentificationTable {
     // Add new entry ...
     entry = new IdEntry(id, attr, this.level, this.latest);
     this.latest = entry;
+
   }
 
   // Finds an entry for the given identifier in the identification table,

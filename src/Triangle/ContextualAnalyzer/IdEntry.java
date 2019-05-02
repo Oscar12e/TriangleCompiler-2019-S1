@@ -24,6 +24,10 @@ public class IdEntry {
   protected IdEntry previous;
 
   IdEntry (String id, Declaration attr, int level, IdEntry previous) {
+    this("", id, attr, level, previous);
+  }
+
+  IdEntry (String p, String id, Declaration attr, int level, IdEntry previous) {
     this.id = id;
     this.attr = attr;
     this.level = level;
