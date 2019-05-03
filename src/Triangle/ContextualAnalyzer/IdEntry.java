@@ -22,12 +22,21 @@ public class IdEntry {
   protected Declaration attr;
   protected int level;
   protected IdEntry previous;
+  protected String idPackage;
 
   IdEntry (String id, Declaration attr, int level, IdEntry previous) {
     this.id = id;
     this.attr = attr;
     this.level = level;
     this.previous = previous;
+    this.idPackage = "";
+  }
+  IdEntry (String id, Declaration attr, int level, IdEntry previous, String idPackage) {
+    this.id = id;
+    this.attr = attr;
+    this.level = level;
+    this.previous = previous;
+    this.idPackage = idPackage;
   }
 
 }

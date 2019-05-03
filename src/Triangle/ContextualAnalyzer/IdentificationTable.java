@@ -78,6 +78,28 @@ public final class IdentificationTable {
     this.latest = entry;
   }
 
+  public void enter (String id, Declaration attr, String idPackage) {
+
+    IdEntry entry = this.latest;
+    boolean present = false, searching = true;
+
+    // Check for duplicate entry ...
+    while (searching) {
+      if (entry == null || entry.level < this.level)
+        searching = false;
+      else if (entry.id.equals(id)) {
+        present = true;
+        searching = false;
+      } else
+        entry = entry.previous;
+    }
+
+    attr.duplicated = present;
+    // Add new entry ...
+    entry = new IdEntry(id, attr, this.level, this.latest, idPackage);
+    this.latest = entry;
+  }
+
   // Finds an entry for the given identifier in the identification table,
   // if any. If there are several entries for that identifier, finds the
   // entry at the highest level, in accordance with the scope rules.

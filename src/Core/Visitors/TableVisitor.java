@@ -26,9 +26,17 @@ public class TableVisitor implements Visitor {
 
   @Override
   public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
-    ast.P.visit(this, null);
-    ast.D.visit(this, null);
-    return null;
+      try {
+          addIdentifier(ast.P.spelling,
+                  "KnownAddress",
+                  (ast.entity!=null?ast.entity.size:0),
+                  ((KnownAddress)ast.entity).address.level,
+                  ((KnownAddress)ast.entity).address.displacement,
+                  -1);
+      } catch (NullPointerException e) { }
+      ast.P.visit(this, null);
+      ast.D.visit(this, null);
+      return null;
   }
 
   @Override
