@@ -4,11 +4,10 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public class ForDeclaration extends Declaration {
 
-    public ForDeclaration(Identifier iAST, Expression eAST1, Expression eAST2, SourcePosition pos){
+    public ForDeclaration(Identifier iAST, Expression eAST1, SourcePosition pos){
         super(pos);
         I = iAST;
-        E1 = eAST1;
-        E2 = eAST2;
+        E = eAST1;
     }
 
     public Object visit(Visitor v, Object o) {
@@ -16,5 +15,5 @@ public class ForDeclaration extends Declaration {
     }
 
     public Identifier I;
-    public Expression E1, E2;
+    public Expression E;
 }

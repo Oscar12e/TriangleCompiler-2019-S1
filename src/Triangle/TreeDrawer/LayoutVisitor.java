@@ -84,23 +84,22 @@ public class LayoutVisitor implements Visitor {
 
   @Override
   public Object visitDoUntilCommand(DoUntilCommand ast, Object o) {
-    return layoutBinary("DOUntilCom.", ast.C, ast.E);
+    return layoutBinary("DoUntilCom.", ast.C, ast.E);
   }
 
   @Override
   public Object visitForCommand(ForCommand ast, Object o) {
-    return layoutBinary("ForCom.", ast.F, ast.C);
+    return layoutTernary("ForCom.", ast.F, ast.E, ast.C);
   }
 
   @Override
   public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
-
-    return null;
+    return layoutTernary("ForWhileCom.", ast.F, ast.E, ast.W);
   }
 
   @Override
   public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
-    return null;
+    return layoutTernary("ForUntilCom.", ast.F, ast.E, ast.U);
   }
 
   @Override
@@ -226,7 +225,7 @@ public class LayoutVisitor implements Visitor {
 
   @Override
   public Object visitForDeclaration(ForDeclaration ast, Object o) {
-    return layoutTernary("For.Decl.", ast.I, ast.E1, ast.E2);
+    return layoutBinary("For.Decl.", ast.I, ast.E);
   }
 
   @Override

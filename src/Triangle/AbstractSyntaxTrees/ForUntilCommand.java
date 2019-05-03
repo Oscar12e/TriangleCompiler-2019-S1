@@ -4,9 +4,10 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public class ForUntilCommand extends Command {
 
-	public ForUntilCommand (ForDeclaration fAST, UntilCommand uAST, SourcePosition thePosition) {
+	public ForUntilCommand (ForDeclaration fAST, Expression eAST, UntilCommand uAST, SourcePosition thePosition) {
 		super (thePosition);
 		F = fAST;
+		E = eAST;
 		U = uAST;
 	}
 
@@ -15,5 +16,6 @@ public class ForUntilCommand extends Command {
 	}
 
 	public ForDeclaration F;
+	public Expression E;
 	public UntilCommand U;
 }

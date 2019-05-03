@@ -4,9 +4,10 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
 
 public class ForWhileCommand extends Command {
 
-	public ForWhileCommand (ForDeclaration fAST, WhileCommand wAST, SourcePosition thePosition) {
+	public ForWhileCommand (ForDeclaration fAST, Expression eAST, WhileCommand wAST, SourcePosition thePosition) {
 		super (thePosition);
 		F = fAST;
+		E = eAST;
 		W = wAST;
 	}
 
@@ -14,6 +15,7 @@ public class ForWhileCommand extends Command {
 		return v.visitForWhileCommand(this, o);
 	}
 	public ForDeclaration F;
+	public Expression E;
 	public WhileCommand W;
 }
 

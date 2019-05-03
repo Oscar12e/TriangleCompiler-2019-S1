@@ -143,6 +143,14 @@ public final class Checker implements Visitor {
 
   @Override
   public Object visitForCommand(ForCommand ast, Object o) {
+    TypeDenoter eType1 = (TypeDenoter) ast.E.visit(this, null);
+    TypeDenoter eType2 = (TypeDenoter) ast.F.E.visit(this, null);
+
+    if (! eType1.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.E.position);
+    if (! eType2.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.E.position);
+
     idTable.openScope();
     ast.F.visit(this, null);
     ast.C.visit(this, null);
@@ -152,6 +160,14 @@ public final class Checker implements Visitor {
 
   @Override
   public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
+    TypeDenoter eType1 = (TypeDenoter) ast.E.visit(this, null);
+    TypeDenoter eType2 = (TypeDenoter) ast.F.E.visit(this, null);
+
+    if (! eType1.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.E.position);
+    if (! eType2.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.E.position);
+
     idTable.openScope();
     ast.F.visit(this, null);
     ast.W.visit(this, null);
@@ -161,6 +177,14 @@ public final class Checker implements Visitor {
 
   @Override
   public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
+    TypeDenoter eType1 = (TypeDenoter) ast.E.visit(this, null);
+    TypeDenoter eType2 = (TypeDenoter) ast.F.E.visit(this, null);
+
+    if (! eType1.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.E.position);
+    if (! eType2.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.E.position);
+
     idTable.openScope();
     ast.F.visit(this, null);
     ast.U.visit(this, null);
@@ -530,19 +554,11 @@ public final class Checker implements Visitor {
   @Override
   /* [Modified] */
   public Object visitForDeclaration(ForDeclaration ast, Object o) {
-    TypeDenoter eType1 = (TypeDenoter) ast.E1.visit(this, null);
-    TypeDenoter eType2 = (TypeDenoter) ast.E2.visit(this, null);
-
-    if (! eType1.equals(StdEnvironment.integerType))
-      reporter.reportError("Integer expression expected here", "", ast.E1.position);
-    if (! eType2.equals(StdEnvironment.integerType))
-      reporter.reportError("Integer expression expected here", "", ast.E2.position);
-
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     idTable.enter(ast.I.spelling, ast);
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
               ast.I.spelling, ast.position);
-
     return null;
   }
 
