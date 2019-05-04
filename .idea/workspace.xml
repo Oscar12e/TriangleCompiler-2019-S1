@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0b81276e-b092-4cf2-b132-f648bea7a9b6" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -30,7 +29,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/IdentificationTable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1989">
+            <state relative-caret-position="1332">
               <caret line="129" column="1" selection-start-line="129" selection-start-column="1" selection-end-line="129" selection-end-column="1" />
             </state>
           </provider>
@@ -39,9 +38,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="546" column="58" lean-forward="true" selection-start-line="546" selection-start-column="58" selection-end-line="546" selection-end-column="58" />
+            <state relative-caret-position="109">
+              <caret line="36" column="27" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
               <folding>
+                <element signature="e#15426#15489#0" expanded="true" />
                 <element signature="e#35762#35837#0" />
                 <element signature="e#36409#36562#0" />
                 <element signature="e#36705#36773#0" />
@@ -76,9 +76,10 @@
     <findStrings>
       <find>packaged</find>
       <find>program</find>
-      <find>package</find>
       <find>declaration</find>
       <find>constdeclaration</find>
+      <find>packageIde</find>
+      <find>package</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -212,7 +213,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.049099836" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.049099836" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -231,18 +232,23 @@
       <window_info anchor="right" id="Palette&#9;" order="7" />
     </layout>
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java</url>
+          <line>1107</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/IdEntry.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
           <caret line="31" column="23" selection-start-line="31" selection-start-column="23" selection-end-line="31" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/IdentificationTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1989">
-          <caret line="129" column="1" selection-start-line="129" selection-start-column="1" selection-end-line="129" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -260,11 +266,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/IdentificationTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1332">
+          <caret line="129" column="1" selection-start-line="129" selection-start-column="1" selection-end-line="129" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="546" column="58" lean-forward="true" selection-start-line="546" selection-start-column="58" selection-end-line="546" selection-end-column="58" />
+        <state relative-caret-position="109">
+          <caret line="36" column="27" selection-start-line="36" selection-start-column="27" selection-end-line="36" selection-end-column="27" />
           <folding>
+            <element signature="e#15426#15489#0" expanded="true" />
             <element signature="e#35762#35837#0" />
             <element signature="e#36409#36562#0" />
             <element signature="e#36705#36773#0" />

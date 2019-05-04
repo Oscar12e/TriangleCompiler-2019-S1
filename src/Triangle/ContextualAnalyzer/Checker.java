@@ -34,7 +34,7 @@ public final class Checker implements Visitor {
   // Commands
   @Override
   public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
-    ast.P.visit(this, null);
+    ast.P.visit(this, ast);
     ast.D.visit(this, ast.P.spelling);
     return null;
   }
@@ -456,7 +456,14 @@ public final class Checker implements Visitor {
 
   public Object visitConstDeclaration(ConstDeclaration ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-    idTable.enter(ast.I.spelling, ast);
+    if(o == null)
+    {
+      idTable.enter (ast.I.spelling, ast); // permits recursion
+    }
+    else
+    {
+      idTable.enter (ast.I.spelling, ast, (String)o); // permits recursion
+    }
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
                             ast.I.spelling, ast.position);
@@ -471,7 +478,7 @@ public final class Checker implements Visitor {
     }
     else
     {
-      idTable.enter (ast.I.spelling, ast, o); // permits recursion
+      idTable.enter (ast.I.spelling, ast, (String)o); // permits recursion
     }
 
     if (ast.duplicated)
@@ -494,7 +501,7 @@ public final class Checker implements Visitor {
     }
     else
     {
-      idTable.enter (ast.I.spelling, ast, o); // permits recursion
+      idTable.enter (ast.I.spelling, ast, (String)o); // permits recursion
     }
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
@@ -520,7 +527,7 @@ public final class Checker implements Visitor {
     }
     else
     {
-      idTable.enter (ast.I.spelling, ast, o); // permits recursion
+      idTable.enter (ast.I.spelling, ast, (String)o); // permits recursion
     }
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
@@ -540,7 +547,7 @@ public final class Checker implements Visitor {
     }
     else
     {
-      idTable.enter (ast.I.spelling, ast, o); // permits recursion
+      idTable.enter (ast.I.spelling, ast, (String)o); // permits recursion
     }
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
@@ -1122,14 +1129,7 @@ public final class Checker implements Visitor {
     constExpr = new IntegerExpression(null, dummyPos);
     constExpr.type = constType;
     binding = new ConstDeclaration(new Identifier(id, dummyPos), constExpr, dummyPos);
-    if(o == null)
-    {
-      idTable.enter (ast.I.spelling, ast); // permits recursion
-    }
-    else
-    {
-      idTable.enter (ast.I.spelling, ast, o); // permits recursion
-    }
+    idTable.enter(id, binding);
     return binding;
   }
 
