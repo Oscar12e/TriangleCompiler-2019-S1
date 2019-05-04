@@ -94,12 +94,12 @@ public class LayoutVisitor implements Visitor {
 
   @Override
   public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
-    return layoutTernary("ForWhileCom.", ast.F, ast.E, ast.W);
+    return layoutQuaternary("ForWhileCom.", ast.F, ast.E1, ast.E2, ast.C);
   }
 
   @Override
   public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
-    return layoutTernary("ForUntilCom.", ast.F, ast.E, ast.U);
+    return layoutQuaternary("ForUntilCom.", ast.F, ast.E1, ast.E2, ast.C);
   }
 
   @Override

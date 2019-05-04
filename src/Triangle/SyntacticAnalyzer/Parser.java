@@ -440,8 +440,8 @@ public class Parser {
                 accept(Token.END);
                 finish(commandPos);
                 commandAST = (isWhileCommand ?
-                        new ForWhileCommand(fAST, eAST, new WhileCommand(eAST2, cAST, commandPos), commandPos) :
-                        new ForUntilCommand(fAST, eAST, new UntilCommand(eAST2, cAST, commandPos), commandPos));
+                        new ForWhileCommand(fAST, eAST, eAST2, cAST, commandPos) :
+                        new ForUntilCommand(fAST, eAST, eAST2, cAST, commandPos));
               }
               break;
 

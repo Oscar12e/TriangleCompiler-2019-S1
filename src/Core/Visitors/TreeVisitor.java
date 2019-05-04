@@ -92,12 +92,12 @@ public class TreeVisitor implements Visitor {
 
     @Override
     public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
-        return(createTernary("For-While Command", ast.F, ast.E, ast.W));
+        return(createQuaternary("For-While Command", ast.F, ast.E1, ast.E2, ast.C));
     }
 
     @Override
     public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
-        return(createTernary("For-Until Command", ast.F, ast.E, ast.U));
+        return(createQuaternary("For-Until Command", ast.F, ast.E1, ast.E2, ast.C));
     }
 
     @Override

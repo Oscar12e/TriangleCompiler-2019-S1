@@ -114,7 +114,9 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitDoWhileCommand(DoWhileCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
@@ -123,7 +125,9 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitUntilCommand(UntilCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
@@ -132,7 +136,9 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitDoUntilCommand(DoUntilCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
@@ -141,7 +147,9 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitForCommand(ForCommand ast, Object o) {
     TypeDenoter eType1 = (TypeDenoter) ast.E.visit(this, null);
     TypeDenoter eType2 = (TypeDenoter) ast.F.E.visit(this, null);
@@ -158,42 +166,53 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
-    TypeDenoter eType1 = (TypeDenoter) ast.E.visit(this, null);
-    TypeDenoter eType2 = (TypeDenoter) ast.F.E.visit(this, null);
+    TypeDenoter eType1 = (TypeDenoter) ast.F.E.visit(this, null);
+    TypeDenoter eType2 = (TypeDenoter) ast.E1.visit(this, null);
+    TypeDenoter eType3 = (TypeDenoter) ast.E2.visit(this, null);
 
     if (! eType1.equals(StdEnvironment.integerType))
-      reporter.reportError("Integer expression expected here", "", ast.E.position);
+      reporter.reportError("Integer expression expected here", "", ast.F.E.position);
     if (! eType2.equals(StdEnvironment.integerType))
-      reporter.reportError("Integer expression expected here", "", ast.E.position);
+      reporter.reportError("Integer expression expected here", "", ast.E1.position);
+    if (! eType3.equals(StdEnvironment.booleanType))
+      reporter.reportError("Boolean expression expected here", "", ast.E2.position);
 
     idTable.openScope();
     ast.F.visit(this, null);
-    ast.W.visit(this, null);
+    ast.C.visit(this, null);
     idTable.closeScope();
     return null;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
-    TypeDenoter eType1 = (TypeDenoter) ast.E.visit(this, null);
-    TypeDenoter eType2 = (TypeDenoter) ast.F.E.visit(this, null);
+    TypeDenoter eType1 = (TypeDenoter) ast.F.E.visit(this, null);
+    TypeDenoter eType2 = (TypeDenoter) ast.E1.visit(this, null);
+    TypeDenoter eType3 = (TypeDenoter) ast.E2.visit(this, null);
 
     if (! eType1.equals(StdEnvironment.integerType))
-      reporter.reportError("Integer expression expected here", "", ast.E.position);
+      reporter.reportError("Integer expression expected here", "", ast.F.E.position);
     if (! eType2.equals(StdEnvironment.integerType))
-      reporter.reportError("Integer expression expected here", "", ast.E.position);
+      reporter.reportError("Integer expression expected here", "", ast.E1.position);
+    if (! eType3.equals(StdEnvironment.booleanType))
+      reporter.reportError("Boolean expression expected here", "", ast.E2.position);
 
     idTable.openScope();
     ast.F.visit(this, null);
-    ast.U.visit(this, null);
+    ast.C.visit(this, null);
     idTable.closeScope();
     return null;
   }
 
-  @Override
-  @SuppressWarnings("unchecked")
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override @SuppressWarnings("unchecked")
   public Object visitChooseCommand(ChooseCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     Set<Integer> evaluatedRanges = new HashSet<Integer>();
