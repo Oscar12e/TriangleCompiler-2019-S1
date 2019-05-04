@@ -35,7 +35,7 @@ public final class Checker implements Visitor {
   @Override
   public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
     ast.P.visit(this, null);
-    ast.D.visit(this, null);
+    ast.D.visit(this, ast.P.spelling);
     return null;
   }
 
@@ -465,7 +465,15 @@ public final class Checker implements Visitor {
 
   public Object visitFuncDeclaration(FuncDeclaration ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
-    idTable.enter (ast.I.spelling, ast); // permits recursion
+    if(o == null)
+    {
+      idTable.enter (ast.I.spelling, ast); // permits recursion
+    }
+    else
+    {
+      idTable.enter (ast.I.spelling, ast, o); // permits recursion
+    }
+
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
                             ast.I.spelling, ast.position);
@@ -480,7 +488,14 @@ public final class Checker implements Visitor {
   }
 
   public Object visitProcDeclaration(ProcDeclaration ast, Object o) {
-    idTable.enter (ast.I.spelling, ast); // permits recursion
+    if(o == null)
+    {
+      idTable.enter (ast.I.spelling, ast); // permits recursion
+    }
+    else
+    {
+      idTable.enter (ast.I.spelling, ast, o); // permits recursion
+    }
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
                             ast.I.spelling, ast.position);
@@ -499,7 +514,14 @@ public final class Checker implements Visitor {
 
   public Object visitTypeDeclaration(TypeDeclaration ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
-    idTable.enter (ast.I.spelling, ast);
+    if(o == null)
+    {
+      idTable.enter (ast.I.spelling, ast); // permits recursion
+    }
+    else
+    {
+      idTable.enter (ast.I.spelling, ast, o); // permits recursion
+    }
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
                             ast.I.spelling, ast.position);
@@ -512,7 +534,14 @@ public final class Checker implements Visitor {
 
   public Object visitVarDeclaration(VarDeclaration ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
-    idTable.enter (ast.I.spelling, ast);
+    if(o == null)
+    {
+      idTable.enter (ast.I.spelling, ast); // permits recursion
+    }
+    else
+    {
+      idTable.enter (ast.I.spelling, ast, o); // permits recursion
+    }
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
                             ast.I.spelling, ast.position);
@@ -1093,7 +1122,14 @@ public final class Checker implements Visitor {
     constExpr = new IntegerExpression(null, dummyPos);
     constExpr.type = constType;
     binding = new ConstDeclaration(new Identifier(id, dummyPos), constExpr, dummyPos);
-    idTable.enter(id, binding);
+    if(o == null)
+    {
+      idTable.enter (ast.I.spelling, ast); // permits recursion
+    }
+    else
+    {
+      idTable.enter (ast.I.spelling, ast, o); // permits recursion
+    }
     return binding;
   }
 
