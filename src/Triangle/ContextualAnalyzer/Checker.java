@@ -20,6 +20,7 @@ import Triangle.StdEnvironment;
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.function.Function;
 
@@ -215,13 +216,14 @@ public final class Checker implements Visitor {
    */ @Override @SuppressWarnings("unchecked")
   public Object visitChooseCommand(ChooseCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-    Set<Integer> evaluatedRanges = new HashSet<Integer>();
+    Set<Integer> evaluatedRanges = new HashSet<>();
     List<Terminal[]> casesLiterals;
 
     if (! (eType.equals(StdEnvironment.integerType) || eType.equals(StdEnvironment.charType)) ){
         reporter.reportError("Integer or Char expression expected here.", "", ast.E.position);
         eType = StdEnvironment.anyType;
     }
+
     idTable.openScope();
     casesLiterals = (List<Terminal[]>) ast.C.visit(this, eType);
     idTable.closeScope();
@@ -230,23 +232,23 @@ public final class Checker implements Visitor {
       Set currentRange;
       String lMin = currentLimits[0].spelling;
       String lMax = currentLimits.length == 1? lMin: currentLimits[1].spelling;
+      //Uses min and max to create a range for the set
 
+      TypeDenoter lType = (TypeDenoter) currentLimits[0].visit(this, null);
 
-      if (eType.equals(StdEnvironment.integerType)){
-        currentRange = new HashSet<Integer>() {{
-          IntStream.rangeClosed(Integer.parseInt(lMin), Integer.parseInt(lMax)).forEach(this::add);
-        }};
-      } else {
-        currentRange = new HashSet<Integer>() {{
-          IntStream.rangeClosed(lMin.charAt(0), lMax.charAt(0) ).forEach(this::add);
-        }};
-      }
+      int [] limits = lType.equals(StdEnvironment.integerType) ?
+              new int[]{Integer.parseInt(lMin), Integer.parseInt(lMax)}:
+              new int[]{lMin.charAt(0),  lMax.charAt(0)};
 
-      //If current ranges get modified
+      if ((limits[0] < limits[1]))
+        limits = new int[]{limits[1], limits[0]};
+
+      currentRange = IntStream.rangeClosed(limits[0], limits[1]).boxed().collect(Collectors.toSet());
+      //If current ranges get modified, it means that there's a intersection somewhere
       if ( currentRange.removeAll(evaluatedRanges) )
         reporter.reportError("Range presents conflict with another present.", "", currentLimits[0].position);
 
-      evaluatedRanges.addAll(currentRange);
+      evaluatedRanges.addAll(currentRange); //Add on evaluated ranges the numbers that are left
     }
 
     return null;
@@ -257,19 +259,18 @@ public final class Checker implements Visitor {
   // <editor-fold defaultstate="collapsed" desc=" Cases ">
   // Cases
   // Returns their literals as they check their parts.
-  @Override
-  @SuppressWarnings("unchecked")
-  /* [Modified] */
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override @SuppressWarnings("unchecked")
   public Object visitCase(Case ast, Object o) {
     List<Terminal[]> terminals = (List<Terminal[]>) ast.CL.visit(this, o);
-    idTable.openScope();
     ast.C.visit(this, null);
-    idTable.closeScope();
     return terminals;
   }
 
-  @Override
-  /* [Modified] */
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitElseCase(ElseCase ast, Object o) {
     idTable.openScope();
     ast.C.visit(this, null);
@@ -277,56 +278,54 @@ public final class Checker implements Visitor {
     return new ArrayList<Terminal[]>();
   }
 
-  @Override
-  @SuppressWarnings("unchecked")
-  /* [Modified] */
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override @SuppressWarnings("unchecked")
   public Object visitSequentialCases(SequentialCases ast, Object o) {
     List<Terminal[]> T1 = (List<Terminal[]>) ast.C1.visit(this, o);
     List<Terminal[]> T2 = (List<Terminal[]>) ast.C2.visit(this, o);
 
-    return new ArrayList<Terminal[]>(T1){{ addAll(T2);}};
+    T1.addAll(T2);
+    return T1;
   }
 
-  @Override
-  /* [Modified] */
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override @SuppressWarnings("unchecked")
   public Object visitCaseLiterals(CaseLiterals ast, Object o) {
-    Object T = ast.R.visit(this, o);
-
+    Object T = ast.R.visit(this, null);
     TypeDenoter chooseEType = (TypeDenoter) o;
-    List<Terminal[]> rawTerminals = new ArrayList<Terminal[]>();
-    rawTerminals.add( ast.R instanceof CaseRange ? (Terminal[]) T : new Terminal[] {(Terminal) T});
-
     List<Terminal[]> checkedTerminals = new ArrayList<>();
 
-    for (Terminal[] limits: rawTerminals) {
-      TypeDenoter eType = (TypeDenoter) limits[0].visit(this, null);
-      if (!eType.equals(chooseEType)) {
-        reporter.reportError("Literals mismatch the type of the choose expression.", "", ast.position);
-      } else {
-        if (limits.length == 2)
-          checkedTerminals.add(limits);
-        else if (limits.length == 1 && (eType.equals(StdEnvironment.integerType) || eType.equals(StdEnvironment.charType)) )
-          checkedTerminals.add(limits);
-      }
+    Terminal[] rawTerminals = ast.R instanceof CaseRange ? (Terminal[]) T : new Terminal[] {(Terminal) T};
+
+    if (rawTerminals.length > 0){
+      TypeDenoter eType = (TypeDenoter) rawTerminals[0].visit(this, null);
+     if (!  (eType.equals(StdEnvironment.integerType) || eType.equals(StdEnvironment.charType)))
+      reporter.reportError("Literals mismatch the allowed values.", "", ast.position);
+     else if (!eType.equals(chooseEType))
+       reporter.reportError("Literals mismatch the type of the choose expression.", "", ast.position);
+     else
+      checkedTerminals.add(rawTerminals);
     }
 
     return checkedTerminals;
   }
 
-  @Override
-  @SuppressWarnings("unchecked")
-  /* [Modified] */
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override @SuppressWarnings("unchecked")
   public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
     List<Terminal[]> T1 = (List<Terminal[]>) ast.L1.visit(this, o);
     List<Terminal[]> T2 = (List<Terminal[]>) ast.L2.visit(this, o);
 
     T1.addAll(T2);
-
     return T1;
   }
 
-  @Override
-  /* [Modified] */
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override @SuppressWarnings("unchecked")
   public Object visitCaseRange(CaseRange ast, Object o) {
     Terminal T1 = (Terminal) ast.L1.visit(this, null);
     Terminal T2 = (Terminal) ast.L2.visit(this, null);
@@ -336,24 +335,10 @@ public final class Checker implements Visitor {
 
     Terminal [] terminals = new Terminal[0];
 
-    if (! (eType1.equals(eType2)) ){
+    if (! (eType1.equals(eType2)) )
       reporter.reportError("Incompatible types found in the literals %.", T1.spelling + ".." + T2.spelling, ast.position);
-    } else {
-      int lMin;
-      int lMax;
-
-      if (eType1.equals(StdEnvironment.integerType)){
-        lMin = Integer.parseInt(T1.spelling);
-        lMax = Integer.parseInt(T2.spelling);
-      } else if (eType1.equals(StdEnvironment.charType)){
-        lMin = T1.spelling.charAt(0);
-        lMax = T2.spelling.charAt(0);
-      } else {
-        reporter.reportError("Incompatible types found in the literals %.", T1.spelling + ".." + T2.spelling, ast.position);
-        return terminals;
-      }
-      terminals =  (lMax < lMin)?new Terminal[]{T2, T1}:new Terminal[]{T1, T2};
-    }
+    else
+      terminals = new Terminal[]{T2, T1};
 
     return terminals;
   }
@@ -361,7 +346,6 @@ public final class Checker implements Visitor {
   @Override
   /* [Modified] */
   public Object visitCaseLiteral(CaseLiteral ast, Object o) {
-    TypeDenoter tType = (TypeDenoter) ast.L.visit(this, null);
     return  ast.L ;
   }
 
@@ -983,7 +967,9 @@ public final class Checker implements Visitor {
     return ast.type;
   }
 
-  /* [Modified] */
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitSimpleVname(SimpleVname ast, Object o) {
     ast.variable = false;
     ast.type = StdEnvironment.errorType;
