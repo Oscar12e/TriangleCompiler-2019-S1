@@ -15,15 +15,25 @@
 package Triangle.ContextualAnalyzer;
 
 import Triangle.AbstractSyntaxTrees.Declaration;
+import java.util.*;
 
 public final class IdentificationTable {
 
   private int level;
   private IdEntry latest;
+  private IdentificationTable privateEntries;
+  private boolean privateReading;
+
 
   public IdentificationTable () {
     level = 0;
     latest = null;
+  }
+
+  public IdentificationTable (IdentificationTable main) {
+    level = main.level;
+    latest = main.latest;
+    privateEntries = main.privateEntries;
   }
 
   // Opens a new level in the identification table, 1 higher than the
@@ -49,6 +59,38 @@ public final class IdentificationTable {
     }
     this.level--;
     this.latest = entry;
+  }
+
+  public void startPrivateReading(IdentificationTable privateTable){
+    this.privateEntries = privateTable;
+    this.privateReading = true;
+  }
+
+  public void stopPrivateReading(){
+    this.privateEntries = null;
+    this.privateReading = false;
+  }
+
+  public void merge(IdentificationTable mergeTable){
+    List<IdEntry> toMerge = merge(mergeTable.latest, this.latest.id);
+    for (IdEntry entry: toMerge){
+      entry = new IdEntry(entry.id, entry.attr, this.level, this.latest);
+      this.latest = entry;
+    }
+  }
+
+  private List<IdEntry> merge(IdEntry currentEntry, String id){
+    if (currentEntry == null)
+      return new ArrayList<>();
+    else if (currentEntry.id.equals(id)){
+      List<IdEntry> result = new ArrayList<IdEntry>();
+      result.add(currentEntry);
+      return result;
+    } else {
+      List<IdEntry> result = merge(currentEntry.previous, id);
+      result.add(currentEntry);
+      return result;
+    }
   }
 
   // Makes a new entry in the identification table for the given identifier
@@ -91,10 +133,15 @@ public final class IdentificationTable {
     Declaration attr = null;
     boolean present = false, searching = true;
 
+
     entry = this.latest;
     while (searching) {
-      if (entry == null)
+
+      if (entry == null){
         searching = false;
+        if (privateReading)
+          attr = privateEntries.retrieve(id);
+      }
       else if (entry.id.equals(id)) {
         present = true;
         searching = false;

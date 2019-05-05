@@ -224,9 +224,7 @@ public final class Checker implements Visitor {
         eType = StdEnvironment.anyType;
     }
 
-    idTable.openScope();
     casesLiterals = (List<Terminal[]>) ast.C.visit(this, eType);
-    idTable.closeScope();
 
     for (Terminal[] currentLimits : casesLiterals){
       Set currentRange;
@@ -295,6 +293,7 @@ public final class Checker implements Visitor {
   public Object visitCaseLiterals(CaseLiterals ast, Object o) {
     Object T = ast.R.visit(this, null);
     TypeDenoter chooseEType = (TypeDenoter) o;
+    boolean ignoreChooseType = chooseEType == StdEnvironment.anyType;
     List<Terminal[]> checkedTerminals = new ArrayList<>();
 
     Terminal[] rawTerminals = ast.R instanceof CaseRange ? (Terminal[]) T : new Terminal[] {(Terminal) T};
@@ -305,7 +304,7 @@ public final class Checker implements Visitor {
       reporter.reportError("Literals mismatch the allowed values.", "", ast.position);
      else if (!eType.equals(chooseEType))
        reporter.reportError("Literals mismatch the type of the choose expression.", "", ast.position);
-     else
+     else if (!ignoreChooseType)
       checkedTerminals.add(rawTerminals);
     }
 
@@ -567,11 +566,35 @@ public final class Checker implements Visitor {
 
   @Override
   public Object visitPrivateDeclaration(PrivateDeclaration ast, Object o) {
+    //Create a snapshot and then checks the private block
+    IdentificationTable snapShot = new IdentificationTable(idTable);
+    //idTable = new IdentificationTable(idTable);
+    ast.D1.visit(this, null);
+    //Store the private block for reading
+    snapShot.startPrivateReading(idTable);
+    //Restore the snapshot as main table
+    idTable = snapShot;
+    //Check the block that uses the private block
+    ast.D2.visit(this, null);
+    //Discards the private block
+    idTable.stopPrivateReading();
     return null;
   }
 
   @Override
   public Object visitParDeclaration(ParDeclaration ast, Object o) {
+    //Pre par snapshot
+    IdentificationTable snapShot = new IdentificationTable(idTable);
+
+    ast.D1.visit(this, null);
+    //Creates new snapshot with the first par declaration
+    IdentificationTable snapShotPar = new IdentificationTable(idTable);
+    //Restore the prePar snapshot to create a new branch of declarations
+    idTable = snapShot;
+    ast.D2.visit(this, null);
+
+    //Merge the two branches together
+    idTable.merge(snapShotPar);
     return null;
   }
 
