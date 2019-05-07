@@ -899,6 +899,27 @@ public final class Checker implements Visitor {
   public Object visitLongIdentifier(LongIdentifier ast, Object o) {
     ast.P.visit(this, null);
     //ast.I.visit(this, null);
+    boolean isPackaged = idTable.isPackaged(ast.spelling);
+    if(idTable.getCurrentPackage().equals("") || !idTable.getCurrentPackage().equals(ast.P.spelling)) {
+      if (ast.P != null) {
+        if (!isPackaged) {
+          reporter.reportError("Identifier should not be related to any package", "", ast.position);
+        } else {
+          if (!idTable.isPackageCorrect(ast.spelling, ast.P.spelling)) {
+            reporter.reportError("Package identifier is not related to identifier", "", ast.position);
+          }
+
+        }
+
+      } else {
+        if (isPackaged) {
+          reporter.reportError("Identifier should be related to a package", "", ast.position);
+        }
+      }
+    }
+
+
+
     return null;
   }
 

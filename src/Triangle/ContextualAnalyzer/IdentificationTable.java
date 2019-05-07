@@ -32,6 +32,11 @@ public final class IdentificationTable {
     this.currentPackage = p;
 
   }
+  public String getCurrentPackage()
+  {
+    return this.currentPackage;
+
+  }
 
   // Opens a new level in the identification table, 1 higher than the
   // current topmost level.
@@ -112,6 +117,38 @@ public final class IdentificationTable {
     }
 
     return attr;
+  }
+
+  public boolean isPackaged(String idSpelling)
+  {
+    IdEntry entry;
+    boolean present = false, searching = true;
+    entry = this.latest;
+    while (searching) {
+      if (entry == null)
+        searching = false;
+      else if (entry.id.equals(idSpelling) && !entry.idPackage.equals("")) {
+        present = true;
+      } else
+        entry = entry.previous;
+    }
+    return present;
+  }
+
+  public boolean isPackageCorrect(String idDec, String idPackage)
+  {
+    IdEntry entry;
+    boolean present = false, searching = true;
+    entry = this.latest;
+    while (searching) {
+      if (entry == null)
+        searching = false;
+      else if (entry.id.equals(idDec) && entry.idPackage.equals(idPackage)) {
+        present = true;
+      } else
+        entry = entry.previous;
+    }
+    return present;
   }
 
 }

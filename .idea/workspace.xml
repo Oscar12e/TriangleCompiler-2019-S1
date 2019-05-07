@@ -3,15 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="0b81276e-b092-4cf2-b132-f648bea7a9b6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/TriangleCompiler_2019_S1_jar/TriangleCompiler-2019-S1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/TriangleCompiler_2019_S1_jar/TriangleCompiler-2019-S1.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/Checker$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/Checker$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/Checker$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/Checker$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/Checker$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/Checker$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/Checker$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/Checker$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/Checker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/Checker.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/IdentificationTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/IdentificationTable.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/IdentificationTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/IdentificationTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/IdentificationTable.java___jb_old___" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,8 +15,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DefaultGradleProjectSettings">
-    <option name="testRunner" value="GRADLE" />
-    <option name="delegatedBuild" value="true" />
+    <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -38,57 +31,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/IdentificationTable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-196">
-              <caret line="46" column="29" selection-start-line="46" selection-start-column="29" selection-end-line="46" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="38" column="32" selection-start-line="38" selection-start-column="32" selection-end-line="38" selection-end-column="32" />
-              <folding>
-                <element signature="e#2738#2739#0" expanded="true" />
-                <element signature="e#2759#2760#0" expanded="true" />
-                <element signature="e#10372#10373#0" expanded="true" />
-                <element signature="e#10394#10395#0" expanded="true" />
-                <element signature="e#15664#15665#0" expanded="true" />
-                <element signature="e#15685#15686#0" expanded="true" />
-                <element signature="e#17731#17732#0" expanded="true" />
-                <element signature="e#17752#17753#0" expanded="true" />
-                <element signature="e#18843#18844#0" expanded="true" />
-                <element signature="e#18864#18865#0" expanded="true" />
-                <element signature="e#18945#18946#0" expanded="true" />
-                <element signature="e#18966#18967#0" expanded="true" />
-                <element signature="e#19060#19061#0" expanded="true" />
-                <element signature="e#19081#19082#0" expanded="true" />
-                <element signature="e#19172#19173#0" expanded="true" />
-                <element signature="e#19193#19194#0" expanded="true" />
-                <element signature="e#19272#19273#0" expanded="true" />
-                <element signature="e#19293#19294#0" expanded="true" />
-                <element signature="e#19372#19373#0" expanded="true" />
-                <element signature="e#19393#19394#0" expanded="true" />
-                <element signature="e#23195#23196#0" expanded="true" />
-                <element signature="e#23216#23217#0" expanded="true" />
-                <element signature="e#28835#28836#0" expanded="true" />
-                <element signature="e#28874#28875#0" expanded="true" />
-                <element signature="e#29227#29228#0" expanded="true" />
-                <element signature="e#29270#29271#0" expanded="true" />
-                <element signature="e#29341#29342#0" expanded="true" />
-                <element signature="e#29381#29382#0" expanded="true" />
-                <element signature="e#29454#29455#0" expanded="true" />
-                <element signature="e#29495#29496#0" expanded="true" />
-                <element signature="e#30073#30074#0" expanded="true" />
-                <element signature="e#30116#30117#0" expanded="true" />
-                <element signature="e#30728#30729#0" expanded="true" />
-                <element signature="e#30768#30769#0" expanded="true" />
-                <element signature="e#31024#31025#0" expanded="true" />
-                <element signature="e#31067#31068#0" expanded="true" />
-                <element signature="e#36332#36333#0" expanded="true" />
-                <element signature="e#36363#36364#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="308">
+              <caret line="145" column="73" selection-start-line="145" selection-start-column="73" selection-end-line="145" selection-end-column="73" />
             </state>
           </provider>
         </entry>
@@ -111,6 +55,19 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="92">
+              <caret line="902" column="50" selection-start-line="902" selection-start-column="50" selection-end-line="902" selection-end-column="50" />
+              <folding>
+                <element signature="e#931#990#0" expanded="true" />
+                <element signature="e#37141#37142#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
@@ -124,6 +81,7 @@
       <find>declaration</find>
       <find>procdeclaration</find>
       <find>packagedeclaration</find>
+      <find>long</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -148,7 +106,11 @@
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -203,7 +165,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.29827315" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.30257186" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -211,7 +173,7 @@
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.049099836" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.049099836" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -236,7 +198,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java</url>
-          <line>1075</line>
+          <line>1096</line>
           <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
@@ -251,13 +213,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/PackagedProgram.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Core/Visitors/TableVisitor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="544">
@@ -267,54 +222,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/IdentificationTable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-196">
-          <caret line="46" column="29" selection-start-line="46" selection-start-column="29" selection-end-line="46" selection-end-column="29" />
+        <state relative-caret-position="308">
+          <caret line="145" column="73" selection-start-line="145" selection-start-column="73" selection-end-line="145" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/PackagedProgram.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="38" column="32" selection-start-line="38" selection-start-column="32" selection-end-line="38" selection-end-column="32" />
+        <state relative-caret-position="92">
+          <caret line="902" column="50" selection-start-line="902" selection-start-column="50" selection-end-line="902" selection-end-column="50" />
           <folding>
-            <element signature="e#2738#2739#0" expanded="true" />
-            <element signature="e#2759#2760#0" expanded="true" />
-            <element signature="e#10372#10373#0" expanded="true" />
-            <element signature="e#10394#10395#0" expanded="true" />
-            <element signature="e#15664#15665#0" expanded="true" />
-            <element signature="e#15685#15686#0" expanded="true" />
-            <element signature="e#17731#17732#0" expanded="true" />
-            <element signature="e#17752#17753#0" expanded="true" />
-            <element signature="e#18843#18844#0" expanded="true" />
-            <element signature="e#18864#18865#0" expanded="true" />
-            <element signature="e#18945#18946#0" expanded="true" />
-            <element signature="e#18966#18967#0" expanded="true" />
-            <element signature="e#19060#19061#0" expanded="true" />
-            <element signature="e#19081#19082#0" expanded="true" />
-            <element signature="e#19172#19173#0" expanded="true" />
-            <element signature="e#19193#19194#0" expanded="true" />
-            <element signature="e#19272#19273#0" expanded="true" />
-            <element signature="e#19293#19294#0" expanded="true" />
-            <element signature="e#19372#19373#0" expanded="true" />
-            <element signature="e#19393#19394#0" expanded="true" />
-            <element signature="e#23195#23196#0" expanded="true" />
-            <element signature="e#23216#23217#0" expanded="true" />
-            <element signature="e#28835#28836#0" expanded="true" />
-            <element signature="e#28874#28875#0" expanded="true" />
-            <element signature="e#29227#29228#0" expanded="true" />
-            <element signature="e#29270#29271#0" expanded="true" />
-            <element signature="e#29341#29342#0" expanded="true" />
-            <element signature="e#29381#29382#0" expanded="true" />
-            <element signature="e#29454#29455#0" expanded="true" />
-            <element signature="e#29495#29496#0" expanded="true" />
-            <element signature="e#30073#30074#0" expanded="true" />
-            <element signature="e#30116#30117#0" expanded="true" />
-            <element signature="e#30728#30729#0" expanded="true" />
-            <element signature="e#30768#30769#0" expanded="true" />
-            <element signature="e#31024#31025#0" expanded="true" />
-            <element signature="e#31067#31068#0" expanded="true" />
-            <element signature="e#36332#36333#0" expanded="true" />
-            <element signature="e#36363#36364#0" expanded="true" />
+            <element signature="e#931#990#0" expanded="true" />
+            <element signature="e#37141#37142#0" expanded="true" />
           </folding>
         </state>
       </provider>
