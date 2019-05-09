@@ -30,9 +30,21 @@ public final class Checker implements Visitor {
 
   // <editor-fold defaultstate="collapsed" desc=" Packages ">
   // Commands
+
+  /**
+   * Modified by nahomy
+   * @param ast
+   * @param o
+   * @return
+   */
   @Override
   public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
     ast.P.visit(this, null);
+    if(idTable.packagesIDs.contains(ast.P.spelling))
+    {
+      reporter.reportError("Package ".concat(ast.P.spelling).concat(" Is Already declared"),"",ast.position);
+    }
+    idTable.packagesIDs.add(ast.P.spelling);
     idTable.setCurrentPackage(ast.P.spelling);
     ast.D.visit(this, null);
     idTable.setCurrentPackage("");
@@ -927,10 +939,21 @@ public final class Checker implements Visitor {
     return StdEnvironment.charType;
   }
 
+  /**
+   * Modified by Nahomy
+   * @param I
+   * @param o
+   * @return
+   */
   public Object visitIdentifier(Identifier I, Object o) {
     Declaration binding = idTable.retrieve(I.spelling);
     if (binding != null)
       I.decl = binding;
+    boolean isPackaged =  idTable.isPackaged(I.spelling);
+    if(isPackaged)
+    {
+      reporter.reportError("Identifier ".concat(I.spelling).concat("Should be related to a package"),"",I.position);
+    }
     return binding;
   }
 
@@ -957,22 +980,18 @@ public final class Checker implements Visitor {
     LI.P.visit(this, null);
     boolean isPackaged = idTable.isPackaged(LI.spelling);
     if(idTable.getCurrentPackage().equals("") || !idTable.getCurrentPackage().equals(LI.P.spelling)) {
-      if (LI.P != null) {
         if (!isPackaged) {
-          reporter.reportError("Identifier should not be related to any package", "", LI.position);
-        } else {
-          if (!idTable.isPackageCorrect(LI.spelling, LI.P.spelling)) {
-            reporter.reportError("Package identifier is not related to identifier", "", LI.position);
-          }
-
-        }
-
+        reporter.reportError("Identifier should not be related to any package", "", LI.position);
       } else {
-        if (isPackaged) {
-          reporter.reportError("Identifier should be related to a package", "", LI.position);
+        if (!idTable.isPackageCorrect(LI.spelling, LI.P.spelling)) {
+          reporter.reportError("Package identifier is not related to identifier", "", LI.position);
         }
+
       }
-    }
+
+
+      }
+
     //ast.I.visit(this, null);
     return null;
   }

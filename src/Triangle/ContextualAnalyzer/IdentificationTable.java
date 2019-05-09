@@ -24,11 +24,13 @@ public final class IdentificationTable {
   private IdentificationTable privateEntries;
   private boolean privateReading;
   private String currentPackage;
+  public ArrayList<String> packagesIDs;
 
   public IdentificationTable () {
     level = 0;
     latest = null;
     currentPackage = "";
+    this.packagesIDs = new ArrayList<String>();
   }
 
   public IdentificationTable (IdentificationTable main) {
@@ -165,6 +167,7 @@ public final class IdentificationTable {
         searching = false;
       else if (entry.id.equals(idSpelling) && !entry.idPackage.equals("")) {
         present = true;
+        searching=false;
       } else
         entry = entry.previous;
     }
@@ -181,6 +184,7 @@ public final class IdentificationTable {
         searching = false;
       else if (entry.id.equals(idDec) && entry.idPackage.equals(idPackage)) {
         present = true;
+        searching=false;
       } else
         entry = entry.previous;
     }
