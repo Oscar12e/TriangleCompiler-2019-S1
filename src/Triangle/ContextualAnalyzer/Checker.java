@@ -33,6 +33,7 @@ public final class Checker implements Visitor {
   @Override
   public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
     ast.P.visit(this, null);
+    idTable.setCurrentPackage(ast.P.spelling);
     ast.D.visit(this, null);
     idTable.setCurrentPackage("");
     return null;
@@ -48,7 +49,6 @@ public final class Checker implements Visitor {
   @Override
   public Object visitPackageIdentifier(PackageIdentifier ast, Object o) {
     //ast.I.visit(this, null);
-    idTable.setCurrentPackage(ast.spelling);
     return null;
   }
   // </editor-fold>
@@ -547,7 +547,7 @@ public final class Checker implements Visitor {
 
   public Object visitVarDeclaration(VarDeclaration ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
-    System.out.println("Adding".concat(ast.I.spelling));
+
     idTable.enter (ast.I.spelling, ast);
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",

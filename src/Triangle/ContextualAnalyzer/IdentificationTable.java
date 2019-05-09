@@ -75,7 +75,7 @@ public final class IdentificationTable {
   public void merge(IdentificationTable mergeTable){
     List<IdEntry> toMerge = merge(mergeTable.latest, this.latest.id);
     for (IdEntry entry: toMerge){
-      entry = new IdEntry(entry.id, entry.attr, this.level, this.latest);
+      entry = new IdEntry(entry.id, entry.attr, this.level, this.latest, this.currentPackage);
       this.latest = entry;
     }
   }
@@ -117,8 +117,7 @@ public final class IdentificationTable {
 
     attr.duplicated = present;
     // Add new entry ...
-
-    entry = new IdEntry(id, attr, this.level, this.latest);
+    entry = new IdEntry(id, attr, this.level, this.latest, this.currentPackage);
     this.latest = entry;
 
   }
