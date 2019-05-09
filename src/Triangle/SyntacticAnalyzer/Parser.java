@@ -416,6 +416,8 @@ public class Parser {
           case Token.FOR: {
             acceptIt();
             ForDeclaration fAST = parseForDeclaration();
+            accept(Token.TO);
+            Expression eAST = parseExpression();
 
             switch (currentToken.kind) {
               case Token.DO:{
@@ -423,7 +425,7 @@ public class Parser {
                 Command cAST = parseCommand();
                 accept(Token.END);
                 finish(commandPos);
-                commandAST = new ForCommand(fAST, cAST, commandPos);
+                commandAST = new ForCommand(fAST, eAST, cAST, commandPos);
               }
               break;
 
@@ -432,14 +434,14 @@ public class Parser {
               {
                 boolean isWhileCommand = Token.WHILE == currentToken.kind;
                 acceptIt();
-                Expression eAST3 = parseExpression();
+                Expression eAST2 = parseExpression();
                 accept(Token.DO);
                 Command cAST = parseCommand();
                 accept(Token.END);
                 finish(commandPos);
                 commandAST = (isWhileCommand ?
-                        new ForWhileCommand(fAST, new WhileCommand(eAST3, cAST, commandPos), commandPos) :
-                        new ForUntilCommand(fAST, new UntilCommand(eAST3, cAST, commandPos), commandPos));
+                        new ForWhileCommand(fAST, eAST, eAST2, cAST, commandPos) :
+                        new ForUntilCommand(fAST, eAST, eAST2, cAST, commandPos));
               }
               break;
 
@@ -959,10 +961,8 @@ public class Parser {
     start(declarationPos);
     Identifier iAST = parseIdentifier();
     accept(Token.FROM);
-    Expression eAST1 = parseExpression();
-    accept(Token.TO);
-    Expression eAST2 = parseExpression();
-    declarationAST = new ForDeclaration(iAST, eAST1, eAST2, declarationPos);
+    Expression eAST = parseExpression();
+    declarationAST = new ForDeclaration(iAST, eAST, declarationPos);
     finish(declarationPos);
     return declarationAST;
   }

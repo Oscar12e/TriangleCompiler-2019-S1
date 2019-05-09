@@ -126,6 +126,7 @@ public class WriterVisitor implements Visitor {
 	public Object visitForCommand(ForCommand ast, Object o) {
 		writeLineXML("<ForCommand>");
 		ast.F.visit(this, null);
+		ast.E.visit(this, null);
 		ast.C.visit(this, null);
 		writeLineXML("</ForCommand>");
 		return null;
@@ -135,7 +136,9 @@ public class WriterVisitor implements Visitor {
 	public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
 		writeLineXML("<ForWhileCommand>");
 		ast.F.visit(this, null);
-		ast.W.visit(this, null);
+		ast.E1.visit(this, null);
+		ast.E2.visit(this, null);
+		ast.C.visit(this, null);
 		writeLineXML("</ForWhileCommand>");
 		return null;
 	}
@@ -144,7 +147,9 @@ public class WriterVisitor implements Visitor {
 	public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
 		writeLineXML("<ForUntilCommand>");
 		ast.F.visit(this, null);
-		ast.U.visit(this, null);
+		ast.E1.visit(this, null);
+		ast.E2.visit(this, null);
+		ast.C.visit(this, null);
 		writeLineXML("</ForCommand>");
 		return null;
 	}
@@ -380,8 +385,7 @@ public class WriterVisitor implements Visitor {
 	public Object visitForDeclaration(ForDeclaration ast, Object o) {
 		writeLineXML("<ForDeclaration>");
 		ast.I.visit(this, null);
-		ast.E1.visit(this, null);
-		ast.E2.visit(this, null);
+		ast.E.visit(this, null);
 		writeLineXML("</ForDeclaration>");
 		return null;
 	}

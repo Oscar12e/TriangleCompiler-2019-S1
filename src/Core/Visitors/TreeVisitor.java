@@ -87,17 +87,17 @@ public class TreeVisitor implements Visitor {
 
     @Override
     public Object visitForCommand(ForCommand ast, Object o) {
-        return(createBinary("For Command", ast.F, ast.C));
+        return(createTernary("For Command", ast.F, ast.E, ast.C));
     }
 
     @Override
     public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
-        return(createBinary("For-While Command", ast.F, ast.W));
+        return(createQuaternary("For-While Command", ast.F, ast.E1, ast.E2, ast.C));
     }
 
     @Override
     public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
-        return(createBinary("For-Until Command", ast.F, ast.U));
+        return(createQuaternary("For-Until Command", ast.F, ast.E1, ast.E2, ast.C));
     }
 
     @Override
@@ -225,7 +225,7 @@ public class TreeVisitor implements Visitor {
 
     @Override
     public Object visitForDeclaration(ForDeclaration ast, Object o) {
-        return (createTernary("For Declaration", ast.I, ast.E1, ast.E2));
+        return (createBinary("For Declaration", ast.I, ast.E));
     }
 
     @Override

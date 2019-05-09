@@ -19,10 +19,8 @@ import Triangle.ErrorReporter;
 import Triangle.StdEnvironment;
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.function.Function;
 
@@ -34,8 +32,8 @@ public final class Checker implements Visitor {
   // Commands
   @Override
   public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
-    ast.P.visit(this, ast);
-    ast.D.visit(this, ast.P.spelling);
+    ast.P.visit(this, null);
+    ast.D.visit(this, null);
     idTable.setCurrentPackage("");
     return null;
   }
@@ -44,7 +42,6 @@ public final class Checker implements Visitor {
   public Object visitSequentialPackageDeclaration(SequentialPackageDeclaration ast, Object o) {
     ast.P1.visit(this, null);
     ast.P2.visit(this, null);
-
     return null;
   }
 
@@ -120,7 +117,9 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitDoWhileCommand(DoWhileCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
@@ -129,7 +128,9 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitUntilCommand(UntilCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
@@ -138,7 +139,9 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitDoUntilCommand(DoUntilCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (! eType.equals(StdEnvironment.booleanType))
@@ -147,8 +150,18 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitForCommand(ForCommand ast, Object o) {
+    TypeDenoter eType1 = (TypeDenoter) ast.E.visit(this, null);
+    TypeDenoter eType2 = (TypeDenoter) ast.F.E.visit(this, null);
+
+    if (! eType1.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.E.position);
+    if (! eType2.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.E.position);
+
     idTable.openScope();
     ast.F.visit(this, null);
     ast.C.visit(this, null);
@@ -156,26 +169,53 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
+    TypeDenoter eType1 = (TypeDenoter) ast.F.E.visit(this, null);
+    TypeDenoter eType2 = (TypeDenoter) ast.E1.visit(this, null);
+    TypeDenoter eType3 = (TypeDenoter) ast.E2.visit(this, null);
+
+    if (! eType1.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.F.E.position);
+    if (! eType2.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.E1.position);
+    if (! eType3.equals(StdEnvironment.booleanType))
+      reporter.reportError("Boolean expression expected here", "", ast.E2.position);
+
     idTable.openScope();
     ast.F.visit(this, null);
-    ast.W.visit(this, null);
+    ast.C.visit(this, null);
     idTable.closeScope();
     return null;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
+    TypeDenoter eType1 = (TypeDenoter) ast.F.E.visit(this, null);
+    TypeDenoter eType2 = (TypeDenoter) ast.E1.visit(this, null);
+    TypeDenoter eType3 = (TypeDenoter) ast.E2.visit(this, null);
+
+    if (! eType1.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.F.E.position);
+    if (! eType2.equals(StdEnvironment.integerType))
+      reporter.reportError("Integer expression expected here", "", ast.E1.position);
+    if (! eType3.equals(StdEnvironment.booleanType))
+      reporter.reportError("Boolean expression expected here", "", ast.E2.position);
+
     idTable.openScope();
     ast.F.visit(this, null);
-    ast.U.visit(this, null);
+    ast.C.visit(this, null);
     idTable.closeScope();
     return null;
   }
 
-  @Override
-  @SuppressWarnings("unchecked")
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override @SuppressWarnings("unchecked")
   public Object visitChooseCommand(ChooseCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     Set<Integer> evaluatedRanges = new HashSet<>();
@@ -185,51 +225,52 @@ public final class Checker implements Visitor {
         reporter.reportError("Integer or Char expression expected here.", "", ast.E.position);
         eType = StdEnvironment.anyType;
     }
-    idTable.openScope();
+
     casesLiterals = (List<Terminal[]>) ast.C.visit(this, eType);
-    idTable.closeScope();
 
     for (Terminal[] currentLimits : casesLiterals){
       Set currentRange;
       String lMin = currentLimits[0].spelling;
       String lMax = currentLimits.length == 1? lMin: currentLimits[1].spelling;
+      //Uses min and max to create a range for the set
 
-      if (eType.equals(StdEnvironment.integerType)){
-        currentRange = new HashSet<Integer>()
-          {{ IntStream.range(Integer.parseInt(lMin), Integer.parseInt(lMax)).forEach(this::add); }};
-      } else {
-        currentRange = new HashSet<Integer>()
-          {{ IntStream.range(lMin.charAt(0), lMax.charAt(0) ).forEach(this::add); }};
-      }
+      TypeDenoter lType = (TypeDenoter) currentLimits[0].visit(this, null);
 
-      /*
-      currentRange = new HashSet<Integer>(){{ ( eType.equals(StdEnvironment.integerType) ?
-              IntStream.range(Integer.parseInt(lMin), Integer.parseInt(lMax)) : IntStream.range(lMin.charAt(0), lMax.charAt(0) ) ).forEach(this::add); }};
-        */
-      //If current ranges get modified
+      int [] limits = lType.equals(StdEnvironment.integerType) ?
+              new int[]{Integer.parseInt(lMin), Integer.parseInt(lMax)}:
+              new int[]{lMin.charAt(0),  lMax.charAt(0)};
+
+      if ((limits[0] < limits[1]))
+        limits = new int[]{limits[1], limits[0]};
+
+      currentRange = IntStream.rangeClosed(limits[0], limits[1]).boxed().collect(Collectors.toSet());
+      //If current ranges get modified, it means that there's a intersection somewhere
       if ( currentRange.removeAll(evaluatedRanges) )
         reporter.reportError("Range presents conflict with another present.", "", currentLimits[0].position);
 
-      evaluatedRanges.addAll(currentRange);
+      evaluatedRanges.addAll(currentRange); //Add on evaluated ranges the numbers that are left
     }
 
     return null;
   }
 
+  // </editor-fold>
+
   // <editor-fold defaultstate="collapsed" desc=" Cases ">
   // Cases
   // Returns their literals as they check their parts.
-  @Override
-  @SuppressWarnings("unchecked")
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override @SuppressWarnings("unchecked")
   public Object visitCase(Case ast, Object o) {
     List<Terminal[]> terminals = (List<Terminal[]>) ast.CL.visit(this, o);
-    idTable.openScope();
     ast.C.visit(this, null);
-    idTable.closeScope();
     return terminals;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitElseCase(ElseCase ast, Object o) {
     idTable.openScope();
     ast.C.visit(this, null);
@@ -237,85 +278,76 @@ public final class Checker implements Visitor {
     return new ArrayList<Terminal[]>();
   }
 
-  @Override
-  @SuppressWarnings("unchecked")
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override @SuppressWarnings("unchecked")
   public Object visitSequentialCases(SequentialCases ast, Object o) {
     List<Terminal[]> T1 = (List<Terminal[]>) ast.C1.visit(this, o);
     List<Terminal[]> T2 = (List<Terminal[]>) ast.C2.visit(this, o);
 
-    return new ArrayList<Terminal[]>(T1){{ addAll(T2);}};
+    T1.addAll(T2);
+    return T1;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override @SuppressWarnings("unchecked")
   public Object visitCaseLiterals(CaseLiterals ast, Object o) {
-    Terminal[] T = (Terminal[]) ast.R.visit(this, o);
-    return new ArrayList<Terminal[]>(){{ add(T); }};
+    Object T = ast.R.visit(this, null);
+    TypeDenoter chooseEType = (TypeDenoter) o;
+    boolean ignoreChooseType = chooseEType == StdEnvironment.anyType;
+    List<Terminal[]> checkedTerminals = new ArrayList<>();
+
+    Terminal[] rawTerminals = ast.R instanceof CaseRange ? (Terminal[]) T : new Terminal[] {(Terminal) T};
+
+    if (rawTerminals.length > 0){
+      TypeDenoter eType = (TypeDenoter) rawTerminals[0].visit(this, null);
+     if (!  (eType.equals(StdEnvironment.integerType) || eType.equals(StdEnvironment.charType)))
+      reporter.reportError("Literals mismatch the allowed values.", "", ast.position);
+     else if (!eType.equals(chooseEType))
+       reporter.reportError("Literals mismatch the type of the choose expression.", "", ast.position);
+     else if (!ignoreChooseType)
+      checkedTerminals.add(rawTerminals);
+    }
+
+    return checkedTerminals;
   }
 
-  @Override
-  @SuppressWarnings("unchecked")
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override @SuppressWarnings("unchecked")
   public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
-    Object T1 = ast.L1.visit(this, o);
-    Object T2 = ast.L2.visit(this, o);
+    List<Terminal[]> T1 = (List<Terminal[]>) ast.L1.visit(this, o);
+    List<Terminal[]> T2 = (List<Terminal[]>) ast.L2.visit(this, o);
 
-    List<Terminal[]>result = new ArrayList<>();
-    result.add( ast.L1 instanceof CaseRange ? (Terminal[]) T1 : new Terminal[] {(Terminal) T1});
-    result.add( ast.L2 instanceof CaseRange ? (Terminal[]) T2 : new Terminal[] {(Terminal) T2});
-
-    return result;
+    T1.addAll(T2);
+    return T1;
   }
 
-  @Override
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override @SuppressWarnings("unchecked")
   public Object visitCaseRange(CaseRange ast, Object o) {
     Terminal T1 = (Terminal) ast.L1.visit(this, null);
     Terminal T2 = (Terminal) ast.L2.visit(this, null);
 
-    TypeDenoter chooseEType = (TypeDenoter) o;
     TypeDenoter eType1 = (TypeDenoter) T1.visit(this, null);
     TypeDenoter eType2 = (TypeDenoter) T2.visit(this, null);
 
     Terminal [] terminals = new Terminal[0];
 
-    if (! (eType1.equals(eType2)) ){
+    if (! (eType1.equals(eType2)) )
       reporter.reportError("Incompatible types found in the literals %.", T1.spelling + ".." + T2.spelling, ast.position);
-    } else {
-      int lMin;
-      int lMax;
-
-      if (chooseEType.equals(StdEnvironment.integerType)){
-        lMin = Integer.parseInt(T1.spelling);
-        lMax = Integer.parseInt(T2.spelling);
-      } else if (chooseEType.equals(StdEnvironment.charType)){
-        lMin = T1.spelling.charAt(0);
-        lMax = T2.spelling.charAt(0);
-      } else {
-          reporter.reportError("Incompatible types found in the literals %.", T1.spelling + ".." + T2.spelling, ast.position);
-          return terminals;
-      }
-
-      if (lMax < lMin)
-        reporter.reportError("Inconsistency found in limits values in range.", "", ast.position);
-      else if (! eType1.equals(chooseEType) )
-          reporter.reportError("Literals mismatch the type of the choose expression.", "", ast.position);
-      else {
-        terminals = new Terminal[2];
-        terminals[0] = T1;
-        terminals[1] = T2;
-      }
-    }
+    else
+      terminals = new Terminal[]{T2, T1};
 
     return terminals;
   }
 
-
-  /**
-   * To sum up, return a set because reasons
-   * @param ast: An single CaseLiteral.
-   * @return set with the Literal as value
-   */
   @Override
+  /* [Modified] */
   public Object visitCaseLiteral(CaseLiteral ast, Object o) {
-    return ast.L;
+    return  ast.L ;
   }
 
   // </editor-fold>
@@ -459,7 +491,7 @@ public final class Checker implements Visitor {
 
   public Object visitConstDeclaration(ConstDeclaration ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-    idTable.enter (ast.I.spelling, ast); // permits recursion
+    idTable.enter(ast.I.spelling, ast);
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
                             ast.I.spelling, ast.position);
@@ -469,7 +501,6 @@ public final class Checker implements Visitor {
   public Object visitFuncDeclaration(FuncDeclaration ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
     idTable.enter (ast.I.spelling, ast); // permits recursion
-
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
                             ast.I.spelling, ast.position);
@@ -503,7 +534,7 @@ public final class Checker implements Visitor {
 
   public Object visitTypeDeclaration(TypeDeclaration ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
-    idTable.enter (ast.I.spelling, ast); // permits recursion
+    idTable.enter (ast.I.spelling, ast);
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
                             ast.I.spelling, ast.position);
@@ -516,39 +547,57 @@ public final class Checker implements Visitor {
 
   public Object visitVarDeclaration(VarDeclaration ast, Object o) {
     ast.T = (TypeDenoter) ast.T.visit(this, null);
+    System.out.println("Adding".concat(ast.I.spelling));
     idTable.enter (ast.I.spelling, ast);
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
-              ast.I.spelling, ast.position);
+                            ast.I.spelling, ast.position);
 
     return null;
   }
 
   @Override
+  /* [Modified] */
   public Object visitForDeclaration(ForDeclaration ast, Object o) {
-    TypeDenoter eType1 = (TypeDenoter) ast.E1.visit(this, null);
-    TypeDenoter eType2 = (TypeDenoter) ast.E2.visit(this, null);
-
-    if (! eType1.equals(StdEnvironment.integerType))
-      reporter.reportError("Integer expression expected here", "", ast.E1.position);
-    if (! eType2.equals(StdEnvironment.integerType))
-      reporter.reportError("Integer expression expected here", "", ast.E2.position);
-
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     idTable.enter(ast.I.spelling, ast);
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
               ast.I.spelling, ast.position);
-
     return null;
   }
 
   @Override
   public Object visitPrivateDeclaration(PrivateDeclaration ast, Object o) {
+    //Create a snapshot and then checks the private block
+    IdentificationTable snapShot = new IdentificationTable(idTable);
+    //idTable = new IdentificationTable(idTable);
+    ast.D1.visit(this, null);
+    //Store the private block for reading
+    snapShot.startPrivateReading(idTable);
+    //Restore the snapshot as main table
+    idTable = snapShot;
+    //Check the block that uses the private block
+    ast.D2.visit(this, null);
+    //Discards the private block
+    idTable.stopPrivateReading();
     return null;
   }
 
   @Override
   public Object visitParDeclaration(ParDeclaration ast, Object o) {
+    //Pre par snapshot
+    IdentificationTable snapShot = new IdentificationTable(idTable);
+
+    ast.D1.visit(this, null);
+    //Creates new snapshot with the first par declaration
+    IdentificationTable snapShotPar = new IdentificationTable(idTable);
+    //Restore the prePar snapshot to create a new branch of declarations
+    idTable = snapShot;
+    ast.D2.visit(this, null);
+
+    //Merge the two branches together
+    idTable.merge(snapShotPar);
     return null;
   }
 
@@ -574,6 +623,7 @@ public final class Checker implements Visitor {
   }
 
   @Override
+  /* [Modified] */
   public Object visitInitializedDeclaration(InitializedDeclaration ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     idTable.enter(ast.I.spelling, ast);
@@ -895,31 +945,35 @@ public final class Checker implements Visitor {
     return binding;
   }
 
+  /**
+   * Modified by Nahomy
+   * @param LI
+   * @param o
+   * @return
+   */
   @Override
-  public Object visitLongIdentifier(LongIdentifier ast, Object o) {
-    ast.P.visit(this, null);
-    //ast.I.visit(this, null);
-    boolean isPackaged = idTable.isPackaged(ast.spelling);
-    if(idTable.getCurrentPackage().equals("") || !idTable.getCurrentPackage().equals(ast.P.spelling)) {
-      if (ast.P != null) {
+  public Object visitLongIdentifier(LongIdentifier LI, Object o) {
+    System.out.println(LI.spelling);
+    LI.P.visit(this, null);
+    boolean isPackaged = idTable.isPackaged(LI.spelling);
+    if(idTable.getCurrentPackage().equals("") || !idTable.getCurrentPackage().equals(LI.P.spelling)) {
+      if (LI.P != null) {
         if (!isPackaged) {
-          reporter.reportError("Identifier should not be related to any package", "", ast.position);
+          reporter.reportError("Identifier should not be related to any package", "", LI.position);
         } else {
-          if (!idTable.isPackageCorrect(ast.spelling, ast.P.spelling)) {
-            reporter.reportError("Package identifier is not related to identifier", "", ast.position);
+          if (!idTable.isPackageCorrect(LI.spelling, LI.P.spelling)) {
+            reporter.reportError("Package identifier is not related to identifier", "", LI.position);
           }
 
         }
 
       } else {
         if (isPackaged) {
-          reporter.reportError("Identifier should be related to a package", "", ast.position);
+          reporter.reportError("Identifier should be related to a package", "", LI.position);
         }
       }
     }
-
-
-
+    //ast.I.visit(this, null);
     return null;
   }
 
@@ -962,6 +1016,9 @@ public final class Checker implements Visitor {
     return ast.type;
   }
 
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitSimpleVname(SimpleVname ast, Object o) {
     ast.variable = false;
     ast.type = StdEnvironment.errorType;
@@ -1034,6 +1091,7 @@ public final class Checker implements Visitor {
 
   @Override
   public Object visitPackagedProgram(PackagedProgram ast, Object o) {
+
     ast.P.visit(this, null);
     ast.C.visit(this, null);
     return null;

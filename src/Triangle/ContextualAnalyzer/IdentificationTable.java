@@ -15,27 +15,26 @@
 package Triangle.ContextualAnalyzer;
 
 import Triangle.AbstractSyntaxTrees.Declaration;
+import java.util.*;
 
 public final class IdentificationTable {
 
   private int level;
   private IdEntry latest;
+  private IdentificationTable privateEntries;
+  private boolean privateReading;
   private String currentPackage;
+
   public IdentificationTable () {
     level = 0;
     latest = null;
     currentPackage = "";
   }
 
-  public void setCurrentPackage(String p)
-  {
-    this.currentPackage = p;
-
-  }
-  public String getCurrentPackage()
-  {
-    return this.currentPackage;
-
+  public IdentificationTable (IdentificationTable main) {
+    level = main.level;
+    latest = main.latest;
+    privateEntries = main.privateEntries;
   }
 
   // Opens a new level in the identification table, 1 higher than the
@@ -63,6 +62,38 @@ public final class IdentificationTable {
     this.latest = entry;
   }
 
+  public void startPrivateReading(IdentificationTable privateTable){
+    this.privateEntries = privateTable;
+    this.privateReading = true;
+  }
+
+  public void stopPrivateReading(){
+    this.privateEntries = null;
+    this.privateReading = false;
+  }
+
+  public void merge(IdentificationTable mergeTable){
+    List<IdEntry> toMerge = merge(mergeTable.latest, this.latest.id);
+    for (IdEntry entry: toMerge){
+      entry = new IdEntry(entry.id, entry.attr, this.level, this.latest);
+      this.latest = entry;
+    }
+  }
+
+  private List<IdEntry> merge(IdEntry currentEntry, String id){
+    if (currentEntry == null)
+      return new ArrayList<>();
+    else if (currentEntry.id.equals(id)){
+      List<IdEntry> result = new ArrayList<IdEntry>();
+      result.add(currentEntry);
+      return result;
+    } else {
+      List<IdEntry> result = merge(currentEntry.previous, id);
+      result.add(currentEntry);
+      return result;
+    }
+  }
+
   // Makes a new entry in the identification table for the given identifier
   // and attribute. The new entry belongs to the current level.
   // duplicated is set to to true iff there is already an entry for the
@@ -86,11 +117,11 @@ public final class IdentificationTable {
 
     attr.duplicated = present;
     // Add new entry ...
-    entry = new IdEntry(id, attr, this.level, this.latest, this.currentPackage);
+
+    entry = new IdEntry(id, attr, this.level, this.latest);
     this.latest = entry;
+
   }
-
-
 
   // Finds an entry for the given identifier in the identification table,
   // if any. If there are several entries for that identifier, finds the
@@ -104,10 +135,15 @@ public final class IdentificationTable {
     Declaration attr = null;
     boolean present = false, searching = true;
 
+
     entry = this.latest;
     while (searching) {
-      if (entry == null)
+
+      if (entry == null){
         searching = false;
+        if (privateReading)
+          attr = privateEntries.retrieve(id);
+      }
       else if (entry.id.equals(id)) {
         present = true;
         searching = false;
@@ -119,6 +155,7 @@ public final class IdentificationTable {
     return attr;
   }
 
+  //Added by Nahomy
   public boolean isPackaged(String idSpelling)
   {
     IdEntry entry;
@@ -134,7 +171,7 @@ public final class IdentificationTable {
     }
     return present;
   }
-
+  //Added by Nahomy
   public boolean isPackageCorrect(String idDec, String idPackage)
   {
     IdEntry entry;
@@ -150,5 +187,15 @@ public final class IdentificationTable {
     }
     return present;
   }
+  //Added by Nahomy
+  public void setCurrentPackage(String p)
+  {
+    this.currentPackage = p;
 
+  }
+  public String getCurrentPackage()
+  {
+    return this.currentPackage;
+
+  }
 }
