@@ -402,12 +402,17 @@ public class TableVisitor implements Visitor {
 
   @Override
   public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o) {
-    return null;
+        /*Modified by Daniel Sánchez*/
+        ast.P.visit(this, null);
+        return null;
   }
 
   @Override
   public Object visitSequentialProcFuncs(SequentialProcFuncs ast, Object o) {
-    return null;
+      /*Modified by Daniel Sánchez*/
+        ast.R1.visit(this, null);
+        ast.R2.visit(this, null);
+        return null;
   }
 
   @Override
