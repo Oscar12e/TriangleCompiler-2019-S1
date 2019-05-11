@@ -36,5 +36,7 @@ public class IdEntry {
     this.idPackage = p;
   }
 
+  public String getID(){return this.id;}
+
 
 }

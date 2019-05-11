@@ -254,8 +254,18 @@ public class TreeVisitor implements Visitor {
     }
 
     @Override
+    public Object visitRecursiveFuncTwo(RecursiveFunc ast, Object o) {
+        return null;
+    }
+
+    @Override
     public Object visitRecursiveProc(RecursiveProc ast, Object o) {
         return(createTernary("Recursive Proc", ast.I, ast.F, ast.C));
+    }
+
+    @Override
+    public Object visitRecursiveProcTwo(RecursiveProc ast, Object o) {
+        return null;
     }
 
     @Override
@@ -446,6 +456,11 @@ public class TreeVisitor implements Visitor {
 
     public Object visitPackagedProgram(PackagedProgram ast, Object o) {
         return (createBinary("Packaged program", ast.P, ast.C)); }
+
+    @Override
+    public Object visitSequentialProcFuncsTwo(SequentialProcFuncs ast, Object o) {
+        return null;
+    }
     // </editor-fold>
 
     // <editor-fold defaultstate="collapsed" desc=" Tree Creation Methods ">

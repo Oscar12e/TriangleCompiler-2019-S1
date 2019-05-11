@@ -313,6 +313,7 @@ public class Parser {
       case Token.IDENTIFIER:
         {
           Identifier iAST = parseLongIdentifier();
+          System.out.println(currentToken.kind);
           if (currentToken.kind == Token.LPAREN) {
             acceptIt();
             ActualParameterSequence apsAST = parseActualParameterSequence();

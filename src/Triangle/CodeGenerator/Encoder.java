@@ -407,7 +407,17 @@ public final class Encoder implements Visitor {
   }
 
   @Override
+  public Object visitRecursiveFuncTwo(RecursiveFunc ast, Object o) {
+    return null;
+  }
+
+  @Override
   public Object visitRecursiveProc(RecursiveProc ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveProcTwo(RecursiveProc ast, Object o) {
     return null;
   }
 
@@ -799,6 +809,11 @@ public final class Encoder implements Visitor {
   public Object visitPackagedProgram(PackagedProgram ast, Object o) {
     ast.P.visit(this, o);
     return ast.C.visit(this, o);
+  }
+
+  @Override
+  public Object visitSequentialProcFuncsTwo(SequentialProcFuncs ast, Object o) {
+    return null;
   }
 
   public Encoder (ErrorReporter reporter) {

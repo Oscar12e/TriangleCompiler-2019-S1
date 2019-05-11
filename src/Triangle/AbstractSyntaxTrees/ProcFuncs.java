@@ -2,8 +2,11 @@ package Triangle.AbstractSyntaxTrees;
 
 import Triangle.SyntacticAnalyzer.SourcePosition;
 
-public abstract class ProcFuncs extends AST{
+/*Modified by Daniel Sánchez*/
+public abstract class ProcFuncs extends Declaration{
 	public ProcFuncs (SourcePosition thePosition) {
 		super (thePosition);
 	}
+
+	public abstract Object visitTwo(Visitor v, Object o);
 }

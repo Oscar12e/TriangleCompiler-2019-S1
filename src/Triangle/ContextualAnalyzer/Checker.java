@@ -30,9 +30,21 @@ public final class Checker implements Visitor {
 
   // <editor-fold defaultstate="collapsed" desc=" Packages ">
   // Commands
+
+  /**
+   * Modified by nahomy
+   * @param ast
+   * @param o
+   * @return
+   */
   @Override
   public Object visitPackageDeclaration(PackageDeclaration ast, Object o) {
     ast.P.visit(this, null);
+    if(idTable.packagesIDs.contains(ast.P.spelling))
+    {
+      reporter.reportError("Package ".concat(ast.P.spelling).concat(" Is Already declared"),"",ast.position);
+    }
+    idTable.packagesIDs.add(ast.P.spelling);
     idTable.setCurrentPackage(ast.P.spelling);
     ast.D.visit(this, null);
     idTable.setCurrentPackage("");
@@ -62,7 +74,7 @@ public final class Checker implements Visitor {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (!ast.V.variable)
       reporter.reportError ("LHS of assignment is not a variable", "", ast.V.position);
-    if (! eType.equals(vType))
+    if (! eType.visit(this,null).equals(vType))//modified by Sánchez, not checked for recursive proc
       reporter.reportError ("assignment incompatibility", "", ast.position);
     return null;
   }
@@ -74,7 +86,9 @@ public final class Checker implements Visitor {
       reportUndeclared(ast.I);
     else if (binding instanceof ProcDeclaration) {
       ast.APS.visit(this, ((ProcDeclaration) binding).FPS);
-    } else if (binding instanceof ProcFormalParameter) {
+    }else if (binding instanceof RecursiveProc) {
+      ast.APS.visit(this, ((RecursiveProc) binding).F);//modified by SS.
+    }else if (binding instanceof ProcFormalParameter) {
       ast.APS.visit(this, ((ProcFormalParameter) binding).FPS);
     } else
       reporter.reportError("\"%\" is not a procedure identifier",
@@ -406,6 +420,9 @@ public final class Checker implements Visitor {
     } else if (binding instanceof FuncFormalParameter) {
       ast.APS.visit(this, ((FuncFormalParameter) binding).FPS);
       ast.type = ((FuncFormalParameter) binding).T;
+    }else if(binding instanceof  RecursiveFunc){
+      ast.APS.visit(this,((RecursiveFunc) binding).F);//added by Daniel Sánchez
+      ast.type = ((RecursiveFunc) binding).T;//added by Daniel Sánchez
     } else
       reporter.reportError("\"%\" is not a function identifier",
                            ast.I.spelling, ast.I.position);
@@ -509,6 +526,7 @@ public final class Checker implements Visitor {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     idTable.closeScope();
     if (! ast.T.equals(eType))
+      System.out.println("Entra");
       reporter.reportError ("body of function \"%\" has wrong type",
                             ast.I.spelling, ast.E.position);
     return null;
@@ -604,21 +622,63 @@ public final class Checker implements Visitor {
 
   @Override
   public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o) {
+    //I like the idea of a snapshot
+    //idTable.openScope();
+    ast.P.visit(this, null);
+    ast.P.visitTwo(this, null);
+    //idTable.closeScope();
     return null;
   }
 
   @Override
-  public Object visitSequentialProcFuncs(SequentialProcFuncs ast, Object o) {
+  public Object visitSequentialProcFuncs(SequentialProcFuncs ast, Object o){
+    ast.R1.visit(this , null);//this is the normal, when it add the identifiers
+    ast.R2.visit(this, null);
     return null;
   }
 
   @Override
-  public Object visitRecursiveFunc(RecursiveFunc ast, Object o) {
+  public Object visitSequentialProcFuncsTwo(SequentialProcFuncs ast, Object o) {
+    ast.R1.visitTwo(this, null);
+    ast.R2.visitTwo(this, null);
     return null;
   }
+
+  @Override
+  public Object visitRecursiveFunc(RecursiveFunc ast, Object o){
+    idTable.enter (ast.I.spelling, ast); // permits recursion
+    if (ast.duplicated)
+      reporter.reportError ("identifier \"%\" already declared",
+              ast.I.spelling, ast.position);
+    return null;
+  }
+
+  public Object visitRecursiveFuncTwo(RecursiveFunc ast, Object o) {
+    idTable.openScope();
+    ast.F.visit(this, null);
+    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+    idTable.closeScope();
+    if (!ast.T.visit(this,null).equals(eType.visit(this,null)))//Modified by SS.
+      reporter.reportError ("body of function \"%\" has wrong type",
+              ast.I.spelling, ast.E.position);
+    return null;
+  }
+
 
   @Override
   public Object visitRecursiveProc(RecursiveProc ast, Object o) {
+    idTable.enter (ast.I.spelling, ast); // permits recursion
+    if (ast.duplicated)
+      reporter.reportError ("identifier \"%\" already declared",
+              ast.I.spelling, ast.position);
+    return null;
+  }
+
+  public Object visitRecursiveProcTwo(RecursiveProc ast, Object o) {
+    idTable.openScope();
+    ast.F.visit(this, null);
+    ast.C.visit(this, null);
+    idTable.closeScope();
     return null;
   }
 
@@ -763,7 +823,7 @@ public final class Checker implements Visitor {
     if (binding == null)
       reportUndeclared (ast.I);
     else if (! (binding instanceof FuncDeclaration ||
-                binding instanceof FuncFormalParameter))
+                binding instanceof FuncFormalParameter || binding instanceof RecursiveFunc))
       reporter.reportError ("\"%\" is not a function identifier",
                             ast.I.spelling, ast.I.position);
     else if (! (fp instanceof FuncFormalParameter))
@@ -775,7 +835,10 @@ public final class Checker implements Visitor {
       if (binding instanceof FuncDeclaration) {
         FPS = ((FuncDeclaration) binding).FPS;
         T = ((FuncDeclaration) binding).T;
-      } else {
+      }else if(binding instanceof RecursiveFunc){
+        FPS = ((RecursiveFunc) binding).F;
+        T = ((RecursiveFunc) binding).T;
+      }else{
         FPS = ((FuncFormalParameter) binding).FPS;
         T = ((FuncFormalParameter) binding).T;
       }
@@ -796,7 +859,7 @@ public final class Checker implements Visitor {
     if (binding == null)
       reportUndeclared (ast.I);
     else if (! (binding instanceof ProcDeclaration ||
-                binding instanceof ProcFormalParameter))
+                binding instanceof ProcFormalParameter || binding instanceof RecursiveProc ))//modified by SS.
       reporter.reportError ("\"%\" is not a procedure identifier",
                             ast.I.spelling, ast.I.position);
     else if (! (fp instanceof ProcFormalParameter))
@@ -804,10 +867,13 @@ public final class Checker implements Visitor {
                             ast.position);
     else {
       FormalParameterSequence FPS = null;
-      if (binding instanceof ProcDeclaration)
+      if (binding instanceof ProcDeclaration){
         FPS = ((ProcDeclaration) binding).FPS;
-      else
+      }else if(binding instanceof RecursiveProc){//modified by SS.
+        FPS = ((RecursiveProc) binding).F;
+      }else {
         FPS = ((ProcFormalParameter) binding).FPS;
+      }
       if (! FPS.equals(((ProcFormalParameter) fp).FPS))
         reporter.reportError ("wrong signature for procedure \"%\"",
                               ast.I.spelling, ast.I.position);
@@ -817,7 +883,6 @@ public final class Checker implements Visitor {
 
   public Object visitVarActualParameter(VarActualParameter ast, Object o) {
     FormalParameter fp = (FormalParameter) o;
-
     TypeDenoter vType = (TypeDenoter) ast.V.visit(this, null);
     if (! ast.V.variable)
       reporter.reportError ("actual parameter is not a variable", "",
@@ -825,7 +890,7 @@ public final class Checker implements Visitor {
     else if (! (fp instanceof VarFormalParameter))
       reporter.reportError ("var actual parameter not expected here", "",
                             ast.V.position);
-    else if (! vType.equals(((VarFormalParameter) fp).T))
+    else if (! vType.equals(((VarFormalParameter) fp).T.visit(this, null)))//modified by Sánchez
       reporter.reportError ("wrong type for var actual parameter", "",
                             ast.V.position);
     return null;
@@ -927,10 +992,21 @@ public final class Checker implements Visitor {
     return StdEnvironment.charType;
   }
 
+  /**
+   * Modified by Nahomy
+   * @param I
+   * @param o
+   * @return
+   */
   public Object visitIdentifier(Identifier I, Object o) {
     Declaration binding = idTable.retrieve(I.spelling);
     if (binding != null)
       I.decl = binding;
+    boolean isPackaged =  idTable.isPackaged(I.spelling);
+    if(isPackaged)
+    {
+      reporter.reportError("Identifier ".concat(I.spelling).concat("Should be related to a package"),"",I.position);
+    }
     return binding;
   }
 
@@ -953,26 +1029,21 @@ public final class Checker implements Visitor {
    */
   @Override
   public Object visitLongIdentifier(LongIdentifier LI, Object o) {
-    System.out.println(LI.spelling);
     LI.P.visit(this, null);
     boolean isPackaged = idTable.isPackaged(LI.spelling);
     if(idTable.getCurrentPackage().equals("") || !idTable.getCurrentPackage().equals(LI.P.spelling)) {
-      if (LI.P != null) {
         if (!isPackaged) {
-          reporter.reportError("Identifier should not be related to any package", "", LI.position);
-        } else {
-          if (!idTable.isPackageCorrect(LI.spelling, LI.P.spelling)) {
-            reporter.reportError("Package identifier is not related to identifier", "", LI.position);
-          }
-
-        }
-
+        reporter.reportError("Identifier should not be related to any package", "", LI.position);
       } else {
-        if (isPackaged) {
-          reporter.reportError("Identifier should be related to a package", "", LI.position);
+        if (!idTable.isPackageCorrect(LI.spelling, LI.P.spelling)) {
+          reporter.reportError("Package identifier is not related to identifier", "", LI.position);
         }
+
       }
-    }
+
+
+      }
+
     //ast.I.visit(this, null);
     return null;
   }
@@ -1096,6 +1167,8 @@ public final class Checker implements Visitor {
     ast.C.visit(this, null);
     return null;
   }
+
+
 
   // </editor-fold>
 
