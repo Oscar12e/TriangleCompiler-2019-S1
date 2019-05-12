@@ -4,234 +4,8 @@
     <list default="true" id="bf79a2d0-a145-455b-b467-4cb2d6bf5af8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/TriangleCompiler_2019_S1_jar/TriangleCompiler-2019-S1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/TriangleCompiler_2019_S1_jar/TriangleCompiler-2019-S1.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Core/Console/InputRedirector.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Core/Console/OutputRedirector.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Core/Console/package.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Core/ExampleFileFilter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Core/IDE/IDEDisassembler$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Core/IDE/IDEDisassembler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Core/IDE/IDEInterpreter$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Core/IDE/IDEInterpreter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Core/IDE/package.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Core/Visitors/TableVisitor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Core/Visitors/TreeVisitor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Core/Visitors/package.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Core/package.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/AboutDialog$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/AboutDialog.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/FileFrame.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Icons/About.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Icons/Thumbs.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Icons/iconEditCopy.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Icons/iconEditCut.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Icons/iconEditPaste.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Icons/iconFileNew.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Icons/iconFileOpen.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Icons/iconFileSave.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Icons/iconFrame.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Icons/iconHelpAbout.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Icons/iconMain.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Icons/iconTriangleCompile.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Icons/iconTriangleRun.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$10.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$11.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$12.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$13.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$14.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$15.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$16.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$17.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$18.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$19.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$20.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$21.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$22.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$23.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$24.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$25.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$26.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$27.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$28.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$29.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$3.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$4.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$5.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$6.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$7.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$8.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$9.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main$clipBoard.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/GUI/package.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/TAM/Disassembler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/TAM/Instruction.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/TAM/Interpreter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/TAM/Machine.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/AST.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ActualParameter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ActualParameterSequence.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/AnyTypeDenoter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ArrayAggregate.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ArrayExpression.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ArrayTypeDenoter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/AssignCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/BinaryExpression.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/BinaryOperatorDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/BoolTypeDenoter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/CallCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/CallExpression.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/Case.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/CaseLiteral.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/CaseLiterals.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/CaseRange.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/Cases.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/CharTypeDenoter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/CharacterExpression.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/CharacterLiteral.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ChooseCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/Command.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ConstActualParameter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ConstDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ConstFormalParameter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/Declaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/DoUntilCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/DoWhileCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/DotVname.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ElseCase.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/EmptyActualParameterSequence.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/EmptyCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/EmptyExpression.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/EmptyFormalParameterSequence.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ErrorTypeDenoter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/Expression.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/FieldTypeDenoter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ForCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ForDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ForUntilCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ForWhileCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/FormalParameter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/FormalParameterSequence.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/FuncActualParameter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/FuncDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/FuncFormalParameter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/Identifier.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/IfCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/IfExpression.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/InitializedDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/IntTypeDenoter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/IntegerExpression.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/IntegerLiteral.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/LetCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/LetExpression.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/LongIdentifier.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/MultipleActualParameterSequence.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/MultipleArrayAggregate.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/MultipleFieldTypeDenoter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/MultipleFormalParameterSequence.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/MultipleRecordAggregate.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/Operator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/Package.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/PackageDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/PackageIdentifier.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/PackagedProgram.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ParDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/PrivateDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ProcActualParameter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ProcDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ProcFormalParameter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/ProcFuncs.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/Program.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/RecordAggregate.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/RecordExpression.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/RecordTypeDenoter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/RecursiveDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/RecursiveFunc.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/RecursiveProc.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SequentialCaseLiterals.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SequentialCases.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SequentialCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SequentialDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SequentialPackageDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SequentialProcFuncs.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SimpleProgram.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SimpleTypeDenoter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SimpleVname.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SingleActualParameterSequence.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SingleArrayAggregate.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SingleFieldTypeDenoter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SingleFormalParameterSequence.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SingleRecordAggregate.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/SubscriptVname.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/Terminal.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/TypeDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/TypeDenoter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/UnaryExpression.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/UnaryOperatorDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/UntilCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/VarActualParameter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/VarDeclaration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/VarFormalParameter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/Visitor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/Vname.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/VnameExpression.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/AbstractSyntaxTrees/WhileCommand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/Encoder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/EqualityRoutine.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/Field.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/Frame.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/KnownAddress.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/KnownRoutine.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/KnownValue.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/ObjectAddress.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/PrimitiveRoutine.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/RuntimeEntity.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/TypeRepresentation.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/UnknownAddress.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/UnknownRoutine.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/CodeGenerator/UnknownValue.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/Compiler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/Checker.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/IdEntry.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/IdentificationTable.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ErrorReporter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/IDECompiler.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/IDEReporter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/StdEnvironment.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/SyntacticAnalyzer/HTMLWriter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/SyntacticAnalyzer/Parser.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/SyntacticAnalyzer/Scanner.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/SyntacticAnalyzer/SourceFile.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/SyntacticAnalyzer/SourcePosition.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/SyntacticAnalyzer/SyntaxError.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/SyntacticAnalyzer/Token.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/TreeDrawer/Drawer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/TreeDrawer/DrawerFrame$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/TreeDrawer/DrawerFrame.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/TreeDrawer/DrawerPanel.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/TreeDrawer/DrawingTree.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/TreeDrawer/LayoutVisitor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/TreeDrawer/Polygon.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/TreeDrawer/Polyline.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/TreeWriterXML/Writer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/TreeWriterXML/WriterVisitor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/package.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Core/Visitors/TableVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Core/Visitors/TableVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Core/Visitors/TreeVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Core/Visitors/TreeVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/ProcFuncs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/ProcFuncs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/RecursiveFunc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/RecursiveFunc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/RecursiveProc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/RecursiveProc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/SequentialProcFuncs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/SequentialProcFuncs.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/Visitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/Visitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Triangle/CodeGenerator/Encoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/CodeGenerator/Encoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/Checker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TriangleCompiler-2019-S1/Triangle/ContextualAnalyzer/Checker.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/IdEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/IdEntry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/IdentificationTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/IdentificationTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Triangle/SyntacticAnalyzer/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/SyntacticAnalyzer/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Triangle/TreeDrawer/LayoutVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/TreeDrawer/LayoutVisitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Triangle/TreeWriterXML/WriterVisitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Triangle/TreeWriterXML/WriterVisitor.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -248,12 +22,44 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-10">
-              <caret line="660" column="80" selection-start-line="660" selection-start-column="77" selection-end-line="660" selection-end-column="80" />
+            <state relative-caret-position="97">
+              <caret line="655" lean-forward="true" selection-start-line="655" selection-end-line="655" />
               <folding>
                 <element signature="e#888#947#0" expanded="true" />
                 <element signature="e#1863#1922#0" expanded="true" />
+                <element signature="e#12664#12726#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/BinaryOperatorDeclaration.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/CallExpression.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
+              <folding>
+                <element signature="e#887#888#0" expanded="true" />
+                <element signature="e#934#935#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/Expression.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="96">
+              <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -261,8 +67,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/RecursiveProc.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="18" column="21" lean-forward="true" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+            <state relative-caret-position="256">
+              <caret line="16" column="24" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -270,8 +76,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/AssignCommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="31" column="22" lean-forward="true" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
+            <state relative-caret-position="272">
+              <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
               <folding>
                 <element signature="e#842#843#0" expanded="true" />
                 <element signature="e#888#889#0" expanded="true" />
@@ -283,7 +89,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Triangle/SyntacticAnalyzer/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
+            <state relative-caret-position="1712">
               <caret line="172" column="13" selection-start-line="172" selection-start-column="13" selection-end-line="172" selection-end-column="13" />
               <folding>
                 <element signature="e#8097#8156#0" expanded="true" />
@@ -297,10 +103,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>privateD</find>
-      <find>recur</find>
-      <find>visitVnam</find>
-      <find>recursive</find>
       <find>assign</find>
       <find>visitSus</find>
       <find>function</find>
@@ -327,6 +129,10 @@
       <find>Sánchez</find>
       <find>SS</find>
       <find>SS.</find>
+      <find>visitProc</find>
+      <find>const</find>
+      <find>const ac</find>
+      <find>system</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -364,6 +170,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -393,8 +201,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -448,8 +254,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="-4" width="1374" height="732" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15785499" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1623867" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -458,7 +265,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2198697" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2198697" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -786,13 +593,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/CallExpression.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="32" column="37" lean-forward="true" selection-start-line="32" selection-start-column="37" selection-end-line="32" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/FuncDeclaration.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
@@ -849,9 +649,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/AssignCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
+          <folding>
+            <element signature="e#842#843#0" expanded="true" />
+            <element signature="e#888#889#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Triangle/SyntacticAnalyzer/Parser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
+        <state relative-caret-position="1712">
           <caret line="172" column="13" selection-start-line="172" selection-start-column="13" selection-end-line="172" selection-end-column="13" />
           <folding>
             <element signature="e#8097#8156#0" expanded="true" />
@@ -860,31 +671,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/AssignCommand.java">
+    <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/Expression.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="31" column="22" lean-forward="true" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
-          <folding>
-            <element signature="e#842#843#0" expanded="true" />
-            <element signature="e#888#889#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="96">
+          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/RecursiveProc.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="18" column="21" lean-forward="true" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+        <state relative-caret-position="256">
+          <caret line="16" column="24" selection-start-line="16" selection-start-column="24" selection-end-line="16" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/CallExpression.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="21" column="44" selection-start-line="21" selection-start-column="44" selection-end-line="21" selection-end-column="44" />
+          <folding>
+            <element signature="e#887#888#0" expanded="true" />
+            <element signature="e#934#935#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/BinaryExpression.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="32" column="8" selection-start-line="32" selection-start-column="8" selection-end-line="32" selection-end-column="8" />
+          <folding>
+            <element signature="e#907#908#0" expanded="true" />
+            <element signature="e#956#957#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Triangle/AbstractSyntaxTrees/BinaryOperatorDeclaration.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Triangle/ContextualAnalyzer/Checker.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-10">
-          <caret line="660" column="80" selection-start-line="660" selection-start-column="77" selection-end-line="660" selection-end-column="80" />
+        <state relative-caret-position="97">
+          <caret line="655" lean-forward="true" selection-start-line="655" selection-end-line="655" />
           <folding>
             <element signature="e#888#947#0" expanded="true" />
             <element signature="e#1863#1922#0" expanded="true" />
+            <element signature="e#12664#12726#0" expanded="true" />
           </folding>
         </state>
       </provider>

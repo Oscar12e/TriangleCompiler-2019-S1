@@ -381,11 +381,9 @@ public final class Checker implements Visitor {
   }
 
   public Object visitBinaryExpression(BinaryExpression ast, Object o) {
-
     TypeDenoter e1Type = (TypeDenoter) ast.E1.visit(this, null);
     TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
     Declaration binding = (Declaration) ast.O.visit(this, null);
-
     if (binding == null)
       reportUndeclared(ast.O);
     else {
@@ -395,13 +393,13 @@ public final class Checker implements Visitor {
       BinaryOperatorDeclaration bbinding = (BinaryOperatorDeclaration) binding;
       if (bbinding.ARG1 == StdEnvironment.anyType) {
         // this operator must be "=" or "\="
-        if (! e1Type.equals(e2Type))
+        if (! e1Type.equals(e2Type))//modified by SS.
           reporter.reportError ("incompatible argument types for \"%\"",
                                 ast.O.spelling, ast.position);
-      } else if (! e1Type.equals(bbinding.ARG1))
+      } else if (! e1Type.visit(this,null).equals(bbinding.ARG1))//modified by SS.
           reporter.reportError ("wrong argument type for \"%\"",
                                 ast.O.spelling, ast.E1.position);
-      else if (! e2Type.equals(bbinding.ARG2))
+      else if (! e2Type.visit(this, null).equals(bbinding.ARG2))//modified by SS.
           reporter.reportError ("wrong argument type for \"%\"",
                                 ast.O.spelling, ast.E2.position);
       ast.type = bbinding.RES;
@@ -423,7 +421,11 @@ public final class Checker implements Visitor {
     }else if(binding instanceof  RecursiveFunc){
       ast.APS.visit(this,((RecursiveFunc) binding).F);//added by Daniel Sánchez
       ast.type = ((RecursiveFunc) binding).T;//added by Daniel Sánchez
-    } else
+    }/*else if(binding instanceof  RecursiveProc) { //it appears to be unnecessary
+        ast.APS.visit(this, ((RecursiveProc) binding).F);//added by Daniel Sánchez
+        //ast.type = ((RecursiveProc) binding).C.visit(this, null));//added by Daniel Sánchez*/
+    //}
+    else
       reporter.reportError("\"%\" is not a function identifier",
                            ast.I.spelling, ast.I.position);
     return ast.type;
@@ -526,7 +528,6 @@ public final class Checker implements Visitor {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     idTable.closeScope();
     if (! ast.T.equals(eType))
-      System.out.println("Entra");
       reporter.reportError ("body of function \"%\" has wrong type",
                             ast.I.spelling, ast.E.position);
     return null;
