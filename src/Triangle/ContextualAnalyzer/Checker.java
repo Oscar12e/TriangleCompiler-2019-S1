@@ -659,7 +659,7 @@ public final class Checker implements Visitor {
     ast.F.visit(this, null);
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     idTable.closeScope();
-    if (!ast.T.visit(this,null).equals(eType.visit(this,null)))//Modified by SS.
+    if (!ast.T.visit(this,null).equals(eType))//Modified by SS.
       reporter.reportError ("body of function \"%\" has wrong type",
               ast.I.spelling, ast.E.position);
     return null;
@@ -823,6 +823,9 @@ public final class Checker implements Visitor {
     Declaration binding = (Declaration) ast.I.visit(this, null);
     if (binding == null)
       reportUndeclared (ast.I);
+    else if (binding instanceof RecursiveProc || binding instanceof ProcDeclaration)//waiting for deletion
+        reporter.reportError ("\"%\" Proc declaration returns nothing. It can't be called",
+                ast.I.spelling, ast.I.position);
     else if (! (binding instanceof FuncDeclaration ||
                 binding instanceof FuncFormalParameter || binding instanceof RecursiveFunc))
       reporter.reportError ("\"%\" is not a function identifier",
