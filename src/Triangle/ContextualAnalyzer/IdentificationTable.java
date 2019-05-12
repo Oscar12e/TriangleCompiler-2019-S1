@@ -23,13 +23,13 @@ public final class IdentificationTable {
   private IdEntry latest;
   private IdentificationTable privateEntries;
   private boolean privateReading;
-  private String currentPackage;
+
   public ArrayList<String> packagesIDs;
 
   public IdentificationTable () {
     level = 0;
     latest = null;
-    currentPackage = "";
+
     this.packagesIDs = new ArrayList<String>();
   }
 
@@ -77,7 +77,7 @@ public final class IdentificationTable {
   public void merge(IdentificationTable mergeTable){
     List<IdEntry> toMerge = merge(mergeTable.latest, this.latest.id);
     for (IdEntry entry: toMerge){
-      entry = new IdEntry(entry.id, entry.attr, this.level, this.latest, this.currentPackage);
+      entry = new IdEntry(entry.id, entry.attr, this.level, this.latest);
       this.latest = entry;
     }
   }
@@ -113,13 +113,13 @@ public final class IdentificationTable {
       else if (entry.id.equals(id)) {
         present = true;
         searching = false;
-       } else
-       entry = entry.previous;
+      } else
+        entry = entry.previous;
     }
 
     attr.duplicated = present;
     // Add new entry ...
-    entry = new IdEntry(id, attr, this.level, this.latest, this.currentPackage);
+    entry = new IdEntry(id, attr, this.level, this.latest);
     this.latest = entry;
 
   }
@@ -130,11 +130,11 @@ public final class IdentificationTable {
   // Returns null iff no entry is found.
   // otherwise returns the attribute field of the entry found.
 
-  public Declaration retrieve (String id) {
+  public Declaration retrieve (String id, String idPackage) {
 
     IdEntry entry;
     Declaration attr = null;
-    boolean present = false, searching = true;
+    boolean searching = true;
 
 
     entry = this.latest;
@@ -145,15 +145,39 @@ public final class IdentificationTable {
         if (privateReading)
           attr = privateEntries.retrieve(id);
       }
-      else if (entry.id.equals(id)) {
-        present = true;
+      else if (entry.id.equals(id) && entry.idPackage.equals(idPackage)) {
         searching = false;
         attr = entry.attr;
       } else
         entry = entry.previous;
     }
-
     return attr;
+  }
+
+  public Declaration retrieve (String id)
+  {
+    return retrieve(id, "");
+  }
+
+
+  //Y va a necesitar esto junto con getEntriesUntil
+  public void stopPackageReading(String packageName){
+    //Stuff
+  }
+  /**
+   * Modified by Óscar Cortés
+   * @param currentEntry the one that's being read
+   * @param id the id we are looking for
+   * @return
+   */
+  public List<IdEntry> getEntriesUntil(IdEntry currentEntry, String id){
+    if (currentEntry == null || currentEntry.id.equals(id))
+      return new LinkedList<>();
+    else {
+      List<IdEntry> result = getEntriesUntil(currentEntry.previous, id);
+      result.add(currentEntry);
+      return result;
+    }
   }
 
   //Added by Nahomy
@@ -188,17 +212,29 @@ public final class IdentificationTable {
       } else
         entry = entry.previous;
     }
+
     return present;
   }
+
   //Added by Nahomy
-  public void setCurrentPackage(String p)
+  public String retrievePackage(String id)
   {
-    this.currentPackage = p;
-
+    IdEntry entry;
+    boolean  searching = true;
+    entry = this.latest;
+    while (searching) {
+      if (entry == null)
+        searching = false;
+      else if (entry.id.equals(id)) {
+        searching=false;
+      } else
+        entry = entry.previous;
+    }
+    return entry.idPackage;
   }
-  public String getCurrentPackage()
-  {
-    return this.currentPackage;
 
+  public IdEntry getLatest()
+  {
+    return this.latest;
   }
 }
