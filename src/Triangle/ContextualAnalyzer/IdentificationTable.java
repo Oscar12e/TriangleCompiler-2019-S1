@@ -39,11 +39,21 @@ public final class IdentificationTable {
     privateEntries = main.privateEntries;
   }
 
+  public IdentificationTable (IdentificationTable main) {
+    level = main.level;
+    latest = main.latest;
+    privateEntries = main.privateEntries;
+  }
+
+  //Va a necesitar esto
+  public IdEntry getLatest() {
+    return latest;
+  }
+
   // Opens a new level in the identification table, 1 higher than the
   // current topmost level.
 
   public void openScope () {
-
     level ++;
   }
 
@@ -96,6 +106,45 @@ public final class IdentificationTable {
     }
   }
 
+  //Y va a necesitar esto junto con getEntriesUntil
+  public void stopPackageReading(String packageName){
+    //Stuff
+  }
+
+  public void startPrivateReading(IdentificationTable privateTable){
+    this.privateEntries = privateTable;
+    this.privateReading = true;
+  }
+
+  public void stopPrivateReading(){
+    this.privateEntries = null;
+    this.privateReading = false;
+  }
+
+  public void merge(IdentificationTable secondTable){
+    List<IdEntry> toMerge = getEntriesUntil(secondTable.latest, this.latest.id);
+    for (IdEntry entry: toMerge){
+      entry = new IdEntry(entry.id, entry.attr, this.level, this.latest);
+      this.latest = entry;
+    }
+  }
+
+  /**
+   * Modified by Óscar Cortés
+   * @param currentEntry the one that's being read
+   * @param id the id we are looking for
+   * @return
+   */
+  private List<IdEntry> getEntriesUntil(IdEntry currentEntry, String id){
+    if (currentEntry == null || currentEntry.id.equals(id))
+      return new LinkedList<>();
+    else {
+      List<IdEntry> result = getEntriesUntil(currentEntry.previous, id);
+      result.add(currentEntry);
+      return result;
+    }
+  }
+
   // Makes a new entry in the identification table for the given identifier
   // and attribute. The new entry belongs to the current level.
   // duplicated is set to to true iff there is already an entry for the
@@ -131,7 +180,6 @@ public final class IdentificationTable {
   // otherwise returns the attribute field of the entry found.
 
   public Declaration retrieve (String id) {
-
     IdEntry entry;
     Declaration attr = null;
     boolean present = false, searching = true;
