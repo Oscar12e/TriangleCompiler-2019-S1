@@ -78,17 +78,6 @@ public final class IdentificationTable {
 
   /**
    * Modified by Óscar Cortés
-   * @param secondTable the one we got the entries to merge
-   */
-  public void merge(IdentificationTable secondTable){
-    List<IdEntry> toMerge = getEntriesUntil(secondTable.latest, this.latest.id);
-    for (IdEntry entry: toMerge){
-      entry = new IdEntry(entry.id, entry.attr, this.level, this.latest);
-      this.latest = entry;
-    }
-  }
-  /**
-   * Modified by Óscar Cortés
    */
   public List<IdEntry> getEntriesUntil(IdEntry currentEntry, String id){
     if (currentEntry == null || currentEntry.id.equals(id))
@@ -106,6 +95,10 @@ public final class IdentificationTable {
   // same identifier at the current level.
 
   public void enter (String id, Declaration attr) {
+    enter(id, attr, "");
+  }
+
+  public void enter (String id, Declaration attr, String pPackage) {
 
     IdEntry entry = this.latest;
     boolean present = false, searching = true;
@@ -123,10 +116,10 @@ public final class IdentificationTable {
 
     attr.duplicated = present;
     // Add new entry ...
-    entry = new IdEntry(id, attr, this.level, this.latest);
+    entry = new IdEntry(id, attr, this.level, this.latest, pPackage);
     this.latest = entry;
-
   }
+
 
   // Finds an entry for the given identifier in the identification table,
   // if any. If there are several entries for that identifier, finds the

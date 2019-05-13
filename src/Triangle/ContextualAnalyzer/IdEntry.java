@@ -28,12 +28,12 @@ public class IdEntry {
     this(id, attr, level, previous, "");
   }
 
-  IdEntry (String id, Declaration attr, int level, IdEntry previous,String p) {
+  IdEntry (String id, Declaration attr, int level, IdEntry previous, String pPackage) {
     this.id = id;
     this.attr = attr;
     this.level = level;
     this.previous = previous;
-    this.idPackage = p;
+    this.idPackage = pPackage;
   }
   public void setPackage(String p)
   {

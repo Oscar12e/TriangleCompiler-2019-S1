@@ -626,7 +626,15 @@ public final class Checker implements Visitor {
     ast.D2.visit(this, null);
 
     //Merge the two branches together
-    idTable.merge(snapShotPar);
+
+    List<IdEntry> toMerge = idTable.getEntriesUntil(snapShotPar.getLatest(), idTable.getLatest().id);
+    for (IdEntry entry : toMerge) {
+      idTable.enter(entry.id, entry.attr);
+
+      if (entry.attr.duplicated)
+        reporter.reportError ("identifier \"%\" already declared",
+                entry.id, entry.attr.position);
+    }
     return null;
   }
 
