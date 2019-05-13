@@ -421,10 +421,7 @@ public final class Checker implements Visitor {
     }else if(binding instanceof  RecursiveFunc){
       ast.APS.visit(this,((RecursiveFunc) binding).F);//added by Daniel Sánchez
       ast.type = ((RecursiveFunc) binding).T;//added by Daniel Sánchez
-    }/*else if(binding instanceof  RecursiveProc) { //it appears to be unnecessary
-        ast.APS.visit(this, ((RecursiveProc) binding).F);//added by Daniel Sánchez
-        //ast.type = ((RecursiveProc) binding).C.visit(this, null));//added by Daniel Sánchez*/
-    //}
+    }
     else
       reporter.reportError("\"%\" is not a function identifier",
                            ast.I.spelling, ast.I.position);
@@ -437,8 +434,8 @@ public final class Checker implements Visitor {
   }
 
   public Object visitEmptyExpression(EmptyExpression ast, Object o) {
-    ast.type = null;
-    return ast.type;
+    //ast.type = null;
+    return null;
   }
 
   public Object visitIfExpression(IfExpression ast, Object o) {
@@ -448,9 +445,12 @@ public final class Checker implements Visitor {
                             ast.E1.position);
     TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
     TypeDenoter e3Type = (TypeDenoter) ast.E3.visit(this, null);
-    if (! e2Type.equals(e3Type))
+    //SimpleTypeDenoter comes sometimes
+    TypeDenoter newe2Type = (TypeDenoter) e2Type.visit(this, null);//modified by SS.
+    TypeDenoter newe3Type = (TypeDenoter) e3Type.visit(this, null);//modified by SS.
+    if (! newe2Type.equals(newe3Type))//modified by SS.
       reporter.reportError ("incompatible limbs in if-expression", "", ast.position);
-    ast.type = e2Type;
+    ast.type = newe2Type;
     return ast.type;
   }
 
@@ -807,11 +807,11 @@ public final class Checker implements Visitor {
   public Object visitConstActualParameter(ConstActualParameter ast, Object o) {
     FormalParameter fp = (FormalParameter) o;
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
-
     if (! (fp instanceof ConstFormalParameter))
       reporter.reportError ("const actual parameter not expected here", "",
                             ast.position);
-    else if (! eType.equals(((ConstFormalParameter) fp).T))
+    //modified by SS.
+    else if (! eType.visit(this,null).equals(((ConstFormalParameter) fp).T.visit(this,null)))
       reporter.reportError ("wrong type for const actual parameter", "",
                             ast.E.position);
     return null;
