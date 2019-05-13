@@ -45,9 +45,17 @@ public final class Checker implements Visitor {
       reporter.reportError("Package ".concat(ast.P.spelling).concat(" Is Already declared"),"",ast.position);
     }
     idTable.packagesIDs.add(ast.P.spelling);
-    idTable.setCurrentPackage(ast.P.spelling);
+
+    IdEntry latest = idTable.getLatest();
     ast.D.visit(this, null);
-    idTable.setCurrentPackage("");
+    IdEntry latest2 = idTable.getLatest();
+    List<IdEntry> entries = idTable.getEntriesUntil(latest2,latest.id);
+
+    for (IdEntry i: entries)
+    {
+      i.setPackage(ast.P.spelling);
+    }
+
     return null;
   }
 
@@ -74,7 +82,7 @@ public final class Checker implements Visitor {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (!ast.V.variable)
       reporter.reportError ("LHS of assignment is not a variable", "", ast.V.position);
-    if (! eType.visit(this,null).equals(vType))//modified by Sï¿½nchez, not checked for recursive proc
+    if (! eType.visit(this,null).equals(vType))//modified by S�nchez, not checked for recursive proc
       reporter.reportError ("assignment incompatibility", "", ast.position);
     return null;
   }
@@ -132,7 +140,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override
   public Object visitDoWhileCommand(DoWhileCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -143,7 +151,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override
   public Object visitUntilCommand(UntilCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -154,7 +162,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override
   public Object visitDoUntilCommand(DoUntilCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -165,7 +173,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override
   public Object visitForCommand(ForCommand ast, Object o) {
     TypeDenoter eType1 = (TypeDenoter) ast.E.visit(this, null);
@@ -184,7 +192,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override
   public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
     TypeDenoter eType1 = (TypeDenoter) ast.F.E.visit(this, null);
@@ -206,7 +214,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override
   public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
     TypeDenoter eType1 = (TypeDenoter) ast.F.E.visit(this, null);
@@ -228,7 +236,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override @SuppressWarnings("unchecked")
   public Object visitChooseCommand(ChooseCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -274,7 +282,7 @@ public final class Checker implements Visitor {
   // Cases
   // Returns their literals as they check their parts.
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override @SuppressWarnings("unchecked")
   public Object visitCase(Case ast, Object o) {
     List<Terminal[]> terminals = (List<Terminal[]>) ast.CL.visit(this, o);
@@ -283,7 +291,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override
   public Object visitElseCase(ElseCase ast, Object o) {
     idTable.openScope();
@@ -293,7 +301,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override @SuppressWarnings("unchecked")
   public Object visitSequentialCases(SequentialCases ast, Object o) {
     List<Terminal[]> T1 = (List<Terminal[]>) ast.C1.visit(this, o);
@@ -304,7 +312,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override @SuppressWarnings("unchecked")
   public Object visitCaseLiterals(CaseLiterals ast, Object o) {
     Object T = ast.R.visit(this, null);
@@ -328,7 +336,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override @SuppressWarnings("unchecked")
   public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
     List<Terminal[]> T1 = (List<Terminal[]>) ast.L1.visit(this, o);
@@ -339,7 +347,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override @SuppressWarnings("unchecked")
   public Object visitCaseRange(CaseRange ast, Object o) {
     Terminal T1 = (Terminal) ast.L1.visit(this, null);
@@ -419,9 +427,12 @@ public final class Checker implements Visitor {
       ast.APS.visit(this, ((FuncFormalParameter) binding).FPS);
       ast.type = ((FuncFormalParameter) binding).T;
     }else if(binding instanceof  RecursiveFunc){
-      ast.APS.visit(this,((RecursiveFunc) binding).F);//added by Daniel Sï¿½nchez
-      ast.type = ((RecursiveFunc) binding).T;//added by Daniel Sï¿½nchez
-    }
+      ast.APS.visit(this,((RecursiveFunc) binding).F);//added by Daniel S�nchez
+      ast.type = ((RecursiveFunc) binding).T;//added by Daniel S�nchez
+    }/*else if(binding instanceof  RecursiveProc) { //it appears to be unnecessary
+        ast.APS.visit(this, ((RecursiveProc) binding).F);//added by Daniel S�nchez
+        //ast.type = ((RecursiveProc) binding).C.visit(this, null));//added by Daniel S�nchez*/
+    //}
     else
       reporter.reportError("\"%\" is not a function identifier",
                            ast.I.spelling, ast.I.position);
@@ -434,8 +445,8 @@ public final class Checker implements Visitor {
   }
 
   public Object visitEmptyExpression(EmptyExpression ast, Object o) {
-    //ast.type = null;
-    return null;
+    ast.type = null;
+    return ast.type;
   }
 
   public Object visitIfExpression(IfExpression ast, Object o) {
@@ -445,12 +456,9 @@ public final class Checker implements Visitor {
                             ast.E1.position);
     TypeDenoter e2Type = (TypeDenoter) ast.E2.visit(this, null);
     TypeDenoter e3Type = (TypeDenoter) ast.E3.visit(this, null);
-    //SimpleTypeDenoter comes sometimes
-    TypeDenoter newe2Type = (TypeDenoter) e2Type.visit(this, null);//modified by SS.
-    TypeDenoter newe3Type = (TypeDenoter) e3Type.visit(this, null);//modified by SS.
-    if (! newe2Type.equals(newe3Type))//modified by SS.
+    if (! e2Type.equals(e3Type))
       reporter.reportError ("incompatible limbs in if-expression", "", ast.position);
-    ast.type = newe2Type;
+    ast.type = e2Type;
     return ast.type;
   }
 
@@ -807,6 +815,7 @@ public final class Checker implements Visitor {
   public Object visitConstActualParameter(ConstActualParameter ast, Object o) {
     FormalParameter fp = (FormalParameter) o;
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+
     if (! (fp instanceof ConstFormalParameter))
       reporter.reportError ("const actual parameter not expected here", "",
                             ast.position);
@@ -1006,11 +1015,7 @@ public final class Checker implements Visitor {
     Declaration binding = idTable.retrieve(I.spelling);
     if (binding != null)
       I.decl = binding;
-    boolean isPackaged =  idTable.isPackaged(I.spelling);
-    if(isPackaged)
-    {
-      reporter.reportError("Identifier ".concat(I.spelling).concat("Should be related to a package"),"",I.position);
-    }
+
     return binding;
   }
 
@@ -1034,22 +1039,17 @@ public final class Checker implements Visitor {
   @Override
   public Object visitLongIdentifier(LongIdentifier LI, Object o) {
     LI.P.visit(this, null);
-    boolean isPackaged = idTable.isPackaged(LI.spelling);
-    if(idTable.getCurrentPackage().equals("") || !idTable.getCurrentPackage().equals(LI.P.spelling)) {
-        if (!isPackaged) {
-        reporter.reportError("Identifier should not be related to any package", "", LI.position);
-      } else {
-        if (!idTable.isPackageCorrect(LI.spelling, LI.P.spelling)) {
-          reporter.reportError("Package identifier is not related to identifier", "", LI.position);
-        }
-
-      }
-
-
-      }
+    Declaration binding = idTable.retrieve(LI.spelling,LI.P.spelling);
+    if ( binding == null){
+      reporter.reportError("Identifier should not be related to any package", "", LI.position);
+    }else {
+      //if (!idTable.isPackageCorrect(LI.spelling, LI.P.spelling)) {
+       // reporter.reportError("Package identifier is not related to identifier", "", LI.position);
+      //}
+    }
 
     //ast.I.visit(this, null);
-    return null;
+    return binding;
   }
 
   // </editor-fold>
@@ -1092,7 +1092,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: ï¿½scar Cortï¿½s C.
+   * Modified by: �scar Cort�s C.
    */ @Override
   public Object visitSimpleVname(SimpleVname ast, Object o) {
     ast.variable = false;
