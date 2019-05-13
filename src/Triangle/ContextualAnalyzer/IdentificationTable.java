@@ -39,11 +39,15 @@ public final class IdentificationTable {
     privateEntries = main.privateEntries;
   }
 
+  //Va a necesitar esto
+  public IdEntry getLatest() {
+    return latest;
+  }
+
   // Opens a new level in the identification table, 1 higher than the
   // current topmost level.
 
   public void openScope () {
-
     level ++;
   }
 
@@ -64,6 +68,25 @@ public final class IdentificationTable {
     this.latest = entry;
   }
 
+  private List<IdEntry> merge(IdEntry currentEntry, String id){
+    if (currentEntry == null)
+      return new ArrayList<>();
+    else if (currentEntry.id.equals(id)){
+      List<IdEntry> result = new ArrayList<IdEntry>();
+      result.add(currentEntry);
+      return result;
+    } else {
+      List<IdEntry> result = merge(currentEntry.previous, id);
+      result.add(currentEntry);
+      return result;
+    }
+  }
+
+  //Y va a necesitar esto junto con getEntriesUntil
+  public void stopPackageReading(String packageName){
+    //Stuff
+  }
+
   public void startPrivateReading(IdentificationTable privateTable){
     this.privateEntries = privateTable;
     this.privateReading = true;
@@ -74,23 +97,25 @@ public final class IdentificationTable {
     this.privateReading = false;
   }
 
-  public void merge(IdentificationTable mergeTable){
-    List<IdEntry> toMerge = merge(mergeTable.latest, this.latest.id);
+  public void merge(IdentificationTable secondTable){
+    List<IdEntry> toMerge = getEntriesUntil(secondTable.latest, this.latest.id);
     for (IdEntry entry: toMerge){
-      entry = new IdEntry(entry.id, entry.attr, this.level, this.latest, this.currentPackage);
+      entry = new IdEntry(entry.id, entry.attr, this.level, this.latest);
       this.latest = entry;
     }
   }
 
-  private List<IdEntry> merge(IdEntry currentEntry, String id){
-    if (currentEntry == null)
-      return new ArrayList<>();
-    else if (currentEntry.id.equals(id)){
-      List<IdEntry> result = new ArrayList<IdEntry>();
-      result.add(currentEntry);
-      return result;
-    } else {
-      List<IdEntry> result = merge(currentEntry.previous, id);
+  /**
+   * Modified by Óscar Cortés
+   * @param currentEntry the one that's being read
+   * @param id the id we are looking for
+   * @return
+   */
+  private List<IdEntry> getEntriesUntil(IdEntry currentEntry, String id){
+    if (currentEntry == null || currentEntry.id.equals(id))
+      return new LinkedList<>();
+    else {
+      List<IdEntry> result = getEntriesUntil(currentEntry.previous, id);
       result.add(currentEntry);
       return result;
     }
@@ -131,7 +156,6 @@ public final class IdentificationTable {
   // otherwise returns the attribute field of the entry found.
 
   public Declaration retrieve (String id) {
-
     IdEntry entry;
     Declaration attr = null;
     boolean present = false, searching = true;

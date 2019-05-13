@@ -74,7 +74,7 @@ public final class Checker implements Visitor {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     if (!ast.V.variable)
       reporter.reportError ("LHS of assignment is not a variable", "", ast.V.position);
-    if (! eType.visit(this,null).equals(vType))//modified by S�nchez, not checked for recursive proc
+    if (! eType.visit(this,null).equals(vType))//modified by Sï¿½nchez, not checked for recursive proc
       reporter.reportError ("assignment incompatibility", "", ast.position);
     return null;
   }
@@ -132,7 +132,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override
   public Object visitDoWhileCommand(DoWhileCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -143,7 +143,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override
   public Object visitUntilCommand(UntilCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -154,7 +154,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override
   public Object visitDoUntilCommand(DoUntilCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -165,7 +165,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override
   public Object visitForCommand(ForCommand ast, Object o) {
     TypeDenoter eType1 = (TypeDenoter) ast.E.visit(this, null);
@@ -184,7 +184,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override
   public Object visitForWhileCommand(ForWhileCommand ast, Object o) {
     TypeDenoter eType1 = (TypeDenoter) ast.F.E.visit(this, null);
@@ -206,7 +206,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override
   public Object visitForUntilCommand(ForUntilCommand ast, Object o) {
     TypeDenoter eType1 = (TypeDenoter) ast.F.E.visit(this, null);
@@ -228,7 +228,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override @SuppressWarnings("unchecked")
   public Object visitChooseCommand(ChooseCommand ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
@@ -274,7 +274,7 @@ public final class Checker implements Visitor {
   // Cases
   // Returns their literals as they check their parts.
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override @SuppressWarnings("unchecked")
   public Object visitCase(Case ast, Object o) {
     List<Terminal[]> terminals = (List<Terminal[]>) ast.CL.visit(this, o);
@@ -283,7 +283,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override
   public Object visitElseCase(ElseCase ast, Object o) {
     idTable.openScope();
@@ -293,7 +293,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override @SuppressWarnings("unchecked")
   public Object visitSequentialCases(SequentialCases ast, Object o) {
     List<Terminal[]> T1 = (List<Terminal[]>) ast.C1.visit(this, o);
@@ -304,7 +304,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override @SuppressWarnings("unchecked")
   public Object visitCaseLiterals(CaseLiterals ast, Object o) {
     Object T = ast.R.visit(this, null);
@@ -328,7 +328,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override @SuppressWarnings("unchecked")
   public Object visitSequentialCaseLiterals(SequentialCaseLiterals ast, Object o) {
     List<Terminal[]> T1 = (List<Terminal[]>) ast.L1.visit(this, o);
@@ -339,7 +339,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override @SuppressWarnings("unchecked")
   public Object visitCaseRange(CaseRange ast, Object o) {
     Terminal T1 = (Terminal) ast.L1.visit(this, null);
@@ -419,8 +419,8 @@ public final class Checker implements Visitor {
       ast.APS.visit(this, ((FuncFormalParameter) binding).FPS);
       ast.type = ((FuncFormalParameter) binding).T;
     }else if(binding instanceof  RecursiveFunc){
-      ast.APS.visit(this,((RecursiveFunc) binding).F);//added by Daniel S�nchez
-      ast.type = ((RecursiveFunc) binding).T;//added by Daniel S�nchez
+      ast.APS.visit(this,((RecursiveFunc) binding).F);//added by Daniel Sï¿½nchez
+      ast.type = ((RecursiveFunc) binding).T;//added by Daniel Sï¿½nchez
     }
     else
       reporter.reportError("\"%\" is not a function identifier",
@@ -894,7 +894,7 @@ public final class Checker implements Visitor {
     else if (! (fp instanceof VarFormalParameter))
       reporter.reportError ("var actual parameter not expected here", "",
                             ast.V.position);
-    else if (! vType.equals(((VarFormalParameter) fp).T.visit(this, null)))//modified by S�nchez
+    else if (! vType.equals(((VarFormalParameter) fp).T.visit(this, null)))//modified by Sï¿½nchez
       reporter.reportError ("wrong type for var actual parameter", "",
                             ast.V.position);
     return null;
@@ -1092,7 +1092,7 @@ public final class Checker implements Visitor {
   }
 
   /**
-   * Modified by: �scar Cort�s C.
+   * Modified by: ï¿½scar Cortï¿½s C.
    */ @Override
   public Object visitSimpleVname(SimpleVname ast, Object o) {
     ast.variable = false;
