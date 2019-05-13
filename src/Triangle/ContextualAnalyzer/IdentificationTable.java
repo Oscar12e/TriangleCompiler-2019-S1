@@ -55,9 +55,7 @@ public final class IdentificationTable {
   // all entries belonging to that level.
 
   public void closeScope () {
-
     IdEntry entry, local;
-
     // Presumably, idTable.level > 0.
     entry = this.latest;
     while (entry.level == this.level) {
@@ -85,14 +83,10 @@ public final class IdentificationTable {
       this.latest = entry;
     }
   }
-
   /**
    * Modified by Óscar Cortés
-   * @param currentEntry the one that's being read
-   * @param id the id we are looking for
-   * @return
    */
-  private List<IdEntry> getEntriesUntil(IdEntry currentEntry, String id){
+  public List<IdEntry> getEntriesUntil(IdEntry currentEntry, String id){
     if (currentEntry == null || currentEntry.id.equals(id))
       return new LinkedList<>();
     else {
@@ -136,6 +130,11 @@ public final class IdentificationTable {
   // Returns null iff no entry is found.
   // otherwise returns the attribute field of the entry found.
 
+  public Declaration retrieve (String id)
+  {
+    return retrieve(id, "");
+  }
+
   public Declaration retrieve (String id, String idPackage) {
 
     IdEntry entry;
@@ -160,16 +159,6 @@ public final class IdentificationTable {
     return attr;
   }
 
-  public Declaration retrieve (String id)
-  {
-    return retrieve(id, "");
-  }
-
-
-  //Y va a necesitar esto junto con getEntriesUntil
-  public void stopPackageReading(String packageName){
-    //Stuff
-  }
 
   //Added by Nahomy
   public boolean isPackaged(String idSpelling)

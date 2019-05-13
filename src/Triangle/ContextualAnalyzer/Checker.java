@@ -49,12 +49,12 @@ public final class Checker implements Visitor {
     IdEntry latest = idTable.getLatest();
     ast.D.visit(this, null);
     IdEntry latest2 = idTable.getLatest();
-    //List<IdEntry> entries = idTable.getEntriesUntil(latest2,latest.id);
+    List<IdEntry> entries = idTable.getEntriesUntil(latest2,latest.id);
 
-    //for (IdEntry i: entries)
-    //{
-    //  i.setPackage(ast.P.spelling);
-    //}
+    for (IdEntry i: entries)
+    {
+      i.setPackage(ast.P.spelling);
+    }
 
     return null;
   }
