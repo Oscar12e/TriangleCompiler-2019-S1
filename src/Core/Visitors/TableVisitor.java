@@ -402,12 +402,17 @@ public class TableVisitor implements Visitor {
 
   @Override
   public Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o) {
-    return null;
+        /*Modified by Daniel Sánchez*/
+        ast.P.visit(this, null);
+        return null;
   }
 
   @Override
   public Object visitSequentialProcFuncs(SequentialProcFuncs ast, Object o) {
-    return null;
+      /*Modified by Daniel Sánchez*/
+        ast.R1.visit(this, null);
+        ast.R2.visit(this, null);
+        return null;
   }
 
   @Override
@@ -415,12 +420,22 @@ public class TableVisitor implements Visitor {
     return null;
   }
 
-  @Override
+    @Override
+    public Object visitRecursiveFuncTwo(RecursiveFunc ast, Object o) {
+        return null;
+    }
+
+    @Override
   public Object visitRecursiveProc(RecursiveProc ast, Object o) {
     return null;
   }
 
-  @Override
+    @Override
+    public Object visitRecursiveProcTwo(RecursiveProc ast, Object o) {
+        return null;
+    }
+
+    @Override
   public Object visitInitializedDeclaration(InitializedDeclaration ast, Object o) {
       String name = ast.I.spelling;
       String type = "N/A";
@@ -748,7 +763,14 @@ public class TableVisitor implements Visitor {
     return null;
   }
 
-  /**
+    @Override
+    public Object visitSequentialProcFuncsTwo(SequentialProcFuncs ast, Object o) {
+        ast.R1.visitTwo(this, null);
+        ast.R2.visitTwo(this, null);
+        return null;
+    }
+
+    /**
      * Adds an identifier to the table.
      */
     private void addIdentifier(String name, String type, int size, int level, int displacement, int value) {

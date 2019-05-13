@@ -437,12 +437,22 @@ public class WriterVisitor implements Visitor {
 	}
 
 	@Override
+	public Object visitRecursiveFuncTwo(RecursiveFunc ast, Object o) {
+		return null;
+	}
+
+	@Override
 	public Object visitRecursiveProc(RecursiveProc ast, Object o) {
 		writeLineXML("<RecursiveProc>");
 		ast.I.visit(this, null);
 		ast.F.visit(this, null);
 		ast.C.visit(this, null);
 		writeLineXML("</RecursiveProc>");
+		return null;
+	}
+
+	@Override
+	public Object visitRecursiveProcTwo(RecursiveProc ast, Object o) {
 		return null;
 	}
 
@@ -750,6 +760,11 @@ public class WriterVisitor implements Visitor {
 		ast.P.visit(this, null);
 		ast.C.visit(this, null);
 		writeLineXML("</Program>");
+		return null;
+	}
+
+	@Override
+	public Object visitSequentialProcFuncsTwo(SequentialProcFuncs ast, Object o) {
 		return null;
 	}
 	// </editor-fold>

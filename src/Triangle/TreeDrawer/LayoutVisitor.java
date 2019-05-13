@@ -254,7 +254,17 @@ public class LayoutVisitor implements Visitor {
   }
 
   @Override
+  public Object visitRecursiveFuncTwo(RecursiveFunc ast, Object o) {
+    return null;
+  }
+
+  @Override
   public Object visitRecursiveProc(RecursiveProc ast, Object o) {
+    return null;
+  }
+
+  @Override
+  public Object visitRecursiveProcTwo(RecursiveProc ast, Object o) {
     return null;
   }
 
@@ -441,6 +451,11 @@ public class LayoutVisitor implements Visitor {
 
   @Override
   public Object visitPackagedProgram(PackagedProgram ast, Object o) { return layoutBinary("Packaged Program", ast.P, ast.C); }
+
+  @Override
+  public Object visitSequentialProcFuncsTwo(SequentialProcFuncs ast, Object o) {
+    return null;
+  }
 
   private DrawingTree layoutCaption (String name) {
     int w = fontMetrics.stringWidth(name) + 4;

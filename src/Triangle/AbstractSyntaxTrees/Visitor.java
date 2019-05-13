@@ -77,7 +77,9 @@ public interface Visitor {
   public abstract Object visitRecursiveDeclaration(RecursiveDeclaration ast, Object o);
   public abstract Object visitSequentialProcFuncs(SequentialProcFuncs ast, Object o);
   public abstract Object visitRecursiveFunc(RecursiveFunc ast, Object o);
+  public abstract Object visitRecursiveFuncTwo(RecursiveFunc ast, Object o);
   public abstract Object visitRecursiveProc(RecursiveProc ast, Object o);
+  public abstract Object visitRecursiveProcTwo(RecursiveProc ast, Object o);
   public abstract Object visitInitializedDeclaration(InitializedDeclaration ast, Object o);
 
 
@@ -139,4 +141,5 @@ public interface Visitor {
   public abstract Object visitSimpleProgram(SimpleProgram ast, Object o);
   public abstract Object visitPackagedProgram(PackagedProgram ast, Object o);
 
+  public abstract Object visitSequentialProcFuncsTwo(SequentialProcFuncs ast, Object o);
 }
