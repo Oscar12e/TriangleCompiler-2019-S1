@@ -39,12 +39,6 @@ public final class IdentificationTable {
     privateEntries = main.privateEntries;
   }
 
-  public IdentificationTable (IdentificationTable main) {
-    level = main.level;
-    latest = main.latest;
-    privateEntries = main.privateEntries;
-  }
-
   //Va a necesitar esto
   public IdEntry getLatest() {
     return latest;
@@ -72,24 +66,6 @@ public final class IdentificationTable {
     }
     this.level--;
     this.latest = entry;
-  }
-
-  public void startPrivateReading(IdentificationTable privateTable){
-    this.privateEntries = privateTable;
-    this.privateReading = true;
-  }
-
-  public void stopPrivateReading(){
-    this.privateEntries = null;
-    this.privateReading = false;
-  }
-
-  public void merge(IdentificationTable mergeTable){
-    List<IdEntry> toMerge = merge(mergeTable.latest, this.latest.id);
-    for (IdEntry entry: toMerge){
-      entry = new IdEntry(entry.id, entry.attr, this.level, this.latest, this.currentPackage);
-      this.latest = entry;
-    }
   }
 
   private List<IdEntry> merge(IdEntry currentEntry, String id){
