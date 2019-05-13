@@ -1017,13 +1017,21 @@ public final class Checker implements Visitor {
     return binding;
   }
 
+  /**
+   * Modified by Nahomy
+   * @param LI
+   * @param o
+   * @return
+   */
   @Override
   public Object visitLongIdentifier(LongIdentifier LI, Object o) {
-    System.out.println(LI.spelling);
-
     LI.P.visit(this, null);
-    //ast.I.visit(this, null);
-    return null;
+    Declaration binding = idTable.retrieve(LI.spelling, LI.P.spelling);
+    if ( binding == null){
+      reporter.reportError("Identifier should not be related to any package", "", LI.position);
+    }
+
+    return binding;
   }
 
   // </editor-fold>
