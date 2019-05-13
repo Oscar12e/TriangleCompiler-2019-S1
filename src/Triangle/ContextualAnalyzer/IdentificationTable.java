@@ -80,6 +80,10 @@ public final class IdentificationTable {
     this.privateReading = false;
   }
 
+  /**
+   * Modified by Óscar Cortés
+   * @param secondTable the one we got the entries to merge
+   */
   public void merge(IdentificationTable secondTable){
     List<IdEntry> toMerge = getEntriesUntil(secondTable.latest, this.latest.id);
     for (IdEntry entry: toMerge){
@@ -149,6 +153,8 @@ public final class IdentificationTable {
 
       if (entry == null){
         searching = false;
+        //Like, here
+
         if (privateReading)
           attr = privateEntries.retrieve(id);
       }

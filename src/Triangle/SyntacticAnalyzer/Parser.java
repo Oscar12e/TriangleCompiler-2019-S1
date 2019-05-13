@@ -1142,10 +1142,12 @@ public class Parser {
 
     start(formalsPos);
     if (currentToken.kind == Token.RPAREN) {
+      System.out.println("Im the fucking right one");
       finish(formalsPos);
       formalsAST = new EmptyFormalParameterSequence(formalsPos);
 
     } else {
+      System.out.println("Fucking NOT right one");
       formalsAST = parseProperFormalParameterSequence();
     }
     return formalsAST;

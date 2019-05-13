@@ -22,7 +22,6 @@ import Triangle.SyntacticAnalyzer.SourcePosition;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.function.Function;
 
 public final class Checker implements Visitor {
 
@@ -215,7 +214,10 @@ public final class Checker implements Visitor {
    * Modified by: Óscar Cortés C.
    */ @Override @SuppressWarnings("unchecked")
   public Object visitChooseCommand(ChooseCommand ast, Object o) {
+    ast.E.visit(this, null);
+    System.out.println("Fail abovesdfsdf");
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+    System.out.println("Fail above");
     Set<Integer> evaluatedRanges = new HashSet<>();
     List<Terminal[]> casesLiterals;
 
@@ -236,12 +238,13 @@ public final class Checker implements Visitor {
 
       int [] limits = lType.equals(StdEnvironment.integerType) ?
               new int[]{Integer.parseInt(lMin), Integer.parseInt(lMax)}:
-              new int[]{lMin.charAt(0),  lMax.charAt(0)};
+              new int[]{lMin.charAt(1),  lMax.charAt(1)};
 
       if ((limits[0] < limits[1]))
         limits = new int[]{limits[1], limits[0]};
 
       currentRange = IntStream.rangeClosed(limits[0], limits[1]).boxed().collect(Collectors.toSet());
+
       //If current ranges get modified, it means that there's a intersection somewhere
       if ( currentRange.removeAll(evaluatedRanges) )
         reporter.reportError("Range presents conflict with another present.", "", currentLimits[0].position);
@@ -395,6 +398,7 @@ public final class Checker implements Visitor {
 
   public Object visitCallExpression(CallExpression ast, Object o) {
     Declaration binding = (Declaration) ast.I.visit(this, null);
+    System.out.println("Sempai look at me");
     if (binding == null) {
       reportUndeclared(ast.I);
       ast.type = StdEnvironment.errorType;
@@ -553,8 +557,9 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  @Override
-  /* [Modified] */
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitForDeclaration(ForDeclaration ast, Object o) {
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     idTable.enter(ast.I.spelling, ast);
@@ -619,10 +624,10 @@ public final class Checker implements Visitor {
     return null;
   }
 
-  @Override
-  /* [Modified] */
+  /**
+   * Modified by: Óscar Cortés C.
+   */ @Override
   public Object visitInitializedDeclaration(InitializedDeclaration ast, Object o) {
-    TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
     idTable.enter(ast.I.spelling, ast);
     if (ast.duplicated)
       reporter.reportError ("identifier \"%\" already declared",
@@ -743,6 +748,12 @@ public final class Checker implements Visitor {
   public Object visitConstActualParameter(ConstActualParameter ast, Object o) {
     FormalParameter fp = (FormalParameter) o;
     TypeDenoter eType = (TypeDenoter) ast.E.visit(this, null);
+
+    System.out.println("Let's check");
+    System.out.println(o == null);
+    System.out.println("o is : " +  o.getClass().getName());
+    System.out.println(eType == null);
+    System.out.println(ast.E == null);
 
     if (! (fp instanceof ConstFormalParameter))
       reporter.reportError ("const actual parameter not expected here", "",
@@ -1002,9 +1013,11 @@ public final class Checker implements Visitor {
       reportUndeclared(ast.I);
     else
       if (binding instanceof ConstDeclaration) {
+        System.out.println("Once");
+        System.out.println(binding.getClass().getName());
         ast.type = ((ConstDeclaration) binding).E.type;
         ast.variable = false;
-      } if (binding instanceof ForDeclaration) {
+      } else if (binding instanceof ForDeclaration) {
         ast.type = StdEnvironment.integerType;
         ast.variable = false;
       } else if (binding instanceof InitializedDeclaration) {
@@ -1019,9 +1032,12 @@ public final class Checker implements Visitor {
       } else if (binding instanceof VarFormalParameter) {
         ast.type = ((VarFormalParameter) binding).T;
         ast.variable = true;
-      } else
-        reporter.reportError ("\"%\" is not a const or var identifier",
-                              ast.I.spelling, ast.I.position);
+      } else{
+      System.out.println(binding.getClass().getName());
+      reporter.reportError ("\"%\" is not a const or var identifier",
+              ast.I.spelling, ast.I.position);
+    }
+
     return ast.type;
   }
 
