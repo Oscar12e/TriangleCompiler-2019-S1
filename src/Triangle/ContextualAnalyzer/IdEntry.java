@@ -35,6 +35,10 @@ public class IdEntry {
     this.previous = previous;
     this.idPackage = p;
   }
+  public void setPackage(String p)
+  {
+    this.idPackage = p;
+  }
 
   public String getID(){return this.id;}
 

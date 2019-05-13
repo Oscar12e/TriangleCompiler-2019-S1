@@ -23,13 +23,13 @@ public final class IdentificationTable {
   private IdEntry latest;
   private IdentificationTable privateEntries;
   private boolean privateReading;
-  private String currentPackage;
+
   public ArrayList<String> packagesIDs;
 
   public IdentificationTable () {
     level = 0;
     latest = null;
-    currentPackage = "";
+
     this.packagesIDs = new ArrayList<String>();
   }
 
@@ -55,9 +55,7 @@ public final class IdentificationTable {
   // all entries belonging to that level.
 
   public void closeScope () {
-
     IdEntry entry, local;
-
     // Presumably, idTable.level > 0.
     entry = this.latest;
     while (entry.level == this.level) {
@@ -66,25 +64,6 @@ public final class IdentificationTable {
     }
     this.level--;
     this.latest = entry;
-  }
-
-  private List<IdEntry> merge(IdEntry currentEntry, String id){
-    if (currentEntry == null)
-      return new ArrayList<>();
-    else if (currentEntry.id.equals(id)){
-      List<IdEntry> result = new ArrayList<IdEntry>();
-      result.add(currentEntry);
-      return result;
-    } else {
-      List<IdEntry> result = merge(currentEntry.previous, id);
-      result.add(currentEntry);
-      return result;
-    }
-  }
-
-  //Y va a necesitar esto junto con getEntriesUntil
-  public void stopPackageReading(String packageName){
-    //Stuff
   }
 
   public void startPrivateReading(IdentificationTable privateTable){
@@ -104,14 +83,10 @@ public final class IdentificationTable {
       this.latest = entry;
     }
   }
-
   /**
    * Modified by Óscar Cortés
-   * @param currentEntry the one that's being read
-   * @param id the id we are looking for
-   * @return
    */
-  private List<IdEntry> getEntriesUntil(IdEntry currentEntry, String id){
+  public List<IdEntry> getEntriesUntil(IdEntry currentEntry, String id){
     if (currentEntry == null || currentEntry.id.equals(id))
       return new LinkedList<>();
     else {
@@ -138,13 +113,13 @@ public final class IdentificationTable {
       else if (entry.id.equals(id)) {
         present = true;
         searching = false;
-       } else
-       entry = entry.previous;
+      } else
+        entry = entry.previous;
     }
 
     attr.duplicated = present;
     // Add new entry ...
-    entry = new IdEntry(id, attr, this.level, this.latest, this.currentPackage);
+    entry = new IdEntry(id, attr, this.level, this.latest);
     this.latest = entry;
 
   }
@@ -155,10 +130,16 @@ public final class IdentificationTable {
   // Returns null iff no entry is found.
   // otherwise returns the attribute field of the entry found.
 
-  public Declaration retrieve (String id) {
+  public Declaration retrieve (String id)
+  {
+    return retrieve(id, "");
+  }
+
+  public Declaration retrieve (String id, String idPackage) {
+
     IdEntry entry;
     Declaration attr = null;
-    boolean present = false, searching = true;
+    boolean searching = true;
 
 
     entry = this.latest;
@@ -169,18 +150,15 @@ public final class IdentificationTable {
         if (privateReading)
           attr = privateEntries.retrieve(id);
       }
-      else if (entry.id.equals(id)) {
-        //System.out.println("I found " + entry.getID());
-        present = true;
+      else if (entry.id.equals(id) && entry.idPackage.equals(idPackage)) {
         searching = false;
         attr = entry.attr;
       } else
-        //System.out.println(entry.getID());
         entry = entry.previous;
     }
-
     return attr;
   }
+
 
   //Added by Nahomy
   public boolean isPackaged(String idSpelling)
@@ -217,14 +195,19 @@ public final class IdentificationTable {
     return present;
   }
   //Added by Nahomy
-  public void setCurrentPackage(String p)
+  public String retrievePackage(String id)
   {
-    this.currentPackage = p;
-
-  }
-  public String getCurrentPackage()
-  {
-    return this.currentPackage;
-
+    IdEntry entry;
+    boolean  searching = true;
+    entry = this.latest;
+    while (searching) {
+      if (entry == null)
+        searching = false;
+      else if (entry.id.equals(id)) {
+        searching=false;
+      } else
+        entry = entry.previous;
+    }
+    return entry.idPackage;
   }
 }
