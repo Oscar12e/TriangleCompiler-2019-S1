@@ -45,9 +45,10 @@ public final class Checker implements Visitor {
       reporter.reportError("Package ".concat(ast.P.spelling).concat(" Is Already declared"),"",ast.position);
     }
     idTable.packagesIDs.add(ast.P.spelling);
-    idTable.setCurrentPackage(ast.P.spelling);
+
+
     ast.D.visit(this, null);
-    idTable.setCurrentPackage("");
+
     return null;
   }
 
